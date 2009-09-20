@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flexLibProperties version="1">
+<includeClasses>
+<classEntry path="com.ctyeung.transform.ChannelSelector"/>
+<classEntry path="com.ctyeung.transform.HoughLine"/>
+<classEntry path="com.ctyeung.transform.Convolution"/>
+</includeClasses>
+<includeResources/>
+<namespaceManifests/>
+</flexLibProperties>
