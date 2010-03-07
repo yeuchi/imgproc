@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/halo" 
+			   xmlns:vw="com.ctyeung.view.*"
+			   minWidth="600" minHeight="600"
+			   creationComplete="onCreationComplete()" viewSourceURL="srcview/index.html">
+			   
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			protected function onCreationComplete():void {
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<mx:VBox borderColor="0x00" borderStyle="solid" borderVisible="true">
+		<vw:DrawableUIC id="uic1" width="{DrawableUIC.WIDTH}" height="{DrawableUIC.HEIGHT}" />
+		<mx:Label text="mouse down,drag to draw"/>	
+	</mx:VBox>
+</s:Application>

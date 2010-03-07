@@ -1,0 +1,40 @@
+/*  Module:      CheckerBoard / dash
+*   
+*   Description: turns an opaque image into checker board.
+*
+*   Input:       image
+*
+*   Author:      C.T. Yeung      cty
+*
+*   History:  
+*   06Mar10       start coding.                   cty
+*/
+
+<languageVersion : 1.0;>
+
+kernel CheckerBoard
+<   namespace :   "CheckerBoard";
+    vendor :      "Jostens";
+    version :     1;
+    description : "delete spots on an opaque image to make dashline or checkboard";
+>
+{      
+    input image4 src;
+    output pixel4 dst;
+    
+    void
+    evaluatePixel()
+    {
+        //  position relatively to center(base)point
+        float2 po = outCoord();
+        int x, y;
+        
+        x = int(mod(po.x, 2.0));
+        y = int(mod(po.y, 2.0));
+        
+        if((0==x)&&(0==y))
+            dst = sampleNearest(src, po);
+        else if(0==y)
+            dst = sampleNearest(src, po);
+    }
+}
