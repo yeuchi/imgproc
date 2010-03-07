@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<index>
+	<title>Source of DashLineDemo</title>
+	<nodes>
+		<node label="html-template">
+			<node label="history">
+				<node icon="cssIcon" label="history.css" url="source/html-template/history/history.css.html"/>
+				<node label="history.js" url="source/html-template/history/history.js.txt"/>
+				<node icon="htmlIcon" label="historyFrame.html" url="source/html-template/history/historyFrame.html"/>
+			</node>
+			<node icon="htmlIcon" label="index.template.html" url="source/html-template/index.template.html"/>
+			<node icon="swfIcon" label="playerProductInstall.swf" url="source/html-template/playerProductInstall.swf"/>
+			<node label="swfobject.js" url="source/html-template/swfobject.js.txt"/>
+		</node>
+		<node label="libs">
+		</node>
+		<node label="src">
+			<node label="assets">
+				<node label="Dashline.pbj" url="source/assets/Dashline.pbj"/>
+				<node label="Dashline.pbk" url="source/assets/Dashline.pbk"/>
+			</node>
+			<node icon="packageIcon" label="com.ctyeung.view" expanded="true">
+				<node icon="actionScriptIcon" label="DrawableUIC.as" url="source/com/ctyeung/view/DrawableUIC.as.html"/>
+			</node>
+			<node icon="mxmlAppIcon" selected="true" label="DashLineDemo.mxml" url="source/DashLineDemo.mxml.html"/>
+		</node>
+	</nodes>
+</index>
