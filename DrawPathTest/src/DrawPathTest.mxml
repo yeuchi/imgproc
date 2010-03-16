@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/halo" 
+			   xmlns:vw="com.ctyeung.view.*"
+			   minWidth="600" minHeight="600"
+			   creationComplete="onCreationComplete()" viewSourceURL="srcview/index.html">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			protected function onCreationComplete():void {
+				drawUIC.option = DrawPathUIC.TEST_EVENODD;
+			}
+			
+			protected function onChangeMethod(selection:String):void {
+				drawUIC.option = selection;
+			}
+		]]>
+	</fx:Script>
+	<mx:VBox horizontalAlign="center" borderColor="0" borderStyle="solid">
+		<vw:DrawPathUIC id="drawUIC" width="600" height="600"/>
+		<s:HGroup>
+			<mx:Label text="Winding: "/>
+			<mx:RadioButton id="rdoPath" label="Even-odd" selected="true" 
+							change="onChangeMethod(DrawPathUIC.TEST_EVENODD)"/>
+			<mx:RadioButton id="rdoWind" label="Non-zero" 
+							change="onChangeMethod(DrawPathUIC.TEST_NONZERO)"/>
+		</s:HGroup>
+	</mx:VBox>
+</s:Application>
