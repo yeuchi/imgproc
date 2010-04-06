@@ -7,43 +7,121 @@
 //
 // Reference:	Digital Image Processing by Gonzales & Woods
 //
-// Author(s):	C.T. Yeung									cty
+// Author(s):	C.T. Yeung										cty
 //
 // History:
 // 20Sep09		start											cty
 // ==================================================================
 -->
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" 
+				xmlns:vw="*"
 			    creationComplete="onCreationComplete()"
 				layout="absolute" viewSourceURL="srcview/index.html">
 	
 	<mx:Script>
 		<![CDATA[
-			import com.ctyeung.transform.ChannelSelector;
-			import com.ctyeung.transform.Convolution;
-			import com.ctyeung.transform.HoughLine;
+			import mx.messaging.AbstractConsumer;
+			
+			protected static const LINE_LABEL:String 	= "Angle: 0 ~ 90";
+			protected static const CIRCLE_LABEL:String 	= "Radius: 0 ~ 70";
+			protected static const IMG_WIDTH:int 		= 300;
+			[Bindable]protected var listImages:Array;
 			
 			[Embed(source="assets/Hexagons.png")]public var photoClass1:Class;
-			protected var bmd:BitmapData;
-			
+			[Embed(source="assets/Circles.png")]public var photoClass2:Class;
+			[Embed(source="assets/geneMarcCrop.png")]public var photoClass3:Class;
+			protected var bmdSrc:BitmapData;
+			protected var bmdDes:BitmapData;
+			protected var hough:HoughLine;
+			protected var method:String=HoughLine.NAME;
 			
 			protected function onCreationComplete():void {
-				bmd = new photoClass1().bitmapData;
-				uic.addChild(new Bitmap(bmd));
+				listImages = ["hexagons","circles","gene&marc"];
+				cmb.selectedIndex = 0;
+				onChangeCmb();
+				onChangeMethod(method);
+			}
+			
+			protected function empty():void {
+				if(uic.numChildren) 
+					uic.removeChildAt(0);
+					
+				if(bmdSrc) {
+					bmdSrc.dispose();
+					bmdSrc = null;
+				}
+				if(bmdDes) {
+					bmdDes.dispose();
+					bmdDes = null;
+				}
 			}
 			
 			protected function onChangeAngle():void {
-				if(uicDes.numChildren){
-					var bmp:Bitmap = uicDes.getChildAt(0) as Bitmap;
-					bmp.bitmapData.dispose();
-					bmp = null;
-					uicDes.removeChildAt(0);
+				apply();
+			}
+			
+			protected function onChangeThreshold():void {
+				hough.threshold(threshold.value);
+			}
+			
+			protected function onChangeMethod(selected:String):void {
+				rdoLine.selected = false;
+				rdoCircle.selected = false;
+				method = selected;
+				
+				hLine.visible = false;
+				hLine.includeInLayout = false;
+				hCircle.visible = false;
+				hCircle.includeInLayout = false;
+				
+				switch(selected) {
+					case HoughLine.NAME:
+					rdoLine.selected = true;
+					slide.labels = [LINE_LABEL];
+					slide.maximum = 90;
+					hLine.visible = true;
+					hLine.includeInLayout = true;
+					break;
+					
+					default:
+					case HoughCircle.NAME:
+					rdoCircle.selected = true;
+					slide.labels = [CIRCLE_LABEL];
+					slide.maximum = 70;
+					hCircle.visible = true;
+					hCircle.includeInLayout = true;
+					break;
 				}
-				var bmdDes:BitmapData = bmd.clone();
+				apply();
+			}
+			
+			protected function apply():void {
+				if(!bmdDes) return;
 				ChannelSelector.apply(bmdDes, ChannelSelector.SELECT_GRAY);
 				Convolution.firstDerivative(bmdDes, threshold.value);
-				HoughLine.apply(bmdDes, slide.value, threshold.value);
-				uicDes.addChild(new Bitmap(bmdDes));
+				hough = (HoughLine.NAME==method)?hLine:hCircle;
+				hough.bmd = bmdDes;
+				hough.apply(slide.value, threshold.value);
+				hough.threshold(threshold.value);
+			}
+			
+			protected function onChangeCmb():void {
+				empty();
+				switch(cmb.selectedIndex) {
+					case 0:
+					bmdSrc = new photoClass1().bitmapData;
+					break;
+					
+					case 1:
+					bmdSrc = new photoClass2().bitmapData;
+					break;
+					
+					case 2:
+					bmdSrc = new photoClass3().bitmapData;
+				}
+				uic.addChild(new Bitmap(bmdSrc));
+				bmdDes = bmdSrc.clone();
+				apply();
 			}
 		]]>
 	</mx:Script>
@@ -51,13 +129,24 @@
 	<mx:HBox width="100%" height="100%">
 		<mx:Spacer width="50"/>
 		<mx:VBox>
-			<mx:HSlider id="slide" labels="Angle:" minimum="0" maximum="90" value="45" change="onChangeAngle()"/>
-			<mx:HSlider id="threshold" labels="Threshold:" minimum="0" maximum="255" value="1" change="onChangeAngle()"/>
+			<mx:HBox>
+				<mx:RadioButton id="rdoLine" selected="true" label="line" change="onChangeMethod(HoughLine.NAME)"/>
+				<mx:RadioButton id="rdoCircle" label="circle" change="onChangeMethod(HoughCircle.NAME)"/>
+			</mx:HBox>
+			<mx:HBox>
+				<mx:HSlider id="slide" labels="{[LINE_LABEL]}" minimum="0" value="45" change="onChangeAngle()"/>
+				<mx:HSlider id="threshold" labels="Threshold:" minimum="0" maximum="255" value="1" change="onChangeThreshold()"/>
+			</mx:HBox>
+			<mx:ComboBox id="cmb" dataProvider="{listImages}" change="onChangeCmb()"/>
 			
-			<mx:VBox borderColor="0" borderStyle="solid" borderThickness="1">
-				<mx:UIComponent id="uic"/>
-				<mx:UIComponent id="uicDes"/>
-			</mx:VBox>
+			<mx:HBox borderColor="0" borderStyle="solid" borderThickness="1">
+				<mx:UIComponent id="uic" width="{IMG_WIDTH}" height="{IMG_WIDTH}"/>
+				<mx:HBox>
+					<vw:HoughCircle id="hCircle" width="{IMG_WIDTH}" height="{IMG_WIDTH}" visible="false" includeInLayout="false"/>
+					<vw:HoughLine id="hLine" width="{IMG_WIDTH}" height="{IMG_WIDTH}"/>
+				</mx:HBox>
+			</mx:HBox>
+			<mx:Label text="Warning: Use high threshold values for circles !"/>
 		</mx:VBox>
 	</mx:HBox>
 </mx:Application>
