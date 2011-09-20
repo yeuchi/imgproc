@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   minWidth="955" minHeight="600" creationComplete="onCreationComplete()"
+			   viewSourceURL="srcview/index.html">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import com.ctyeung.dither.AM4x4Supercell;
+			import com.ctyeung.dither.FloydSteinberg;
+			import com.ctyeung.dither.OrderDither;
+			
+			import spark.filters.ShaderFilter;
+			[Embed(source="assets/grey_scale.png")][Bindable]public var img2:Class;
+			[Embed(source="assets/lena.jpg")][Bindable]public var img3:Class;
+			
+			private var pbFilter:Class;
+			
+			
+			protected function onCreationComplete():void {
+				var bmd:BitmapData = new img3().bitmapData;
+				bmd = grayScale(bmd);
+				imgSrc.source = bmd;
+				
+				var errDiff:FloydSteinberg = new FloydSteinberg();
+				var bmdDither:BitmapData = errDiff.apply(bmd.clone());
+				imgDes.source = bmdDither;				
+				
+				var ordDit:OrderDither = new OrderDither();
+				var bmdOrder:BitmapData = ordDit.apply(bmd.clone());
+				imgOrder.source = bmdOrder;
+				
+				var supCell:AM4x4Supercell = new AM4x4Supercell();
+				var bmdSuperCell:BitmapData = supCell.apply(bmd.clone());
+				imgSuperCell.source = bmdSuperCell;
+			}
+			
+			protected function grayScale(bmd:BitmapData):BitmapData {
+				for(var y:int=0; y<bmd.height; y++) {
+					for(var x:int=0; x<bmd.width; x++) {
+						var color:uint = bmd.getPixel(x,y);
+						var clr:Number = (	Number(color&0xFF) +
+							Number((color&0xFF00)>>8) +
+							Number((color&0xFF0000)>>16))/3;
+						
+						color = (int(clr)<<16) +
+							(int(clr)<<8) +
+							(int(clr));
+						bmd.setPixel(x,y,color);
+					}
+				}
+				return bmd;
+			}
+		]]>
+	</fx:Script>
+	<s:Scroller width="100%" height="100%">
+		
+	<s:VGroup clipAndEnableScrolling="true">
+		<s:HGroup>
+			<s:Image id="imgSrc"/>
+			<s:Image id="imgDes"/>
+		</s:HGroup>
+		<s:HGroup>
+			<s:Image id="imgSuperCell"/>
+			<s:Image id="imgOrder"/>
+		</s:HGroup>	
+	</s:VGroup>
+	</s:Scroller>
+</s:Application>
