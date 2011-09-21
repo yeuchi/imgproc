@@ -16,39 +16,53 @@
 			
 			import spark.filters.ShaderFilter;
 			[Embed(source="assets/grey_scale.png")][Bindable]public var img2:Class;
-			[Embed(source="assets/gene_Marc.png")][Bindable]public var img3:Class;
+			[Embed(source="assets/lena.png")][Bindable]public var img3:Class;
 			
 			protected function onCreationComplete():void {
 				var bmd:BitmapData = new img3().bitmapData;
 				imgSrc.source = bmd;
 				
-				var errDiff:FloydSteinberg = new FloydSteinberg();
-				var bmdDither:BitmapData = errDiff.apply(bmd);
-				imgDes.source = bmdDither;			
-				errDiff = null;
-				
-				var ordDit:OrderDither = new OrderDither();
-				var bmdOrder:BitmapData = ordDit.apply(bmd);
-				imgOrder.source = bmdOrder;
-				ordDit = null;
-				
-				var supCell:AM4x4Supercell = new AM4x4Supercell();
-				var bmdSuperCell:BitmapData = supCell.apply(bmd);
-				imgSuperCell.source = bmdSuperCell;
-				supCell = null;
+				txtErrDiff.text += render(new FloydSteinberg, imgDes, bmd);
+				txtOrderDither.text += render(new OrderDither, imgOrder, bmd);
+				txtSuperCell.text += render(new AM4x4Supercell, imgSuperCell, bmd);
 			}
+			
+			protected function render(renderer:Object,
+									  img:Image,
+									  bmd:BitmapData)
+									  :String {
+			  var start:Date = new Date();
+			  var bmdDes:BitmapData = renderer.apply(bmd);
+			  img.source = bmdDes;	
+			  var end:Date = new Date();
+			  
+			  return (end.milliseconds - start.milliseconds).toString() + "ms";					  
+			}
+			
 		]]>
 	</fx:Script>
 	<s:Scroller width="100%" height="100%">
 		
 	<s:VGroup clipAndEnableScrolling="true">
 		<s:HGroup>
-			<s:Image id="imgSrc"/>
-			<s:Image id="imgDes"/>
+			<s:VGroup>
+				<s:Label text="original"/>
+				<s:Image id="imgSrc"/>
+			</s:VGroup>
+			<s:VGroup>
+				<s:Label id="txtErrDiff" text="Error Diffusion:"/>			
+				<s:Image id="imgDes"/>
+			</s:VGroup>
 		</s:HGroup>
 		<s:HGroup>
-			<s:Image id="imgSuperCell"/>
-			<s:Image id="imgOrder"/>
+			<s:VGroup>
+				<s:Label id="txtSuperCell" text="Halftone 4x4 super cell:"/>
+				<s:Image id="imgSuperCell"/>
+			</s:VGroup>
+			<s:VGroup>
+				<s:Label id="txtOrderDither" text="Order Dither:"/>			
+				<s:Image id="imgOrder"/>
+			</s:VGroup>
 		</s:HGroup>	
 	</s:VGroup>
 	</s:Scroller>
