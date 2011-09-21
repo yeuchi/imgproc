@@ -25,8 +25,8 @@ package com.ctyeung.dither
 		
 		
 		public function apply(bmd:BitmapData):BitmapData {
-			return ASCMethod(bmd);
-			//return pbMethod(bmd);
+			//return ASCMethod(bmd);
+			return pbMethod(bmd);
 		}
 		
 		static public function pbMethod(bmd:BitmapData):BitmapData{
