@@ -16,44 +16,26 @@
 			
 			import spark.filters.ShaderFilter;
 			[Embed(source="assets/grey_scale.png")][Bindable]public var img2:Class;
-			[Embed(source="assets/lena.jpg")][Bindable]public var img3:Class;
-			
-			private var pbFilter:Class;
-			
+			[Embed(source="assets/gene_Marc.png")][Bindable]public var img3:Class;
 			
 			protected function onCreationComplete():void {
 				var bmd:BitmapData = new img3().bitmapData;
-				bmd = grayScale(bmd);
 				imgSrc.source = bmd;
 				
 				var errDiff:FloydSteinberg = new FloydSteinberg();
-				var bmdDither:BitmapData = errDiff.apply(bmd.clone());
-				imgDes.source = bmdDither;				
+				var bmdDither:BitmapData = errDiff.apply(bmd);
+				imgDes.source = bmdDither;			
+				errDiff = null;
 				
 				var ordDit:OrderDither = new OrderDither();
-				var bmdOrder:BitmapData = ordDit.apply(bmd.clone());
+				var bmdOrder:BitmapData = ordDit.apply(bmd);
 				imgOrder.source = bmdOrder;
+				ordDit = null;
 				
 				var supCell:AM4x4Supercell = new AM4x4Supercell();
-				var bmdSuperCell:BitmapData = supCell.apply(bmd.clone());
+				var bmdSuperCell:BitmapData = supCell.apply(bmd);
 				imgSuperCell.source = bmdSuperCell;
-			}
-			
-			protected function grayScale(bmd:BitmapData):BitmapData {
-				for(var y:int=0; y<bmd.height; y++) {
-					for(var x:int=0; x<bmd.width; x++) {
-						var color:uint = bmd.getPixel(x,y);
-						var clr:Number = (	Number(color&0xFF) +
-							Number((color&0xFF00)>>8) +
-							Number((color&0xFF0000)>>16))/3;
-						
-						color = (int(clr)<<16) +
-							(int(clr)<<8) +
-							(int(clr));
-						bmd.setPixel(x,y,color);
-					}
-				}
-				return bmd;
+				supCell = null;
 			}
 		]]>
 	</fx:Script>

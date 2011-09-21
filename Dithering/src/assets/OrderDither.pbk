@@ -1,4 +1,22 @@
-
+// ==============================================================
+// Module:      OrderDither 
+//
+// Description: Order dither Bayer pattern
+//              - halftone pattern popular for screen with low color depth
+//              or thermal transfer printer with contone capability.
+//              - binary dither only for now.
+//              - 45 degree angle only for now.
+//
+// Reference:   http://en.wikipedia.org/wiki/Ordered_dithering
+//
+// Author(s):   Chi T. Yeung (cty)
+//
+// Input:       one gray scale image.
+// Output:      one dithered image of binary data.
+//
+// History:
+// 20Sep11      1st completion                              cty
+// ==============================================================
 
 <languageVersion : 1.0;>
 
