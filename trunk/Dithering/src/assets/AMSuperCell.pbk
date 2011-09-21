@@ -1,4 +1,22 @@
-
+// ==============================================================
+// Module:      AMSuperCell 
+//
+// Description: Amplitude modulation super cell
+//              - halftone pattern popular for desktop printers
+//              in laser, wax, liquid toners.
+//              - binary dither only for now.
+//              - 45 degree angle only for now.
+//
+// Reference:   http://www.hpl.hp.com/personal/Robert_Ulichney/papers/2000-halftoning-review.pdf
+//
+// Author(s):   Chi T. Yeung (cty)
+//
+// Input:       one gray scale image.
+// Output:      one dithered image of binary data.
+//
+// History:
+// 20Sep11      1st completion                              cty
+// ==============================================================
 
 <languageVersion : 1.0;>
 
@@ -6,7 +24,7 @@ kernel AMSuperCell
 <   namespace :   "AMSuperCell";
     vendor :      "";
     version :     1;
-    description : "http://www.hpl.hp.com/personal/Robert_Ulichney/papers/2000-halftoning-review.pdf";
+    description : "amplitude modulation - super cell halftone";
 >
 {      
     input image4 src;
@@ -17,34 +35,148 @@ kernel AMSuperCell
     {
         float2 pos = outCoord();
         float threshold;
-        float4 pxl = sampleNearest(src, pos)*.8;
-        int x = int(mod(pos.x, 3.0));
-        int y = int(mod(pos.y, 3.0));
-        
+        dst = sampleNearest(src, pos);
+        int x = int(mod(pos.x, 8.0));
+        int y = int(mod(pos.y, 8.0));
+      
         if(x==0&&y==0) 
-            threshold = 0.3;
+            threshold = 13.0/31.0;
         else if (x==1&&y==0)
-            threshold = 0.7;
+            threshold = 11.0/31.0;
         else if (x==2&&y==0)
-            threshold = 0.4;
-        else if (x==0&&y==1)
-            threshold = 0.6;
+            threshold = 12.0/31.0;
+        else if (x==3&&y==0)
+            threshold = 15.0/31.0;
+        else if (x==4&&y==0)
+            threshold = 18.0/31.0;
+        else if (x==5&&y==0)
+            threshold = 20.0/31.0;
+        else if (x==6&&y==0)
+            threshold = 19.0/31.0;
+        else if (x==7&&y==0)
+            threshold = 16.0/31.0;
+            
+        else if(x==0&&y==1) 
+            threshold = 4.0/31.0;
         else if (x==1&&y==1)
-            threshold = 0.1;
+            threshold = 3.0/31.0;
         else if (x==2&&y==1)
-            threshold = 0.9;
-        else if (x==0&&y==2)
-            threshold = 0.2;
-        else if (x==1&&y==2)
-            threshold = 0.8;
-        else if (x==2&&y==2)
-            threshold = 0.5;
+            threshold = 2.0/31.0;
+        else if (x==3&&y==1)
+            threshold = 9.0/31.0;
+        else if (x==4&&y==1)
+            threshold = 27.0/31.0;
+        else if (x==5&&y==1)
+            threshold = 28.0/31.0;
+        else if (x==6&&y==1)
+            threshold = 29.0/31.0;
+        else if (x==7&&y==1)
+            threshold = 22.0/31.0;
         
-        dst.a = pxl.a;
-     
-        dst.r = (pxl.r>=threshold)?1.0:0.0;
-        dst.g = (pxl.g>=threshold)?1.0:0.0;
-        dst.b = (pxl.b>=threshold)?1.0:0.0;
-
+        else if(x==0&&y==2) 
+            threshold = 5.0/31.0;
+        else if (x==1&&y==2)
+            threshold = 0.0/31.0;
+        else if (x==2&&y==2)
+            threshold = 1.0/31.0;
+        else if (x==3&&y==2)
+            threshold = 10.0/31.0;
+        else if (x==4&&y==2)
+            threshold = 26.0/31.0;
+        else if (x==5&&y==2)
+            threshold = 31.0/31.0;
+        else if (x==6&&y==2)
+            threshold = 30.0/31.0;
+        else if (x==7&&y==2)
+            threshold = 21.0/31.0;
+            
+        else if(x==0&&y==3) 
+            threshold = 8.0/31.0;
+        else if (x==1&&y==3)
+            threshold = 6.0/31.0;
+        else if (x==2&&y==3)
+            threshold = 7.0/31.0;
+        else if (x==3&&y==3)
+            threshold = 14.0/31.0;
+        else if (x==4&&y==3)
+            threshold = 23.0/31.0;
+        else if (x==5&&y==3)
+            threshold = 25.0/31.0;
+        else if (x==6&&y==3)
+            threshold = 24.0/31.0;
+        else if (x==7&&y==3)
+            threshold = 17.0/31.0;
+        
+        else if(x==0&&y==4) 
+            threshold = 18.0/31.0;
+        else if (x==1&&y==4)
+            threshold = 20.0/31.0;
+        else if (x==2&&y==4)
+            threshold = 19.0/31.0;
+        else if (x==3&&y==4)
+            threshold = 16.0/31.0;
+        else if (x==4&&y==4)
+            threshold = 13.0/31.0;
+        else if (x==5&&y==4)
+            threshold = 11.0/31.0;
+        else if (x==6&&y==4)
+            threshold = 12.0/31.0;
+        else if (x==7&&y==4)
+            threshold = 15.0/31.0;
+         
+        else if(x==0&&y==5) 
+            threshold = 27.0/31.0;
+        else if (x==1&&y==5)
+            threshold = 28.0/31.0;
+        else if (x==2&&y==5)
+            threshold = 29.0/31.0;
+        else if (x==3&&y==5)
+            threshold = 22.0/31.0;
+        else if (x==4&&y==5)
+            threshold = 4.0/31.0;
+        else if (x==5&&y==5)
+            threshold = 3.0/31.0;
+        else if (x==6&&y==5)
+            threshold = 2.0/31.0;
+        else if (x==7&&y==5)
+            threshold = 9.0/31.0;
+        
+        else if(x==0&&y==6) 
+            threshold = 26.0/31.0;
+        else if (x==1&&y==6)
+            threshold = 31.0/31.0;
+        else if (x==2&&y==6)
+            threshold = 30.0/31.0;
+        else if (x==3&&y==6)
+            threshold = 21.0/31.0;
+        else if (x==4&&y==6)
+            threshold = 5.0/31.0;
+        else if (x==5&&y==6)
+            threshold = 0.0/31.0;
+        else if (x==6&&y==6)
+            threshold = 1.0/31.0;
+        else if (x==7&&y==6)
+            threshold = 10.0/31.0;
+        
+        else if(x==0&&y==7) 
+            threshold = 23.0/31.0;
+        else if (x==1&&y==7)
+            threshold = 25.0/31.0;
+        else if (x==2&&y==7)
+            threshold = 24.0/31.0;
+        else if (x==3&&y==7)
+            threshold = 17.0/31.0;
+        else if (x==4&&y==7)
+            threshold = 8.0/31.0;
+        else if (x==5&&y==7)
+            threshold = 6.0/31.0;
+        else if (x==6&&y==7)
+            threshold = 7.0/31.0;
+        else if (x==7&&y==7)
+            threshold = 14.0/31.0;
+       
+        dst.r = (dst.r>=threshold)?1.0:0.0;
+        dst.g = (dst.g>=threshold)?1.0:0.0;
+        dst.b = (dst.b>=threshold)?1.0:0.0;
     }
 }
