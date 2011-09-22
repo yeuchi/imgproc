@@ -1,13 +1,27 @@
+// ==================================================================
+// Module:		AM4x4SuperCell.as
+//
+// Description:	halftone 4x4 supercell screening commonly found
+//				in desktop printers.
+//				demonstration between pixelbender from actionscript.
+// 
+// Reference:	http://www.hpl.hp.com/personal/Robert_Ulichney/papers/2000-halftoning-review.pdf
+//
+// Author:		C.T. Yeung	cty
+// ==================================================================
 package com.ctyeung.dither
 {
 	import flash.display.BitmapData;
-
-	//http://www.hpl.hp.com/personal/Robert_Ulichney/papers/2000-halftoning-review.pdf
-	public class AM4x4Supercell
+	import flash.display.Shader;
+	import flash.display.ShaderJob;
+	import flash.filters.ShaderFilter;
+	import flash.utils.ByteArray;
+	
+	public class AM4x4Supercell extends BaseAMScreen
 	{
-		protected var screen:Array;
-		protected var scale:Number;
-		protected var cellWidth:int;
+		[Embed(source="assets/AMSuperCell.pbj", mimeType="application/octet-stream")]
+		protected var superCellClass:Class;
+		
 		public function AM4x4Supercell()
 		{
 			screen = [	[13, 11, 12, 15, 18, 20, 19, 16],
@@ -22,33 +36,14 @@ package com.ctyeung.dither
 			scale = 255.0/32.0; 
 		}
 		
-		public function apply(bmd:BitmapData):BitmapData {
-			return ASCMethod(bmd);
+		override public function apply(	bmd:BitmapData,
+							  			method:String=METHOD_ACTIONSCRIPT)
+							  			:BitmapData {
+			return super.apply(bmd, method);
 		}
 		
-		protected function ASCMethod(bmd:BitmapData):BitmapData {
-			var bmdDes:BitmapData = new BitmapData(bmd.width, bmd.height);
-			for (var y:int=0; y<bmd.height; y+=8) {
-				for (var x:int=0; x<bmd.width; x+=8) {
-					
-					for(var j:int=0; j<8; j++) {
-						for(var i:int=0; i<8; i++) {
-							var p:int = bmd.getPixel(x+i,y+j)&0xFF;
-							var d:Number = Number(p)/scale;
-							p = filter(d, i, j);
-							bmdDes.setPixel(x+i, y+j, (p<<16)+(p<<8)+p);
-						}
-					}
-				}
-			}
-			return bmdDes;
-		}
-		
-		private function filter(d:Number,	// [in] normalized value
-								i:int,		// [in] col
-								j:int)		// [in] row
-								:int {		// [out] threshold value
-			return ((d-1)>=screen[j][i])?255:0;
+		override public function get pixelBenderFilter():ByteArray {
+			return new superCellClass() as ByteArray;
 		}
 	}
 }

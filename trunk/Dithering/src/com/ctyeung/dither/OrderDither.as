@@ -1,3 +1,13 @@
+// ==================================================================
+// Module:		OrderDither.as
+//
+// Description:	Order dither of gray scale to binary.
+//				demonstration between pixelbender from actionscript.
+// 
+// Reference:	http://en.wikipedia.org/wiki/Ordered_dithering
+//
+// Author:		C.T. Yeung	cty
+// ==================================================================
 package com.ctyeung.dither
 {
 	import flash.display.BitmapData;
@@ -6,34 +16,26 @@ package com.ctyeung.dither
 	import flash.filters.ShaderFilter;
 	import flash.utils.ByteArray;
 	
-	//http://en.wikipedia.org/wiki/Ordered_dithering
-	public class OrderDither
+	public class OrderDither extends BaseAMScreen
 	{
 		[Embed(source="assets/OrderDither.pbj", mimeType="application/octet-stream")]
 		protected var orderDitherClass:Class;
-		
-		
+				
 		public function OrderDither() {
+			screen = [	[3,7,4],
+						[6,1,9],
+						[2,8,5]];
+			cellWidth = 3;
+			scale = 255.0/10.0; 
 		}
 		
-		public function apply(bmd:BitmapData):BitmapData {
-			return pbMethod(bmd);
+		override public function apply(	bmd:BitmapData,
+										method:String=METHOD_PIXELBENDER)
+										:BitmapData {
+			return super.apply(bmd, method);
 		}
 		
-		public function pbMethod(bmd:BitmapData):BitmapData{
-			var bmdDes:BitmapData = new BitmapData(bmd.width, bmd.height);
-			var shader:Shader = new Shader();
-			shader.byteCode = pixelBenderFilter;
-			shader.data.src.input = bmd;
-			
-			var job:ShaderJob = new ShaderJob(shader); 
-			job.target = bmdDes; 
-			job.start();
-			
-			return bmdDes;
-		}
-		
-		protected function get pixelBenderFilter():ByteArray {
+		override public function get pixelBenderFilter():ByteArray {
 			return new orderDitherClass() as ByteArray;
 		}
 	}
