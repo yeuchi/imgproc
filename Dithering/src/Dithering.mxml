@@ -60,7 +60,7 @@
 				<s:Image id="imgSuperCell"/>
 			</s:VGroup>
 			<s:VGroup>
-				<s:Label id="txtOrderDither" text="Order Dither:"/>			
+				<s:Label id="txtOrderDither" text="Order Dither (Pixelbender):"/>			
 				<s:Image id="imgOrder"/>
 			</s:VGroup>
 		</s:HGroup>	

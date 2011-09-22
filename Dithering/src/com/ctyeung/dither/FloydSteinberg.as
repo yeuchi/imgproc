@@ -1,3 +1,13 @@
+// ==================================================================
+// Module:		AM4x4SuperCell.as
+//
+// Description:	Floyd & Steinberg error diffusion of grayscale 
+//				into binary image.
+// 
+// Reference:	http://en.wikipedia.org/wiki/Error_diffusion
+//
+// Author:		C.T. Yeung	cty
+// ==================================================================
 package com.ctyeung.dither
 {
 	import flash.display.BitmapData;
