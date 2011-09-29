@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Reference:		http://www.mathsisfun.com/polar-cartesian-coordinates.html
+-->
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   minWidth="955" minHeight="600" creationComplete="onCreationComplete()"
+			   viewSourceURL="srcview/index.html">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import com.ctyeung.distanceMap.DistanceMap;
+			
+			import flash.display.Shader;
+			import flash.display.ShaderJob;
+			import flash.filters.ShaderFilter;
+			import flash.geom.Point;
+			import flash.utils.ByteArray;
+			
+			import mx.collections.ArrayCollection;
+			import mx.managers.CursorManager;
+			
+			public static const BACKGROUND_COLOR:uint = 0xFEFEFE;
+			public static const SHAPE_BOUND_COLOR:uint = 0xFF0000;
+			
+			private var listPts:Array;
+			private var bFirst:Boolean=true;
+			protected var disMap:DistanceMap;
+			protected static const LENGTH:int = 400;
+			
+			[Bindable]protected var listCombo:ArrayCollection;
+
+			protected function onCreationComplete():void {
+				listCombo = new ArrayCollection(["distance"]);
+				onClickClear();
+				uic.addEventListener(MouseEvent.CLICK, onMouseClick, false, 0, true);
+			}
+			
+			protected function onClickDemo():void {
+				onMouseClick(new MouseEvent("click", false, false, 50, 60));
+				onMouseClick(new MouseEvent("click", false, false, 300, 70));
+				onMouseClick(new MouseEvent("click", false, false, 140, 140));
+				onMouseClick(new MouseEvent("click", false, false, 280, 320));
+				onMouseClick(new MouseEvent("click", false, false, 100, 200));
+				onMouseClick(new MouseEvent("click", false, false, 20, 100));
+				onMouseClick(new MouseEvent("click", false, false, 50, 60));
+			}
+			
+			protected function onMouseClick(event:MouseEvent):void {
+				listPts.push(new Point(event.localX, event.localY));
+				uic.graphics.lineStyle(1, SHAPE_BOUND_COLOR);
+				if(bFirst) {
+					uic.graphics.moveTo(event.localX, event.localY);
+					bFirst = false;
+				}
+				else {
+					uic.graphics.lineTo(event.localX, event.localY);
+					uic.graphics.moveTo(event.localX, event.localY);
+				}
+				uic.graphics.endFill();
+			}
+			
+			protected function onClickClear():void {
+				bFirst = true;
+				btnSkeleton.enabled = true;
+				listPts = [];
+				uic.graphics.clear();
+				uic.graphics.beginFill(BACKGROUND_COLOR);
+				uic.graphics.drawRect(0,0,LENGTH,LENGTH);
+				uic.graphics.endFill();
+				
+				while(uic.numChildren)
+					uic.removeChildAt(0);
+			}
+			
+			protected function onClickSkeleton():void {
+				var stt:Date = new Date();
+				CursorManager.setBusyCursor();
+				btnSkeleton.enabled = false;
+				
+				if(!disMap)
+					disMap = new DistanceMap(uic.width, uic.height);
+				
+				disMap.apply(uic, chkThreshold.selected, slide.value);
+				uic.addChild(new Bitmap(disMap.bmd));
+				CursorManager.removeBusyCursor();
+				var end:Date = new Date();
+				
+				txtTime.text = "time:" + (end.millisecondsUTC - stt.millisecondsUTC).toString() + "ms";
+			}
+			
+			protected function onChangeThreshold():void {
+				if(disMap) {
+					disMap.adjThreshold(chkThreshold.selected, slide.value);
+					if(uic.numChildren>1)
+						uic.removeChildAt(1);
+					
+					uic.addChild(new Bitmap(disMap.bmdThres));
+				}
+			}
+			
+			protected function onChangeMethod():void {
+				
+			}
+		]]>
+	</fx:Script>
+	
+	<s:VGroup width="100%" horizontalAlign="center">
+		<s:HGroup>
+			<mx:HBox borderColor="0x0" borderStyle="solid" >
+				<mx:UIComponent id="uic" width="{LENGTH}" height="{LENGTH}"/>
+			</mx:HBox>
+			<s:VGroup>
+				<s:Spacer height="100"/>
+				<s:Label text="Skeleton Exercises"/>
+				<s:DropDownList id="cmbMethod"
+								dataProvider="{listCombo}" 
+								prompt="distance" 
+								change="onChangeMethod()"/>
+				<s:Spacer height="100"/>
+				<s:Button id="btnClear" label="Clear" click="onClickClear()"/>
+				<s:Button id="btnSkeleton" label="Skeleton" click="onClickSkeleton()"/>
+				<s:Button id="btnDemo" label="demo" click="onClickDemo()"/>
+				<s:Label id="txtTime" />
+			</s:VGroup>
+		</s:HGroup>
+		
+		<s:HGroup>
+			<s:CheckBox id="chkThreshold" label="Threshold" click="onChangeThreshold()"/>
+			<s:Spacer width="20"/>
+			<mx:Slider id="slide" minimum="0" maximum="255" value="20" mouseUp="onChangeThreshold()"/>
+		</s:HGroup>
+		
+		<s:VGroup horizontalAlign="left">
+			<s:Spacer height="500"/>
+			<s:Label text="Button Demo or Mouse clicks to create a closed loop shape."/>
+			<s:Label text="Button Skeleton to perform distance map."/>
+			<s:Label text="Threshold to evalute erosion"/>
+		</s:VGroup>
+	</s:VGroup>
+</s:Application>
