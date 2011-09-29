@@ -1,0 +1,35 @@
+
+
+<languageVersion : 1.0;>
+
+kernel Threshold
+<   namespace :   "Threshold";
+    vendor :      "";
+    version :     1;
+    description : "binary threshold";
+>
+{    
+    parameter float threshold
+    <
+        minValue: 0.0;
+        maxValue: 1.0;
+        defaultValue: 0.1;
+    >;
+    
+    input image4 src;
+    output pixel4 dst;
+    
+    void
+    evaluatePixel()
+    {
+        dst = sampleNearest(src, outCoord());
+        
+        if(dst.r==dst.g&&dst.r==dst.b){             // is gray pixel
+            if(dst.g>threshold)                     // above threshold
+                dst.a = dst.r = dst.g = dst.b = 1.0;
+        }    
+        else {
+            dst.a = 0.0;
+        }
+    }
+}
