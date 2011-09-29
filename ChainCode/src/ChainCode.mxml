@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+Module:			ChainCode.as
+
+Description:	Exercise for chain code, connect the dots.
+				The most basic min. distance is an NlogN process.
+
+				This is a graph problem or "traveling salesman" if no noise exists.
+Reference:		http://en.wikipedia.org/wiki/Dijkstra%27s_algorithm#Algorithm
+
+-->
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" 
+			   minWidth="955" minHeight="600"
+			   creationComplete="onCreationComplete()">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			protected var bmd:BitmapData;
+			private var listPts:Array;
+			protected var drawIndex:int=1000;
+			protected var counter:int = 0;
+			protected var method:String;
+			[Bindable]protected var listCombo:ArrayCollection;
+			
+			protected function onCreationComplete():void {
+				listCombo = new ArrayCollection(["distance", "direction", "outer-bound"]);
+				onClickClear();
+				uic.addEventListener(MouseEvent.CLICK, onMouseClick, false, 0, true);
+				this.addEventListener(Event.ENTER_FRAME, onEnterFrame, false, 0, true);
+			}
+			
+			protected function onMouseClick(event:MouseEvent):void {
+				listPts.push(new Point(event.localX, event.localY));
+				uic.graphics.beginFill(0xFF00);
+				uic.graphics.drawCircle(event.localX, event.localY, 1);
+				uic.graphics.endFill();
+			}
+			
+			
+			protected function onClickChain():void {
+				switch(cmbMethod.selectedItem) {
+					default:
+					case listCombo[0]:
+						minDistance();
+						break;
+					
+					case listCombo[1]:
+						nearDirection();
+						break;
+					
+					case listCombo[2]:
+						outerMost();
+						break;
+				}
+			}
+			
+			protected function nearDirection():void {
+				
+			}
+			
+			protected function outerMost():void {
+				
+			}
+			
+			protected function minDistance():void {
+				// NlogN sort by distance
+				for (var i:int=0; i<listPts.length; i++) {
+					var p:Point = listPts[i];
+					var min:Number = 1000;
+					var index:int = -1;
+					for(var j:int=i+1; j<listPts.length; j++) {
+						var dis:Number = Point.distance(p, listPts[j]);
+						if(min>dis) {
+							min = dis;
+							index = j;
+						}
+					}
+					var listPt:Array = listPts.splice(index,1);
+					listPts.splice(i+1, 0, listPt[0]);
+				}
+				drawIndex = 0;
+			}
+			
+			protected function onEnterFrame(e:Event):void {
+				if(drawIndex<listPts.length-1) {
+					if(counter%30==10) {
+					var p:Point = listPts[drawIndex++];
+					var pN:Point = listPts[drawIndex];
+					uic.graphics.lineStyle(1, 0xFF);
+					uic.graphics.moveTo(p.x, p.y);
+					uic.graphics.lineTo(pN.x, pN.y);
+					uic.graphics.endFill();
+					}
+					counter++;
+				}
+			}
+			
+			protected function onClickClear():void {
+				listPts = [];
+				uic.graphics.clear();
+				uic.graphics.beginFill(0xFEFEFE);
+				uic.graphics.drawRect(0,0,400,400);
+				uic.graphics.endFill();
+				drawIndex = 1000;
+				counter = 0;
+			}
+		
+			
+			protected function onChangeMethod():void {
+				method = cmbMethod.selectedItem;
+				onClickChain();
+			}
+		]]>
+	</fx:Script>
+	
+	<s:VGroup width="100%" horizontalAlign="center">
+		<s:HGroup>
+			<s:DropDownList id="cmbMethod"
+							dataProvider="{listCombo}" 
+							prompt="distance" 
+							change="onChangeMethod()"/>
+			
+			<s:Button label="chain" click="onClickChain()"/>
+			<s:Button label="clear" click="onClickClear()"/>
+		</s:HGroup>
+		
+		<mx:VBox borderColor="0x0" borderStyle="solid" >
+			<mx:UIComponent id="uic" width="400" height="400"/>
+		</mx:VBox>
+	</s:VGroup>
+	
+</s:Application>
