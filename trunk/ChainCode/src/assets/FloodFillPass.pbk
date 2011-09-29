@@ -1,0 +1,28 @@
+
+
+<languageVersion : 1.0;>
+
+kernel FloodFillPass
+<   namespace :   "FloodFillPass";
+    vendor :      "";
+    version :     1;
+    description : "pass flood filled pixels";
+>
+{    
+    input image4 src;
+    output pixel4 dst;
+    
+    void
+    evaluatePixel()
+    {
+        float2 pos = outCoord();
+        float threshold;
+        dst = sampleNearest(src, pos);
+        if(dst.a>0.0) 
+            dst.a = 0.0;
+        else {
+            dst.a = 1.0;
+            dst.g = 1.0;
+        }
+    }
+}
