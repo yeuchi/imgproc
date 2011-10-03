@@ -104,8 +104,8 @@ package com.ctyeung.distanceMap
 		
 		private function scaleThresholdRange(rect:Rectangle):void {
 			// scale for distance value so threshold range is nearest to (0 - 255)
-			var w:Number = Number(rect.width-rect.x)/2.0;
-			var h:Number = Number(rect.height-rect.y)/2.0;
+			var w:Number = Number(rect.width)/2.0;
+			var h:Number = Number(rect.height)/2.0;
 			multiplier = ((w<h)?h:w);
 			multiplier = 255.0/multiplier;
 		}
