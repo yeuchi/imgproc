@@ -13,6 +13,7 @@ Reference:		http://www.mathsisfun.com/polar-cartesian-coordinates.html
 	
 	<fx:Script>
 		<![CDATA[
+			import com.ctyeung.GonzalesThining;
 			import com.ctyeung.distanceMap.DistanceMap;
 			
 			import flash.display.Shader;
@@ -30,12 +31,13 @@ Reference:		http://www.mathsisfun.com/polar-cartesian-coordinates.html
 			private var listPts:Array;
 			private var bFirst:Boolean=true;
 			protected var disMap:DistanceMap;
+			protected var thin:GonzalesThining;
 			protected static const LENGTH:int = 400;
 			
 			[Bindable]protected var listCombo:ArrayCollection;
 
 			protected function onCreationComplete():void {
-				listCombo = new ArrayCollection(["distance"]);
+				listCombo = new ArrayCollection(["distance", "thinning"]);
 				onClickClear();
 				uic.addEventListener(MouseEvent.CLICK, onMouseClick, false, 0, true);
 			}
@@ -66,7 +68,7 @@ Reference:		http://www.mathsisfun.com/polar-cartesian-coordinates.html
 			
 			protected function onClickClear():void {
 				bFirst = true;
-				btnSkeleton.enabled = true;
+				btnApply.enabled = true;
 				listPts = [];
 				uic.graphics.clear();
 				uic.graphics.beginFill(BACKGROUND_COLOR);
@@ -80,13 +82,26 @@ Reference:		http://www.mathsisfun.com/polar-cartesian-coordinates.html
 			protected function onClickSkeleton():void {
 				var stt:Date = new Date();
 				CursorManager.setBusyCursor();
-				btnSkeleton.enabled = false;
+				btnApply.enabled = false;
 				
-				if(!disMap)
-					disMap = new DistanceMap(uic.width, uic.height);
+				switch(this.cmbMethod.selectedIndex) {
+					case 0:
+						if(!disMap)
+							disMap = new DistanceMap(uic.width, uic.height);
+						
+						disMap.apply(uic, chkThreshold.selected, slide.value);
+						uic.addChild(new Bitmap(disMap.bmd));
+						break;
+					
+					case 1:
+						if(!thin)
+							thin = new GonzalesThining(uic.width, uic.height);
+						
+						thin.apply(uic);
+						uic.addChild(new Bitmap(thin.bmd));
+						break;
+				}
 				
-				disMap.apply(uic, chkThreshold.selected, slide.value);
-				uic.addChild(new Bitmap(disMap.bmd));
 				CursorManager.removeBusyCursor();
 				var end:Date = new Date();
 				
@@ -123,7 +138,7 @@ Reference:		http://www.mathsisfun.com/polar-cartesian-coordinates.html
 								change="onChangeMethod()"/>
 				<s:Spacer height="100"/>
 				<s:Button id="btnClear" label="Clear" click="onClickClear()"/>
-				<s:Button id="btnSkeleton" label="Skeleton" click="onClickSkeleton()"/>
+				<s:Button id="btnApply" label="Apply" click="onClickSkeleton()"/>
 				<s:Button id="btnDemo" label="demo" click="onClickDemo()"/>
 				<s:Label id="txtTime" />
 			</s:VGroup>
@@ -137,9 +152,9 @@ Reference:		http://www.mathsisfun.com/polar-cartesian-coordinates.html
 		
 		<s:VGroup horizontalAlign="left">
 			<s:Spacer height="500"/>
-			<s:Label text="Button Demo or Mouse clicks to create a closed loop shape."/>
-			<s:Label text="Button Skeleton to perform distance map."/>
-			<s:Label text="Threshold to evalute erosion"/>
+			<s:Label text="1)Button Demo or Mouse clicks to create a CLOSED LOOP shape."/>
+			<s:Label text="2)Button Apply to perform distance map."/>
+			<s:Label text="3)For distance-map, threshold, adjust slider to evalute erosion"/>
 		</s:VGroup>
 	</s:VGroup>
 </s:Application>

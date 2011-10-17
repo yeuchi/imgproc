@@ -77,26 +77,42 @@ package com.ctyeung.distanceMap
 			}
 		}
 		
+		protected var rect:Rectangle;
+		
 		protected function collectBoundPoints():Boolean {	// [in] any shape exists ?
-			var r:Rectangle = findShape();
-			
-			if(r) {
-				scaleThresholdRange(r);
+			//var r:Rectangle = findShape();
+			//if(r) {
+				//scaleThresholdRange(r);
 				listBound = [];
 				
+				rect = new Rectangle(1000, 1000, 0,0);
 				for(var y:int=0; y<bmd.height; y+=2) {
 					for(var x:int=0; x<bmd.width; x+=2) {
 						var clr:uint = bmd.getPixel(x,y);
-						if(clr!=Skeleton.BACKGROUND_COLOR)
+						if(clr!=Skeleton.BACKGROUND_COLOR) {
 							listBound.push(new Point(x,y));
+							if(x<rect.x)
+								rect.x = x;
+							if(x>rect.x)
+								rect.width = x;
+							if(y<rect.y)
+								rect.y = y;
+							if(y>rect.y)
+								rect.height = y;
+						}
 					}
 				}
+				if(rect.x==1000||rect.y==1000)
+					return false;
+				
+				rect.height -= rect.y;
+				rect.width -= rect.x;
+				scaleThresholdRange(rect);
 				return true;
-			}
-			return false;
 		}
 		
 		private function findShape():Rectangle {
+			// not working well.  Buggy.
 			var mask:uint = DEFAULT_COLOR;
 			var color:uint = Skeleton.SHAPE_BOUND_COLOR;
 			return bmd.getColorBoundsRect(mask, color, true);
@@ -113,6 +129,8 @@ package com.ctyeung.distanceMap
 		protected function map():void {
 			// would a quad tree be faster?  
 			// need data structure here for performance.
+			
+			// also help if I only evaluate pixels within rect.
 			var ph:Point = new Point();
 			for(var y:int=0; y<bmd.height; y++) {
 				for(var x:int=0; x<bmd.width; x++) {

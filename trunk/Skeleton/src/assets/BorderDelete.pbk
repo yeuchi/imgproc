@@ -1,0 +1,30 @@
+
+
+<languageVersion : 1.0;>
+
+kernel BorderDelete
+<   namespace :   "BorderDelete";
+    vendor :      "";
+    version :     1;
+    description : "delete pixels deemed border";
+>
+{        
+    input image4 src;   // original image
+    input image4 src2;  // delete guide image
+    output pixel4 dst;
+    
+    void
+    evaluatePixel()
+    {
+        dst = sampleNearest(src2, outCoord());
+        
+        if(dst.g == 0.0) 
+            dst = sampleNearest(src, outCoord());
+        else {
+            dst.a = 1.0;
+            dst.r = 0.0;
+            dst.g = 1.0;
+            dst.b = 0.0;
+        }
+    }
+}
