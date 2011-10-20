@@ -135,7 +135,7 @@ package com.ctyeung.distanceMap
 			for(var y:int=0; y<bmd.height; y++) {
 				for(var x:int=0; x<bmd.width; x++) {
 					var clr:uint = bmd.getPixel(x,y);
-					if(clr==0xFEFEFE){
+					if(clr==Skeleton.BACKGROUND_COLOR){
 						ph.x = x;
 						ph.y = y;
 						var min:Number = 1000;

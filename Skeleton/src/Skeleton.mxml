@@ -13,6 +13,7 @@ Reference:		http://www.mathsisfun.com/polar-cartesian-coordinates.html
 	
 	<fx:Script>
 		<![CDATA[
+			import com.ctyeung.GonzalesThinPB;
 			import com.ctyeung.GonzalesThining;
 			import com.ctyeung.distanceMap.DistanceMap;
 			
@@ -25,31 +26,51 @@ Reference:		http://www.mathsisfun.com/polar-cartesian-coordinates.html
 			import mx.collections.ArrayCollection;
 			import mx.managers.CursorManager;
 			
-			public static const BACKGROUND_COLOR:uint = 0xFEFEFE;
+			public static const BACKGROUND_COLOR:uint = 0xFEFEFF;
 			public static const SHAPE_BOUND_COLOR:uint = 0xFF0000;
 			
 			private var listPts:Array;
 			private var bFirst:Boolean=true;
 			protected var disMap:DistanceMap;
 			protected var thin:GonzalesThining;
+			protected var thinPB:GonzalesThinPB;
 			protected static const LENGTH:int = 400;
 			
 			[Bindable]protected var listCombo:ArrayCollection;
 
 			protected function onCreationComplete():void {
-				listCombo = new ArrayCollection(["distance", "thinning"]);
+				listCombo = new ArrayCollection(["distance", "thinning", "thinPB"]);
 				onClickClear();
+				this.cmbMethod.selectedIndex = 0;
 				uic.addEventListener(MouseEvent.CLICK, onMouseClick, false, 0, true);
 			}
 			
 			protected function onClickDemo():void {
-				onMouseClick(new MouseEvent("click", false, false, 50, 60));
-				onMouseClick(new MouseEvent("click", false, false, 300, 70));
-				onMouseClick(new MouseEvent("click", false, false, 140, 140));
-				onMouseClick(new MouseEvent("click", false, false, 280, 320));
-				onMouseClick(new MouseEvent("click", false, false, 100, 200));
-				onMouseClick(new MouseEvent("click", false, false, 20, 100));
-				onMouseClick(new MouseEvent("click", false, false, 50, 60));
+				var listX:Array = [.694, 1.292, 1.694, 1.5, 2.111, 2.5, 2.75, 3.277, 3.305, 3.805, 4.374, 3.999, 4.472, 5.027, 4.138, 2.097];
+				var listY:Array = [2.444, 2.18, 2.722, .736, .680, 2.541, .639, .694, 2.652, .75, .792, 2.694, 1.208, 1.292, 4.482, 4.680];
+				
+				for (var i:int=0; i<listX.length; i++) {
+					listX[i] *= 70;
+					listY[i] *= 70;
+				}
+				onMouseClick(new MouseEvent("click", false, false, listX[0], listY[0]));
+				onMouseClick(new MouseEvent("click", false, false, listX[1], listY[1]));
+				onMouseClick(new MouseEvent("click", false, false, listX[2], listY[2]));
+				onMouseClick(new MouseEvent("click", false, false, listX[3], listY[3]));
+				onMouseClick(new MouseEvent("click", false, false, listX[4], listY[4]));
+				onMouseClick(new MouseEvent("click", false, false, listX[5], listY[5]));
+				onMouseClick(new MouseEvent("click", false, false, listX[6], listY[6]));
+				onMouseClick(new MouseEvent("click", false, false, listX[7], listY[7]));
+				onMouseClick(new MouseEvent("click", false, false, listX[8], listY[8]));
+				onMouseClick(new MouseEvent("click", false, false, listX[9], listY[9]));
+				onMouseClick(new MouseEvent("click", false, false, listX[10], listY[10]));
+				onMouseClick(new MouseEvent("click", false, false, listX[11], listY[11]));
+				onMouseClick(new MouseEvent("click", false, false, listX[12], listY[12]));
+				onMouseClick(new MouseEvent("click", false, false, listX[13], listY[13]));
+				onMouseClick(new MouseEvent("click", false, false, listX[14], listY[14]));
+				onMouseClick(new MouseEvent("click", false, false, listX[15], listY[15]));
+				onMouseClick(new MouseEvent("click", false, false, listX[0], listY[0]));
+
 			}
 			
 			protected function onMouseClick(event:MouseEvent):void {
@@ -79,8 +100,16 @@ Reference:		http://www.mathsisfun.com/polar-cartesian-coordinates.html
 					uic.removeChildAt(0);
 			}
 			
+			protected function onCompleteThin(e:Event):void {
+				uic.addChild(new Bitmap(thinPB.bmd));
+				var end:Date = new Date();
+				txtTime.text = "time:" + (end.millisecondsUTC - stt.millisecondsUTC).toString() + "ms";
+
+			}
+			
+			protected var stt:Date;
 			protected function onClickSkeleton():void {
-				var stt:Date = new Date();
+				stt = new Date();
 				CursorManager.setBusyCursor();
 				btnApply.enabled = false;
 				
@@ -100,11 +129,19 @@ Reference:		http://www.mathsisfun.com/polar-cartesian-coordinates.html
 						thin.apply(uic);
 						uic.addChild(new Bitmap(thin.bmd));
 						break;
+					
+					case 2:
+						if(!thinPB) {
+							thinPB = new GonzalesThinPB(uic.width, uic.height);
+							thinPB.addEventListener(Event.COMPLETE, onCompleteThin, false, 0, true);
+						}
+						thinPB.apply(uic);
+						uic.graphics.clear();
+						break;
 				}
 				
 				CursorManager.removeBusyCursor();
 				var end:Date = new Date();
-				
 				txtTime.text = "time:" + (end.millisecondsUTC - stt.millisecondsUTC).toString() + "ms";
 			}
 			
@@ -153,8 +190,8 @@ Reference:		http://www.mathsisfun.com/polar-cartesian-coordinates.html
 		<s:VGroup horizontalAlign="left">
 			<s:Spacer height="500"/>
 			<s:Label text="1)Button Demo or Mouse clicks to create a CLOSED LOOP shape."/>
-			<s:Label text="2)Button Apply to perform distance map."/>
-			<s:Label text="3)For distance-map, threshold, adjust slider to evalute erosion"/>
+			<s:Label text="2)Button Apply to perform distance map or thinning."/>
+			<s:Label text="3)For distance-map, select threshold, adjust slider to evalute erosion"/>
 		</s:VGroup>
 	</s:VGroup>
 </s:Application>

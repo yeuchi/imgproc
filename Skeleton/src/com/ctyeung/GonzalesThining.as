@@ -41,8 +41,7 @@ package com.ctyeung
 		protected static const P6:int = 4;
 		protected static const P8:int = 6;
 
-		[Embed(source="assets/BorderDelete.pbj", mimeType="application/octet-stream")]
-		protected var borderDelete:Class;
+		
 		protected var listNeighbors:Array;
 		protected var bmdDelete:BitmapData;
 		public var bmd:BitmapData;
@@ -88,10 +87,6 @@ package com.ctyeung
 			}
 		}
 		
-		private function get pixelBenderFilter():ByteArray {
-			return new borderDelete() as ByteArray;
-		}
-		
 		protected function deleteBorder():void {
 			for (var y:int=1; y<bmd.height; y++) {
 				for(var x:int=1; x<bmd.width; x++) {
@@ -115,6 +110,7 @@ package com.ctyeung
 		
 		protected function thinning(str:String):Boolean {
 			var bDelete:Boolean = false;
+			
 			for (var y:int=1; y<bmd.height; y++) {
 				for(var x:int=1; x<bmd.width; x++) {
 					var clr:uint = bmd.getPixel(x,y);
