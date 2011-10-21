@@ -1,0 +1,38 @@
+// ====================================================================
+// Description: Thinning algorithm as defined in the text,
+//				Digital Image processing by Gonzales & Woods, 1993.
+//				Pages (492-493), 8.1.5 Skeleton of a Region.
+//
+// ====================================================================
+<languageVersion : 1.0;>
+
+kernel DeleteOp
+<   namespace :   "DeleteOp";
+    vendor :      "";
+    version :     1;
+    description : "delete pixel in bmd by bmdDelete as mask";
+>
+{           
+    input image4 src;       // original image
+    input image4 mask;      // image with "on" pixels for delete
+    output pixel4 dst;
+    
+    void
+    evaluatePixel()
+    {
+        float2 pos = outCoord();
+        float4 bmd = sampleNearest(src, pos);
+        float4 bmdDelete = sampleNearest(mask, pos);
+        
+        // delete the pixel
+        if(bmdDelete.a==1.0) {
+            dst.a = 1.0;
+            dst.r = 0.0; 
+            dst.g = 0.0;
+            dst.b = 0.0;
+        }
+        // keep the pixel
+        else 
+            dst = bmd;
+    }
+}

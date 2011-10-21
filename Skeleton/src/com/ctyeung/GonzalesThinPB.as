@@ -1,3 +1,22 @@
+// ==================================================================
+// Module:		GonzalesThinPB.as
+//
+// Description:	Thinning algorithm as defined in the text,
+//				Digital Image processing by Gonzales & Woods, 1993.
+//				Pages (492-493), 8.1.5 Skeleton of a Region.
+//
+//				Same as GonzalesThinning except using pixelbender.
+//				Strange, but it is slower.
+//
+// Input:		Image with bounding pixels of a closed shape over
+//				white backgroun.
+//
+// Output:		skeletonized line
+//
+// Author(s):	Chi T. Yeung	(cty)
+//
+// History:
+// ==================================================================
 package com.ctyeung
 {
 	import flash.display.BitmapData;
@@ -20,6 +39,9 @@ package com.ctyeung
 		
 		[Embed(source="assets/BorderDelete.pbj", mimeType="application/octet-stream")]
 		protected var borderDeleteClass:Class;
+		
+		[Embed(source="assets/DeleteOp.pbj", mimeType="application/octet-stream")]
+		protected var deleteOpClass:Class;
 		
 		protected static const STEP1:String = "step1";
 		protected static const STEP2:String = "step2";
@@ -46,53 +68,70 @@ package com.ctyeung
 		}
 		
 		protected var stepType:String = STEP1;
-		
+		protected var thinShader:Shader;
+		protected var count:int=0;
 		protected function thinning():void {
-			var shader:Shader = new Shader();
-			shader.byteCode = pixelBenderFilter;
-			shader.data.src.input = bmd;
+			if(!thinShader) {
+				thinShader = new Shader();
+				thinShader.byteCode = borderDeleteFilter;
+				thinShader.data.src.input = bmd;
+			}
 			var value:int = (stepType==STEP1)?1:2;
-			shader.data.stepOp.value = [value];
+			thinShader.data.stepOp.value = [value];
 			
-			var job:ShaderJob = new ShaderJob(shader); 
+			var job:ShaderJob = new ShaderJob(thinShader); 
 			job.target = bmdDelete; 
 			job.start();
-			job.addEventListener(ShaderEvent.COMPLETE, onComplete, false, 0, true);
+			job.addEventListener(ShaderEvent.COMPLETE, onCompleteThinning, false, 0, true);
 		}
 		
-		protected function onComplete(e:Event):void {
-			var mask:uint = 0xFFFFFFFF;
-			var color:uint = 0xFF00FFFF;
-			var r:Rectangle = bmdDelete.getColorBoundsRect(mask, color, true);
-			if(isValidRect(r)) {
+		protected function onCompleteThinning(e:Event):void {
+			if(isValidRect()) 
 				deleteBorder();
-				stepType=(stepType==STEP1)?STEP2:STEP1;
-				thinning();
-			}
-			else{
+			else
 				dispatchEvent(new Event(Event.COMPLETE));
+		}
+		
+		private function isValidRect():Boolean {
+			count++;
+			if(count%5==1) {
+				var mask:uint = 0xFFFFFFFF;
+				var color:uint = 0xFF00FFFF;
+				var r:Rectangle = bmdDelete.getColorBoundsRect(mask, color, true);
+	
+				if(r) 
+					return(r.width&&r.height)?true:false;
+				return false;
 			}
+			return true;
 		}
 		
-		private function isValidRect(r:Rectangle):Boolean {
-			if(r) 
-				return(r.width&&r.height)?true:false;
-			return false;
-		}
-		
-		private function get pixelBenderFilter():ByteArray {
+		private function get borderDeleteFilter():ByteArray {
 			return new borderDeleteClass() as ByteArray;
 		}
 		
+		private function get deleteOpFilter():ByteArray {
+			return new deleteOpClass() as ByteArray;
+		}
+		
+		protected var deleteShader:Shader;
 		protected function deleteBorder():void {
-			for (var y:int=1; y<bmd.height; y++) {
-				for(var x:int=1; x<bmd.width; x++) {
-					var clr:uint = bmdDelete.getPixel32(x,y);
-					if(clr)
-						bmd.setPixel(x,y, 0xFF000000);
-				}
+			if(!deleteShader) {
+				deleteShader = new Shader();
+				deleteShader.byteCode = deleteOpFilter;
+				deleteShader.data.src.input = bmd;
+				deleteShader.data.mask.input = bmdDelete;
 			}
+			var job:ShaderJob = new ShaderJob(deleteShader); 
+			job.target = bmd; 
+			job.start();
+			job.addEventListener(ShaderEvent.COMPLETE, onCompleteDelete, false, 0, true);
+		}
+		
+		protected function onCompleteDelete(e:Event):void {
 			bmdDelete.fillRect(bmdDelete.rect, 0x0);
+			stepType=(stepType==STEP1)?STEP2:STEP1;
+			thinning();
 		}
 	}
 }

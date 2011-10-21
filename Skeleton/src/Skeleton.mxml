@@ -39,7 +39,7 @@ Reference:		http://www.mathsisfun.com/polar-cartesian-coordinates.html
 			[Bindable]protected var listCombo:ArrayCollection;
 
 			protected function onCreationComplete():void {
-				listCombo = new ArrayCollection(["distance", "thinning", "thinPB"]);
+				listCombo = new ArrayCollection(["distance", "thinning", "thinPixelBender"]);
 				onClickClear();
 				this.cmbMethod.selectedIndex = 0;
 				uic.addEventListener(MouseEvent.CLICK, onMouseClick, false, 0, true);
@@ -101,9 +101,10 @@ Reference:		http://www.mathsisfun.com/polar-cartesian-coordinates.html
 			}
 			
 			protected function onCompleteThin(e:Event):void {
+				CursorManager.removeBusyCursor();
 				uic.addChild(new Bitmap(thinPB.bmd));
 				var end:Date = new Date();
-				txtTime.text = "time:" + (end.millisecondsUTC - stt.millisecondsUTC).toString() + "ms";
+				txtTime.text = "time:" + (end.time - stt.time).toString() + "ms";
 
 			}
 			
@@ -137,12 +138,12 @@ Reference:		http://www.mathsisfun.com/polar-cartesian-coordinates.html
 						}
 						thinPB.apply(uic);
 						uic.graphics.clear();
-						break;
+						return;
 				}
 				
 				CursorManager.removeBusyCursor();
 				var end:Date = new Date();
-				txtTime.text = "time:" + (end.millisecondsUTC - stt.millisecondsUTC).toString() + "ms";
+				txtTime.text = "time:" + (end.time - stt.time).toString() + "ms";
 			}
 			
 			protected function onChangeThreshold():void {
@@ -155,9 +156,6 @@ Reference:		http://www.mathsisfun.com/polar-cartesian-coordinates.html
 				}
 			}
 			
-			protected function onChangeMethod():void {
-				
-			}
 		]]>
 	</fx:Script>
 	
@@ -171,8 +169,7 @@ Reference:		http://www.mathsisfun.com/polar-cartesian-coordinates.html
 				<s:Label text="Skeleton Exercises"/>
 				<s:DropDownList id="cmbMethod"
 								dataProvider="{listCombo}" 
-								prompt="distance" 
-								change="onChangeMethod()"/>
+								prompt="distance" />
 				<s:Spacer height="100"/>
 				<s:Button id="btnClear" label="Clear" click="onClickClear()"/>
 				<s:Button id="btnApply" label="Apply" click="onClickSkeleton()"/>
