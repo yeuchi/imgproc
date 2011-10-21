@@ -36,7 +36,7 @@ kernel BorderDelete
         float2 pos = outCoord();
         float4 p = sampleNearest(src, pos);
         
-        if(p.b!=0.0) {
+        if(p.b!=0.0&&p.g!=0.0) {
             pos.y = pos.y-1.0;
             float4 p2 = sampleNearest(src, pos);
             
