@@ -60,21 +60,24 @@ package com.ctyeung
 			job.addEventListener(ShaderEvent.COMPLETE, onComplete, false, 0, true);
 		}
 		
-		protected var count:int = 0;
 		protected function onComplete(e:Event):void {
 			var mask:uint = 0xFFFFFFFF;
-			var color:uint = 0xFFFFFFFF;
+			var color:uint = 0xFF00FFFF;
 			var r:Rectangle = bmdDelete.getColorBoundsRect(mask, color, true);
-			if(r&&count<90) {
-				count++;
+			if(isValidRect(r)) {
 				deleteBorder();
 				stepType=(stepType==STEP1)?STEP2:STEP1;
 				thinning();
 			}
 			else{
-				bmd = bmdDelete;
 				dispatchEvent(new Event(Event.COMPLETE));
 			}
+		}
+		
+		private function isValidRect(r:Rectangle):Boolean {
+			if(r) 
+				return(r.width&&r.height)?true:false;
+			return false;
 		}
 		
 		private function get pixelBenderFilter():ByteArray {
@@ -85,7 +88,7 @@ package com.ctyeung
 			for (var y:int=1; y<bmd.height; y++) {
 				for(var x:int=1; x<bmd.width; x++) {
 					var clr:uint = bmdDelete.getPixel32(x,y);
-					if(clr!=0)
+					if(clr)
 						bmd.setPixel(x,y, 0xFF000000);
 				}
 			}
