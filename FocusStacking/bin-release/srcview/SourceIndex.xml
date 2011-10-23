@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<index>
+	<title>Source of FocusStacking</title>
+	<nodes>
+		<node label="html-template">
+			<node label="history">
+				<node icon="cssIcon" label="history.css" url="source/html-template/history/history.css.html"/>
+				<node label="history.js" url="source/html-template/history/history.js.txt"/>
+				<node icon="htmlIcon" label="historyFrame.html" url="source/html-template/history/historyFrame.html"/>
+			</node>
+			<node icon="htmlIcon" label="index.template.html" url="source/html-template/index.template.html"/>
+			<node icon="swfIcon" label="playerProductInstall.swf" url="source/html-template/playerProductInstall.swf"/>
+			<node label="swfobject.js" url="source/html-template/swfobject.js.txt"/>
+		</node>
+		<node label="libs">
+		</node>
+		<node label="src">
+			<node label="assets">
+				<node icon="imageIcon" label="01.png" url="source/assets/01.png.html"/>
+				<node icon="imageIcon" label="02.png" url="source/assets/02.png.html"/>
+				<node icon="imageIcon" label="03.png" url="source/assets/03.png.html"/>
+			</node>
+			<node icon="packageIcon" label="com.ctyeung.focusStacking" expanded="true">
+				<node icon="actionScriptIcon" label="FocusStack.as" url="source/com/ctyeung/focusStacking/FocusStack.as.html"/>
+			</node>
+			<node icon="mxmlAppIcon" selected="true" label="FocusStacking.mxml" url="source/FocusStacking.mxml.html"/>
+		</node>
+	</nodes>
+	<zipfile label="Download source (ZIP, 1117K)" url="FocusStacking.zip">
+	</zipfile>
+	<sdklink label="Download Flex SDK" url="http://www.adobe.com/go/flex451_sdk_download">
+	</sdklink>
+</index>

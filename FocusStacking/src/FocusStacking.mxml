@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	Module:			FocusStacking
+
+	Description:	Combine multiple image with various focal planes.
+					Common technique for mac/mic (macrography, micrography).
+
+	Author:			C.T. Yeung	(cty)
+
+	Reference: 
+	-for creating gradient blur: http://www.republicofcode.com/tutorials/photoshop/video/gradient_mask_blur.php
+	
+	History:
+	23Oct11			1st implementation
+-->
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   minWidth="955" minHeight="600" creationComplete="onCreationComplete()"
+			   viewSourceURL="srcview/index.html">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import com.ctyeung.focusStacking.FocusStack;
+			[Bindable][Embed(source="/assets/01.png")]public var class01:Class;
+			[Bindable][Embed(source="/assets/02.png")]public var class02:Class;
+			[Bindable][Embed(source="/assets/03.png")]public var class03:Class;
+			
+			protected var listImages:Array;
+			protected var count:int;
+			
+			protected function onCreationComplete():void {
+				listImages = [	new class01().bitmapData,
+								new class02().bitmapData,
+								new class03().bitmapData];
+				uicOrig.addChild(new Bitmap(listImages[0]));
+			 	this.addEventListener(Event.ENTER_FRAME, onEnterFrame, false, 0, true);
+			}
+			
+			protected function onEnterFrame(e:Event):void {
+				count ++;
+				switch(count%30) {
+					case 0:
+						uicOrig.removeChildAt(0);
+						uicOrig.addChild(new Bitmap(listImages[0]));
+						txtImage.text = "Image 0";
+						break;
+					
+					case 10:
+						uicOrig.removeChildAt(0);
+						uicOrig.addChild(new Bitmap(listImages[1]));
+						txtImage.text = "Image 1";
+						break;
+					
+					case 20:
+						uicOrig.removeChildAt(0);
+						uicOrig.addChild(new Bitmap(listImages[2]));
+						txtImage.text = "Image 2";
+						break;
+				}
+			}
+			
+			protected function onClickApply():void {
+				var stt:Date = new Date();
+				var focusStack:FocusStack = new FocusStack();
+				var bmd:BitmapData = focusStack.apply(this.listImages);
+				
+				if(uicMerged.numChildren)
+					uicMerged.removeChildAt(0);
+				
+				uicMerged.addChild(new Bitmap(bmd));
+				var end:Date = new Date();
+				txtDuration.text = "Time: "+(end.time-stt.time).toString()+"ms";
+			}
+		]]>
+	</fx:Script>
+	
+	<mx:VBox>
+		<mx:HBox borderColor="0x0" borderStyle="solid">
+			<mx:UIComponent id="uicOrig" width="600" height="385" />
+			<mx:UIComponent id="uicMerged" width="600" height="385"/>
+		</mx:HBox>
+		<mx:HBox width="100%" horizontalAlign="center">
+			<s:Label id="txtImage" />
+			<s:Spacer width="300"/>
+			<s:Button id="btnApply" label="Apply" click="onClickApply()"/>
+			<s:Spacer width="300"/>
+			<s:Label id="txtDuration"/>
+		</mx:HBox>
+	</mx:VBox>
+</s:Application>
