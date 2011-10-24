@@ -34,8 +34,8 @@ package com.ctyeung.focusStacking
 			this.listImages = listImages;
 			bmdDes = (listImages[0] as BitmapData).clone();
 			
-			for(var y:int=1; y<height-1; y++) {
-				for(var x:int=1; x<width-1; x++) {
+			for(var y:int=2; y<height-2; y++) {
+				for(var x:int=2; x<width-2; x++) {
 					var listDelta:Array = [];
 					for(var i:int=0; i<listImages.length; i++) {
 						var delta:Number = derivative(listImages[i], x, y);
@@ -80,7 +80,7 @@ package com.ctyeung.focusStacking
 						delta += Number(bmd.getPixel(i,j))*-1;
 				}
 			}
-			delta += bmd.getPixel(x,y)*9;
+			delta += bmd.getPixel(x,y)*8;
 			return magnitude(delta);
 		}
 		
