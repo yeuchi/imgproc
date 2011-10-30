@@ -25,6 +25,8 @@
 	<fx:Script>
 		<![CDATA[
 			import com.ctyeung.focusStacking.FocusStack;
+			
+			import mx.managers.CursorManager;
 			[Bindable][Embed(source="/assets/01.png")]public var class01:Class;
 			[Bindable][Embed(source="/assets/02.png")]public var class02:Class;
 			[Bindable][Embed(source="/assets/03.png")]public var class03:Class;
@@ -64,9 +66,11 @@
 			}
 			
 			protected function onClickApply():void {
+				CursorManager.setBusyCursor();
 				var stt:Date = new Date();
 				var focusStack:FocusStack = new FocusStack();
-				var bmd:BitmapData = focusStack.apply(this.listImages);
+				var radius:int = numRadius.value;
+				var bmd:BitmapData = focusStack.apply(this.listImages, radius);
 				
 				if(uicMerged.numChildren)
 					uicMerged.removeChildAt(0);
@@ -74,21 +78,26 @@
 				uicMerged.addChild(new Bitmap(bmd));
 				var end:Date = new Date();
 				txtDuration.text = "Time: "+(end.time-stt.time).toString()+"ms";
+				CursorManager.removeBusyCursor();
 			}
 		]]>
 	</fx:Script>
 	
-	<mx:VBox>
+	<mx:VBox horizontalAlign="center" verticalAlign="middle">
 		<mx:HBox borderColor="0x0" borderStyle="solid">
 			<mx:UIComponent id="uicOrig" width="600" height="385" />
 			<mx:UIComponent id="uicMerged" width="600" height="385"/>
 		</mx:HBox>
 		<mx:HBox width="100%" horizontalAlign="center">
 			<s:Label id="txtImage" />
-			<s:Spacer width="300"/>
+			<s:Spacer width="150"/>
+			<s:Label text="Radius: "/>
+			<s:NumericStepper id="numRadius" minimum="3" maximum="12" value="6"/>
 			<s:Button id="btnApply" label="Apply" click="onClickApply()"/>
-			<s:Spacer width="300"/>
+			<s:Spacer width="150"/>
 			<s:Label id="txtDuration"/>
 		</mx:HBox>
-	</mx:VBox>
+		<s:Spacer height="50"/>
+		<s:Label text="Larger radius produces more accurate result but impacts performance."/>
+			</mx:VBox>
 </s:Application>
