@@ -21,21 +21,24 @@ package com.ctyeung.focusStacking
 		protected var height:int;			
 		protected var bmdDes:BitmapData;		// output destination image
 		protected var listImages:Array;			// input images
+		protected var radius:int = 7;			// derivative radius
 		
 		public function FocusStack() {
 		}
 		
-		public function apply(listImages:Array)	// [in] array of images
+		public function apply(listImages:Array,	// [in] array of images
+							 radius:int)
 							 :BitmapData {		// [out] focused image
 			
 			if(!validate(listImages)) 
 				return null;
 			
+			this.radius = radius;
 			this.listImages = listImages;
 			bmdDes = (listImages[0] as BitmapData).clone();
 			
-			for(var y:int=2; y<height-2; y++) {
-				for(var x:int=2; x<width-2; x++) {
+			for(var y:int=radius; y<height-radius; y++) {
+				for(var x:int=radius; x<width-radius; x++) {
 					var listDelta:Array = [];
 					for(var i:int=0; i<listImages.length; i++) {
 						var delta:Number = derivative(listImages[i], x, y);
@@ -74,14 +77,14 @@ package com.ctyeung.focusStacking
 									  y:int)
 									  :Number {				// [out] derivative 3x3 magnitude
 			var delta:Number=0;
-			for(var j:int=y-2; j<y+2; j++) {
-				for(var i:int=x-2; i<x+2; i++) {
+			var clr:Number = Number(bmd.getPixel(x,y));
+			for(var j:int=y-radius; j<y+radius; j++) {
+				for(var i:int=x-radius; i<x+radius; i++) {
 					if(i!=x&&j!=y)
-						delta += Number(bmd.getPixel(i,j))*-1;
+						delta += magnitude(Number(bmd.getPixel(i,j))*-1+clr);
 				}
 			}
-			delta += bmd.getPixel(x,y)*8;
-			return magnitude(delta);
+			return delta;
 		}
 		
 		protected function initHistogram(length:int)		// [in] number of images input
@@ -115,8 +118,7 @@ package com.ctyeung.focusStacking
 				var current:Number = listDelta[i];
 				for(var j:int=0; j<listDelta.length; j++) {
 					if(i!=j) {
-						var delta:Number = listDelta[j];
-						if(current>=delta)
+						if(current>listDelta[j])
 							histogram[i]++;
 					}
 				}
