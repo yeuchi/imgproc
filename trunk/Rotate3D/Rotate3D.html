@@ -1,0 +1,132 @@
+<!DOCTYPPE html>
+<html lang="en">
+<!--
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+-->
+
+<!-- Module: 		Rotate3D
+
+     Description:	basic 3d exercise
+     
+     References:
+     	load image 	http://www.html5canvastutorials.com/advanced/html5-canvas-load-image-data-url/
+        pixels		http://beej.us/blog/2010/02/html5s-canvas-part-ii-pixel-manipulation/
+        
+     Author:		C.T. Yeung
+  -->
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+
+	<LINK REL=StyleSheet HREF="default.css" TYPE="text/css"> 
+  	<script src="http://code.jquery.com/jquery-latest.js"></script>
+  	<script>
+	$(document).ready(function() {			
+		// load image
+		var imgObj = new Image();
+		imgObj.onload = function(){
+			var canvasSrc = document.getElementById("myPixels");
+			var contextSrc = canvasSrc.getContext("2d");
+			contextSrc.drawImage(this, 0,0);
+		};
+	 	imgObj.src = "http://localhost/Rotate3D/thumb2.jpg";
+	
+		// spread change
+		$("#slider").change(function() {
+			var mag = $(this).val()/10.0;
+			// source canvas
+			var canvasSrc = document.getElementById("myPixels");
+			var contextSrc = canvasSrc.getContext("2d");
+			var dataSrc = contextSrc.getImageData(0,0,canvasSrc.width, canvasSrc.height);
+			
+			// destination canvas
+			var canvasDes = document.getElementById("myCanvas");
+			var contextDes = canvasDes.getContext("2d");
+			var dataDes = contextDes.createImageData(canvasDes.width, canvasDes.height);
+		
+			var sttX = (dataDes.width - dataSrc.width*mag)/2;			
+			var sttY = (dataDes.height - dataSrc.height*mag)/2;
+			contextDes.clearRect(0,0,canvasDes.width, canvasDes.height);				
+			
+			for (var y=0; y<dataSrc.height; y++) {
+				var i = y*dataSrc.width*4;
+				var ii = parseInt(sttY + y*mag)*dataDes.width*4;
+				for(var x=0; x<dataSrc.width; x++) {
+					var d = parseInt(sttX+x*mag)*4+ii;
+					//var d = i;
+					dataDes.data[d] = dataSrc.data[i];		// R
+					dataDes.data[d+1] = dataSrc.data[i+1];	// G
+					dataDes.data[d+2] = dataSrc.data[i+2];	// B
+					dataDes.data[d+3] = dataSrc.data[i+3];	// A
+					i += 4;
+				}
+			}
+			contextDes.putImageData(dataDes, 0, 0);
+		});
+		
+		// rotation controls
+		$("#imgLeft").click(function() {
+			
+		});
+		
+		$("#imgRight").click(function() {
+		});
+		
+		$("#imgUp").click(function() {
+		});
+		
+		$("#imgDown").click(function() {
+		});
+  	});
+	</script>
+</head>
+
+<body style="position:relative">
+
+<canvas id="myPixels" width="100" height="100">
+    HTML5 canvas failed to load.
+</canvas>
+<canvas id="myCanvas" width="400" height="400">
+    HTML5 canvas failed to load.
+</canvas>
+
+<div id="divSlider">
+	<input id="slider" type="range" value=0  min="1" max="40" step="1" />
+</div>
+
+<div id="divUp">
+    <img id="imgUp" class="img" src="arrowUp.png" 
+    onMouseOver="src='arrowUpOver.png'"
+    onMouseOut="src='arrowUp.png'"/>
+</div>
+
+<div id="divDown">
+	<img id="imgDown" class="img" src="arrowDown.png"
+    onMouseOver="src='arrowDownOver.png'"
+    onMouseOut="src='arrowDown.png'"/>
+</div>
+
+<div id="divLeft">
+	<img id="imgLeft" class="img" src="arrowLeft.png"
+    onMouseOver="src='arrowLeftOver.png'"
+    onMouseOut="src='arrowLeft.png'"/>
+</div>
+
+<div id="divRight">
+	<img id="imgRight" class="img" src="arrowRight.png"
+    onMouseOver="src='arrowRightOver.png'"
+    onMouseOut="src='arrowRight.png'"/>
+</div>
+
+<div id="controls" 
+	style="top:50; left:100; 
+    position:relative;" >
+<p> Hello 3D world ! <br>
+This is a basic 3D rotation exercise.</p>
+
+</div>
+
+</body>
+</html>
