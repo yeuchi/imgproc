@@ -1,0 +1,46 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+canvas {
+        border: 1px dashed red;
+        /*background-color: #DDD;
+        border-radius: 30px;
+        opacity: 1;*/
+    }
+	
+#button {
+	width: 200px;
+}
+
+#divSlider {
+	position:relative; 
+	top:10; 
+	left:380;
+}
+
+#divUp {
+	position:relative; 
+	top:30; 
+	left:300;
+}
+
+#divDown {
+	position:relative; 
+	top:70; 
+	left:300;
+}
+
+#divLeft {
+	position:relative; 
+	top:0; 
+	left:260;
+}
+
+#divRight {
+	position:relative; 
+	top:-33; 
+	left:340;
+}
+
+
