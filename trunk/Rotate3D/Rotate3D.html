@@ -13,6 +13,8 @@
      	load image 	http://www.html5canvastutorials.com/advanced/html5-canvas-load-image-data-url/
         pixels		http://beej.us/blog/2010/02/html5s-canvas-part-ii-pixel-manipulation/
         
+        3D Computer Graphics - 3rd Edition by Alan Watt pg. 5
+        
      Author:		C.T. Yeung
   -->
 
@@ -23,7 +25,12 @@
 	<LINK REL=StyleSheet HREF="default.css" TYPE="text/css"> 
   	<script src="http://code.jquery.com/jquery-latest.js"></script>
   	<script>
-	$(document).ready(function() {			
+	$(document).ready(function() {
+		var PI = 3.14159265;
+		var rX = 0.0;
+		var rY = 0.0;
+		var rZ = 0.0;
+		
 		// load image
 		var imgObj = new Image();
 		imgObj.onload = function(){
@@ -35,7 +42,48 @@
 	
 		// spread change
 		$("#slider").change(function() {
-			var mag = $(this).val()/10.0;
+			applyRotation();
+		});
+		
+		// rotation controls
+		$("#imgLeft").click(function() {
+			rY -= 5.0;
+			if(rY<0)
+				rY = 360+rY;
+			
+			$("#ypos").html("Rotate Y: "+rY);
+			applyRotation();
+		});
+		
+		$("#imgRight").click(function() {
+			rY += 5.0;
+			if(rY>360)
+				rY -= 360;
+			
+			$("#ypos").html("Rotate Y: "+rY);
+			applyRotation();
+		});
+		
+		$("#imgUp").click(function() {
+			rX -= 5.0;
+			if(rX<0)
+				rX = 360+rX;
+			
+			$("#xpos").html("Rotate X: "+rX);
+			applyRotation();
+		});
+		
+		$("#imgDown").click(function() {
+			rX += 5.0;
+			if(rX>360)
+				rX -= 360;
+			
+			$("#xpos").html("Rotate X: "+rX);	
+			applyRotation();
+		});
+		
+		function applyRotation() {
+			var mag = $(slider).val()/10.0;
 			// source canvas
 			var canvasSrc = document.getElementById("myPixels");
 			var contextSrc = canvasSrc.getContext("2d");
@@ -50,35 +98,53 @@
 			var sttY = (dataDes.height - dataSrc.height*mag)/2;
 			contextDes.clearRect(0,0,canvasDes.width, canvasDes.height);				
 			
+			var centerX = dataDes.width/2;
+			var centerY = dataDes.height/2;
+			
 			for (var y=0; y<dataSrc.height; y++) {
-				var i = y*dataSrc.width*4;
-				var ii = parseInt(sttY + y*mag)*dataDes.width*4;
+				var i = y*dataSrc.width*4;			
 				for(var x=0; x<dataSrc.width; x++) {
-					var d = parseInt(sttX+x*mag)*4+ii;
-					//var d = i;
-					dataDes.data[d] = dataSrc.data[i];		// R
-					dataDes.data[d+1] = dataSrc.data[i+1];	// G
-					dataDes.data[d+2] = dataSrc.data[i+2];	// B
-					dataDes.data[d+3] = dataSrc.data[i+3];	// A
+					
+					// cartesian co-ordinates revolve around centroid
+					var xfc = sttX+x*mag-centerX;
+					var yfc = sttY+y*mag-centerY;
+					
+					// rotation here
+					var radX = PI / 180.0 * rX;
+					var dy = Math.cos(radX)*yfc;
+					var dz = Math.sin(radX)*dy;
+					
+					var radY = PI / 180.0 * rY;
+					var dx = Math.cos(radY)*xfc+Math.sin(radY)*dz;
+					
+					// calculate index
+					var Y = (parseInt(dy)+centerY)*dataDes.width*4;
+					var XY = (parseInt(dx)+centerX)*4+Y;
+					
+					dataDes.data[XY] = dataSrc.data[i];		// R
+					dataDes.data[XY+1] = dataSrc.data[i+1];	// G
+					dataDes.data[XY+2] = dataSrc.data[i+2];	// B
+					dataDes.data[XY+3] = dataSrc.data[i+3];	// A
 					i += 4;
 				}
 			}
 			contextDes.putImageData(dataDes, 0, 0);
-		});
+		}
 		
-		// rotation controls
-		$("#imgLeft").click(function() {
+		function rotateXY(x, y)
+		{
+			var radX = PI / 180.0 * rX;
+			y = Math.cos(radX)*y-Math.sin(radX)*z;
+			var z = Math.sin(radX)*y+Math.cos(radX)*z;
 			
-		});
-		
-		$("#imgRight").click(function() {
-		});
-		
-		$("#imgUp").click(function() {
-		});
-		
-		$("#imgDown").click(function() {
-		});
+			var radY = PI / 180.0 * rY;
+			x = Math.cos(radY)*x+Math.sin(radY)*z;
+			
+			var pt = new Array();
+			pt.push(x);
+			pt.push(y);
+			return pt;
+		}
   	});
 	</script>
 </head>
@@ -121,10 +187,15 @@
 </div>
 
 <div id="controls" 
-	style="top:50; left:100; 
+	style="top:-550; left:520; 
     position:relative;" >
 <p> Hello 3D world ! <br>
-This is a basic 3D rotation exercise.</p>
+This is a basic 3D rotation and pixel index exercise.<br>
+(1) Use slider (Chrome) to position pixels spacing.<br>
+(2) Click on an arrow to rotate 5 degrees increment.<br><br>
+Reference: 3D Computer Graphics - 3rd Edition by Alan Watt, pg. 5<br></p>
+<p id="xpos"> Rotate X: </p>
+<p id="ypos"> Rotate Y: </p>
 
 </div>
 
