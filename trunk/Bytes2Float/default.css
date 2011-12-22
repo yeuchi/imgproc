@@ -1,0 +1,25 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+
+#divIn {	
+	top:50; 
+	left:100; 
+    position:relative;
+}
+
+#divIn2 {	
+	top:100; 
+	left:100; 
+    position:relative;
+}
+
+#divOut {	
+	top:150; 
+	left:100; 
+    position:relative;
+}
+
+
+

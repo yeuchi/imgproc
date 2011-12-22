@@ -1,0 +1,143 @@
+<!DOCTYPPE html>
+<html lang="en">
+
+<!--
+	Module:			BytesToFloat.html
+    
+    Description:	convert 4 bytes to float IEEE754
+    				-apparently this is not available in javascript libraries nor opensource.
+
+	References:
+    	binary-float:	http://en.wikipedia.org/wiki/Floating_point
+        binary-double:	http://stackoverflow.com/questions/8361086/convert-byte-array-to-numbers-in-javascript
+        test app:		http://www.h-schmidt.net/FloatApplet/IEEE754.html
+        tutorial:		http://kipirvine.com/asm/workbook/floating_tut.htm
+        
+    Author(s):		C.T. Yeung
+    
+    History:		
+    21Dec11			1st crack at this.								cty
+-->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Bytes 2 Float</title>
+
+	<LINK REL=StyleSheet HREF="default.css" TYPE="text/css"> 
+  	<script src="http://code.jquery.com/jquery-latest.js"></script>   
+  	<script>
+	$(document).ready(function() {
+		
+		// decode from binary to float
+		$("#btnCal2").click(function() {
+			var str = $("#bytes").val();
+			var byteArray = packBytes(str);
+			var num = decodeFloat(byteArray);
+			$("#num").val(num);
+		});
+		
+		$("#btnCal").click(function() {
+			var str = $("#byte0").val();
+			str += $("#byte1").val();
+			str += $("#byte2").val();
+			var byteArray = packBytes(str);
+			var num = decodeFloat(byteArray);
+			$("#num").val(num);
+		});
+		
+		function packBytes(str) {
+			var BYTE_WID = 8;
+			while(str.length<BYTE_WID*4)				// must be length of a float, 32 bit
+				str += "0";
+				
+			var byteArray = [0,0,0,0];
+			var i;
+			for(i=0; i<4; i++) {
+				var mask = 0x80;
+				for(var j=0; j<BYTE_WID; j++) {
+					var index = i*BYTE_WID+j;
+					var char = str.substring(index, index+1);
+					if('1' == char)
+						byteArray[i] += mask;			
+					mask >>= 1;
+				}
+			}
+			return byteArray;
+		}
+		
+		function decodeFloat(byteArray) {
+			var sign = parseSign(byteArray);
+			var exponent = parseExponent(byteArray);
+			var mantissa = parseSignificand(byteArray);
+			var num = sign * exponent * mantissa;
+			return num;
+		};
+		
+		function parseSign(byteArray) {
+			if(byteArray[0]&0x80)
+				return -1;
+			return 1;
+		}
+		
+		function parseExponent(byteArray) {
+			var ex = (byteArray[0] & 0x7F);
+			ex = ex << 1;
+			
+			if(0!=(byteArray[1] & 0x80))
+				ex += 0x01;
+			
+			ex = Math.pow(2, ex-127);
+			return ex;
+		}
+	
+		function parseSignificand(byteArray) {
+			var num=0;
+			var bit;
+			var mask = 0x40;
+			for(var i=1; i<8; i++) {
+				if(0!=(byteArray[1]&mask)) 
+					num += 1 / Math.pow(2, i);
+				mask = mask >> 1;
+			}
+			mask = 0x80;
+			for(var j=0; j<8; j++) {
+				if(0!=(byteArray[2]&mask))
+					num += 1 / Math.pow(2, j+8);
+				mask = mask >> 1;
+			}
+			mask = 0x80;
+			for(var k=0; k<8; k++) {
+				if(0!=(byteArray[2]&mask))
+					num += 1 / Math.pow(2, k+16);
+				mask = mask >> 1;
+			}
+			return (num+1);
+		}
+	});
+	</script>
+
+</head>
+
+<body style="position:relative">
+
+    <div id="divComment">
+    	<p>Exercise: byte array to IEEE754 32-bit float</p>
+    </div>
+
+    <div id="divIn">
+        Sign (1):<input type="text" maxlength="1" size="2" id="byte0" value="1" />
+        Exponent (8):<input type="text" maxlength="8" size="9" id="byte1" value="011111111" />
+        mantissa (23):<input type="text" maxlength="23" size="25" id="byte2" value="10000000000000000000000" />
+        <input type="submit" id="btnCal" value="decode"/>
+    </div>
+    
+    <div id="divIn2">
+    	or 32 bit<input type="text" maxlength="32" size="35" id="bytes" value="00111111100000000000000000000000" />
+        <input type="submit" id="btnCal2" value="decode"/>
+    </div>
+
+    <div id="divOut">
+		Number: <input type="text" maxlength="15" size="15" id="num" value="0" />
+    </div>
+    
+</body>
+</html>
