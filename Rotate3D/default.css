@@ -1,46 +1,36 @@
-@charset "utf-8";
-/* CSS Document */
-
-
 canvas {
-        border: 1px dashed red;
-        /*background-color: #DDD;
-        border-radius: 30px;
-        opacity: 1;*/
-    }
-	
+    border: 1px dashed red;
+}
 #button {
-	width: 200px;
+    width: 200px;
 }
-
 #divSlider {
-	position:relative; 
-	top:10; 
-	left:380;
+    left: 530px;
+    position: absolute;
+    top: 320px;
 }
-
 #divUp {
-	position:relative; 
-	top:30; 
-	left:300;
+    left: 280px;
+    position: absolute;
+    top: 430px;
 }
-
 #divDown {
-	position:relative; 
-	top:70; 
-	left:300;
+    left: 280px;
+    position: absolute;
+    top: 500px;
 }
-
 #divLeft {
-	position:relative; 
-	top:0; 
-	left:260;
+    left: 245px;
+    position: absolute;
+    top: 465px;
 }
-
 #divRight {
-	position:relative; 
-	top:-33; 
-	left:340;
+    left: 315px;
+    position: absolute;
+    top: 465px;
 }
-
-
+#controls {
+    left: 530px;
+    position: absolute;
+    top: -350px;
+}
