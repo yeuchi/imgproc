@@ -8,6 +8,7 @@
   #	Reference:
   # 	BMP.js		http://devongovett.github.com/bmp.js/
   #		OBJ specs	http://www.martinreddy.net/gfx/3d/OBJ.spec
+  #		article		http://paulbourke.net/dataformats/obj/
   #      
   # Author(s):		Devon Govett provide a bmp decoding example.
   # 				C.T. Yeung modify to decode OBJ.
@@ -61,9 +62,6 @@
 			this.vertices = new Array();
 		}
 		
-		OBJ.prototype.readVertex = function() {
-		};
-		
 		// return true/false for finding/loading vertex
 		OBJ.prototype.readVertex = function() {
 			if(this.data.length<=this.pos)			// over run !!! error condition
@@ -103,13 +101,14 @@
 				return null;
 
 			// read a line
-			var endPos = this.findEndPos(this.pos);	
+			var endPos = this.findEndPos(this.pos);
 			if(-1==sttPos)
 				return null;
 			
 			// convert 2 a string
 			var vString = this.bin2String(this.pos, endPos);
 			var sttPos = vString.indexOf("f ");
+			this.pos = endPos+2;
 			
 			if(-1==sttPos)
 				return null;
@@ -117,11 +116,6 @@
 			// parse 3 face items	
 			vString = vString.substr(sttPos+2, vString.length);
 			var face = vString.split(" ");
-			this.pos = endPos+2;
-			
-			if(3!=face.length)
-				return null;
-			
 			return face;
 		};
 		
@@ -169,8 +163,6 @@
 			while(vertexFound) 
 				vertexFound = this.readVertex();
 			
-			if(!this.vertices.length)
-				return 0;
 			return this.vertices.length;
 		};
 											   
@@ -199,10 +191,11 @@
 		
 		OBJ.prototype.getVertexIndex = function(str) {
 			var pos = str.indexOf("/");
-			if(-1==pos)
-				return -1;
-				
-			var numStr = str.substr(0, pos);
+			var numStr = str;
+			
+			if(pos>0)
+				numStr = str.substr(0, pos);
+			
 			var num = Number(numStr);
 			return num;
 		}
@@ -228,31 +221,36 @@
 			while(null!=face) {
 				var vtx0 = [0,0,0];
 				var vtx1;
-				for(j=0; j<3; j++) {  
+				if(face.length<3)										// must be at least a triangle
+					return false;
+				
+				// draw 
+				for(j=0; j<face.length; j++) {  
 					// retrieve vertices
 					var vIndex = this.getVertexIndex(face[j]);
-					if(vIndex>this.vertices.length)
+					if(vIndex>this.vertices.length||vIndex<0)
 						return false;
 					
-					var vtx1 = this.vertices[vIndex];
+					var vtx1 = this.vertices[--vIndex];
 				
-					this.rotate(vtx1, mag, radX, radY, radZ);
+					// rotation Y
+					vtx1[1] = Math.cos(radX)*vtx1[1]-Math.sin(radX)*vtx1[2];
 							  
 					// draw 2 lengths of a triangle
 					if(j==0) {
-						context.moveTo(vtx1[0]+ offX, 
-									   vtx1[1]+ offY);				// move to 1st triangle corner
+						context.moveTo(vtx1[0]*mag+ offX, 
+									   vtx1[1]*mag+ offY);				// move to 1st triangle corner
 						vtx0[0] = vtx1[0];
 						vtx0[1] = vtx1[1];
 						vtx0[2] = vtx1[2];
 					}
 					else 
-						context.lineTo(vtx1[0]+ offX, 
-									   vtx1[1]+ offY);				// render only (x,y)
+						context.lineTo(vtx1[0]*mag+ offX, 
+									   vtx1[1]*mag+ offY);				// render only (x,y)
 				} 
 				// complete triangle
-				context.lineTo(vtx0[0]+ offX, 
-							   vtx0[1]+ offY);						// complete triangle
+				context.lineTo(vtx0[0]*mag+ offX, 
+							   vtx0[1]*mag+ offY);						// complete triangle
 				
 				// render on canvase
 				context.stroke();

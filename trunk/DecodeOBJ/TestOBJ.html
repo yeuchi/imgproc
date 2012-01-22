@@ -88,7 +88,7 @@
 				if(0 < instance.decode()) 
 					numTriangles = instance.drawWireFrame(context, canvas.width, canvas.height, mag,rX, rY, rZ);
 				
-				$("#numTriangles").text("Number of triangles: " + numTriangles);
+				//$("#faceCount").html("Number of triangles: " + numTriangles);
 			}
 		});
     </script>
@@ -126,13 +126,11 @@
     (1) Magnification (slider range: 0 - 200 in Chrome).<br>
     (2) Click on an arrow to rotate 10 degrees increment.<br><br>
     </p>
-    <p id="numTriangles"/>
-    
+
     <select id="combo">
       <option value="monkey_vtn.obj">monkey</option>
-      <option value="torus_vtn.obj">torus</option>
-      <option value="cylinder_vtn_200v.obj">cylinder</option>
-      <option value="cone_vtn_100v.obj">cone</option>
+      <option value="shuttle.obj">shuttle</option>
+      <option value="lamp.obj">lamp</option>
 	</select> 
     <p id="xpos"> Rotate X: </p>
     
