@@ -15,7 +15,8 @@
   #  
   # History:		
   # 21Jan12			able to decode vertices and face data... but not rendering correctly... buggy
-  #					
+  #	22Jan12			able to render monkey_vtn.obj.  decode only vertices and face info.	
+  #					able to render the same capability as STL file decoder... next to look at texture, curves, etc.
   #
   # MIT LICENSE
   # Copyright (c) 2012 CT Yeung
@@ -59,66 +60,37 @@
 			this.NUM_FACE = 102;
 		
 			this.data = data;
-			this.vertices = new Array();
+			this.list_v = new Array();
+			this.list_f = new Array();
 		}
 		
 		// return true/false for finding/loading vertex
-		OBJ.prototype.readVertex = function() {
-			if(this.data.length<=this.pos)			// over run !!! error condition
-				return false;
-
-			// read a line
-			var endPos = this.findEndPos(this.pos);	
-			if(-1==sttPos)
-				return -false;
-			
-			// convert 2 a string
-			var vString = this.bin2String(this.pos, endPos);
-			var sttPos = vString.indexOf("v ");
-			
-			if(-1==sttPos)
-				return false;
-				
-			// parse 3 number string	
-			vString = vString.substr(sttPos+2, vString.length);
+		OBJ.prototype.readVertex = function(index) {
+			var VERTEX_TYPE_LEN = 2;
+			var sttPos = this.list_v[index];
+			var endPos = this.findEndPos(sttPos);		// return EOF pos if not found
+			var vString = this.bin2String(sttPos+VERTEX_TYPE_LEN, endPos);
 			var list = vString.split(" ");
-			this.pos = endPos+2;
 			
-			if(3!=list.length)
-				return false;
-			
-			// do converstion of data to vertex (x,y,z)
-			var vertex = [0,0,0];
-			vertex[0] = Number(list[0]);
-			vertex[1] = Number(list[1]);
-			vertex[2] = Number(list[2]);
-			this.vertices.push(vertex);
-			return true;
+			if(list.length!=3&&list.length!=4)
+				return null;							// invalid vertex
+				
+			var vertex = new Array();
+			for(var i=0; i<list.length; i++) 
+				vertex.push(Number(list[i]));
+				
+			return vertex;
 		};
 		
-		OBJ.prototype.readFace = function() {
-			if(this.data.length<=this.pos)			// over run !!! error condition
-				return null;
-
-			// read a line
-			var endPos = this.findEndPos(this.pos);
-			if(-1==sttPos)
-				return null;
-			
-			// convert 2 a string
-			var vString = this.bin2String(this.pos, endPos);
-			var sttPos = vString.indexOf("f ");
-			this.pos = endPos+2;
-			
-			if(-1==sttPos)
-				return null;
-				
-			// parse 3 face items	
-			vString = vString.substr(sttPos+2, vString.length);
+		OBJ.prototype.readFace = function(index) {
+			var FACE_TYPE_LEN = 2;
+			var sttPos = this.list_f[index];
+			var endPos = this.findEndPos(sttPos);
+			var vString = this.bin2String(sttPos+FACE_TYPE_LEN, endPos);
 			var face = vString.split(" ");
 			return face;
 		};
-		
+
 		OBJ.prototype.bin2String = function(sttPos, endPos) {
 			var buf="";
 			for(var i=sttPos; i<endPos; i++) {
@@ -131,62 +103,13 @@
 		// return upon first non number, non dot, not space
 		OBJ.prototype.findEndPos = function(stt) {
 			var i = stt;
-			while(i<this.data.length) {
+			while(i<(this.data.length-1)) {
 				// seek linefeed
 				if(this.data[i]==10)
-					return i-1;
+					return i;
 				i++;
 			}			
-			return -1;
-		};
-		
-		OBJ.prototype.find1stInstance = function(charNum) {
-			var i = 0;
-			while(i<this.data.length) {
-				if(10==this.data[i++])		// linefeed
-					if(charNum==this.data[i++])
-						if(32==this.data[i++])
-							return i-2;
-			}
-			return -1;
-		};
-		
-		// return number of faces found
-		OBJ.prototype.decode = function() {
-			this.vertices = new Array();
-			// read all vertices
-			this.pos = this.find1stInstance(this.NUM_VERTEX);
-			if(-1==this.pos)
-				return -1;
-			
-			var vertexFound = true;
-			while(vertexFound) 
-				vertexFound = this.readVertex();
-			
-			return this.vertices.length;
-		};
-											   
-		
-		OBJ.prototype.drawWireFrame = function(context,		// [in] canvas context 
-											   w, 			// [in] canvas width
-											   h, 			// [in] canvas height
-											   mag,			// [in] magnification
-											   rX,
-											   rY,
-											   rZ) {
-			// read all faces
-			this.pos = this.find1stInstance(this.NUM_FACE);
-			if(-1==this.pos)
-				return -1;
-			
-			// draw triangles
-			var numTriangles = 0;
-			while (this.pos<this.data.length) {	  
-				if(false==this.drawTriangles(context, w, h, mag, rX, rY, rZ))
-					return numTriangles;
-				numTriangles ++;
-			}
-			return numTriangles;
+			return this.data.length-1;
 		};
 		
 		OBJ.prototype.getVertexIndex = function(str) {
@@ -200,7 +123,8 @@
 			return num;
 		}
 		
-		OBJ.prototype.drawTriangles = function(context,		// [in] canvas context 
+		OBJ.prototype.drawTriangles = function(face,
+											   context,		// [in] canvas context 
 											   w, 			// [in] canvas width
 											   h, 			// [in] canvas height
 											   mag,			// [in] magnification
@@ -215,82 +139,113 @@
 			var radX = PI / 180.0 * rX;
 			var radY = PI / 180.0 * rY;
 			var radZ = PI / 180.0 * rZ;	
+						
+			var vtx0 = [0,0,0];
+			var vtx1;
+			if(face.length<3)										// must be at least a triangle
+				return false;
 			
-			
-			var face = this.readFace();
-			while(null!=face) {
-				var vtx0 = [0,0,0];
-				var vtx1;
-				if(face.length<3)										// must be at least a triangle
+			// draw 
+			for(j=0; j<face.length; j++) {  
+				// retrieve vertices
+				var vIndex = this.getVertexIndex(face[j])-1;
+				if(vIndex>=this.list_v.length||vIndex<0)
 					return false;
 				
-				// draw 
-				for(j=0; j<face.length; j++) {  
-					// retrieve vertices
-					var vIndex = this.getVertexIndex(face[j]);
-					if(vIndex>this.vertices.length||vIndex<0)
-						return false;
-					
-					var vtx1 = this.vertices[--vIndex];
-				
-					// rotation Y
-					vtx1[1] = Math.cos(radX)*vtx1[1]-Math.sin(radX)*vtx1[2];
-							  
-					// draw 2 lengths of a triangle
-					if(j==0) {
-						context.moveTo(vtx1[0]*mag+ offX, 
-									   vtx1[1]*mag+ offY);				// move to 1st triangle corner
-						vtx0[0] = vtx1[0];
-						vtx0[1] = vtx1[1];
-						vtx0[2] = vtx1[2];
-					}
-					else 
-						context.lineTo(vtx1[0]*mag+ offX, 
-									   vtx1[1]*mag+ offY);				// render only (x,y)
-				} 
-				// complete triangle
-				context.lineTo(vtx0[0]*mag+ offX, 
-							   vtx0[1]*mag+ offY);						// complete triangle
-				
-				// render on canvase
-				context.stroke();
-				context.closePath();
-				
-				// read next face
-				face = this.readFace();
-			}
+				// retrieve vertex
+				var vtx1 = this.readVertex(vIndex);
+			
+				// rotation Y
+				vtx1[1] = Math.cos(radX)*vtx1[1]-Math.sin(radX)*vtx1[2];
+						  
+				// draw 2 lengths of a triangle
+				if(j==0) {
+					context.moveTo(vtx1[0]*mag+ offX, 
+								   vtx1[1]*mag+ offY);				// move to 1st triangle corner
+					vtx0[0] = vtx1[0];
+					vtx0[1] = vtx1[1];
+					vtx0[2] = vtx1[2];
+				}
+				else 
+					context.lineTo(vtx1[0]*mag+ offX, 
+								   vtx1[1]*mag+ offY);				// render only (x,y)
+			} 
+			// complete triangle
+			context.lineTo(vtx0[0]*mag+ offX, 
+						   vtx0[1]*mag+ offY);						// complete triangle
+			
+			// render on canvase
+			context.stroke();
+			context.closePath();
 			return true;
 		};
 		
-		OBJ.prototype.rotate = function (vtx,		// [in] vertexies (x,y,z)
-										 mag,		// [in] magnification
-										 radX, 		// [in] rotation amount in radian
-										 radY, 
-										 radZ){
-			var x = vtx[0];
-			var y = vtx[1];
-			var z = vtx[2];
-			
-			var dx, dy, dz;
-			
-			// rotate X
-			dy = Math.cos(radX)*y-Math.sin(radX)*z;
-			dz = Math.sin(radX)*y+Math.cos(radX)*z;
-			
-			// rotate Y
-			z = dz;
-			dx = Math.cos(radY)*x+Math.sin(radY)*z;
-			dz = -Math.sin(radY)*x+Math.cos(radY)*z;
-			
-			// rotate Z
-			y = dy;
-			dx = Math.cos(radZ)*x-Math.sin(radZ)*y;
-			dy = Math.sin(radZ)*x+Math.cos(radZ)*y;
+		OBJ.prototype.getLineType = function(sttPos, endPos) {
+			var str = "";
+			for(var i=sttPos; i<endPos; i++) {
+				var char = String.fromCharCode(this.data[i]);	
+				if(char==' ')
+					return str;
+				else
+					str += char;
+			}
+		};
+		
+		OBJ.prototype.categorize = function() {
+			this.pos = 0;								// begin of a line
+			this.list_v = new Array();
+			this.list_vt = new Array();
+			this.list_vn = new Array();
+			this.list_f = new Array();
+			this.list_s = new Array();
+			// parse entire file info.
+			while(this.pos < this.data.length-1) {
+				var endPos = this.findEndPos(this.pos);
+				var type = this.getLineType(this.pos, endPos);
 				
-			// assign values
-			vtx[0] = dx * mag;
-			vtx[1] = dy * mag;
-			vtx[2] = dz * mag;
+				switch(type) {
+					case "v":
+					this.list_v.push(this.pos);
+					break;
+					
+					case "vt":
+					this.list_vt.push(this.pos);
+					break;
+					
+					case "vn":
+					this.list_vn.push(this.pos);
+					break;
+					
+					case "f":
+					this.list_f.push(this.pos);
+					break;
+					
+					case "s":
+					this.list_s.push(this.pos);
+					break;
+					
+					default:
+				}
+				this.pos = ++endPos;
+			}			
+			return this.list_f.length;
+		};
+		
+		OBJ.prototype.drawWireFrame = function(context,		// [in] canvas context 
+											   w, 			// [in] canvas width
+											   h, 			// [in] canvas height
+											   mag,			// [in] magnification
+											   rX,
+											   rY,
+											   rZ) {
+			this.pos = 0;
+			for(var i=0; i<this.list_f.length; i++) {
+				var face = this.readFace(i);
+				
+				if(!this.drawTriangles(face, context, w, h, mag, rX, rY, rZ))
+					return -1;
+			}
+			return this.list_f.length;
 		};
 		
 		return OBJ;
