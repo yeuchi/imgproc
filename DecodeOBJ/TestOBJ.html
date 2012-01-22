@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+	Module:			DecodeOBJ.html
+    
+    Description:	decode OBJ 3D file
+    				extending work of Devon Govett from bmp.js
+    
+	Reference:
+    	BMP.js		http://devongovett.github.com/bmp.js/
+        STL sample:	http://www.thingiverse.com/thing:9656  (I think?)
+        OBJ spec:	http://www.martinreddy.net/gfx/3d/OBJ.spec
+        
+    Author(s):		Devon Govett provide a bmp decoding example.
+    				C.T. Yeung modify to decode OBJ.
+    
+    History:		
+-->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>OBJ decoder</title>
+
+	<LINK REL=StyleSheet HREF="default.css" TYPE="text/css"> 
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+	<script src="OBJ.js"></script>
+    <script>
+		$(document).ready(function() {
+			var canvas = document.getElementById("myCanvas");
+			var context = canvas.getContext("2d");
+			var rX = 270;
+			var rY = 0;
+			var rZ = 0;
+			var STEP = 10;
+			var instance;
+			
+			loadOBJ();
+			
+			$("#slider").change(function() {
+				if(null!=instance)
+					update();
+			});
+			
+			// rotation controls
+			$("#imgLeft").click(function() {
+				rX -= STEP;
+				if(rX<0)
+					rX = 360+rX;
+				
+				$("#xpos").html("Rotate X: "+rX);
+				if(null==instance)
+					loadOBJ();
+				else
+					update();
+			});
+			
+			$("#imgRight").click(function() {
+				rX += STEP;
+				if(rX>360)
+					rX -= 360;
+				
+				$("#xpos").html("Rotate X: "+rX);
+				if(null==instance)
+					loadOBJ();
+				else
+					update();
+			});
+			
+			$("#combo").change(function() {
+				loadOBJ();
+			});
+			
+			function loadOBJ() {
+				var url = "asset/" + $("#combo").val();
+				OBJ.load(url, render);
+			}
+			
+			function render(obj) {
+				instance = obj;
+				update();
+			}
+			
+			function update() {	
+				var mag = $("#slider").val();
+				context.clearRect(0,0,canvas.width, canvas.height);
+				context = canvas.getContext('2d');
+				context.strokeStyle = 'black';
+				var numTriangles = 0;
+				if(0 < instance.decode()) 
+					numTriangles = instance.drawWireFrame(context, canvas.width, canvas.height, mag,rX, rY, rZ);
+				
+				$("#numTriangles").text("Number of triangles: " + numTriangles);
+			}
+		});
+    </script>
+</head>
+
+<body style="position:relative">
+<div id="divCanvas">
+    <canvas id="myCanvas" width="400" height="400">
+        HTML5 canvas failed to load.
+    </canvas>
+</div>
+
+<div id="divLeft">
+	<img id="imgLeft" class="img" src="asset/arrowLeft.png"
+    onMouseOver="src='asset/arrowLeftOver.png'"
+    onMouseOut="src='asset/arrowLeft.png'"/>
+</div>
+
+<div id="divRight">
+	<img id="imgRight" class="img" src="asset/arrowRight.png"
+    onMouseOver="src='asset/arrowRightOver.png'"
+    onMouseOut="src='asset/arrowRight.png'"/>
+</div>
+
+<div id="divControls">
+    <p> Javascript-OBJ loader<br>
+    <br>
+    Reference: <br>
+    (1)3D Computer Graphics - 3rd Edition by Alan Watt, pg. 5<br>
+    (2)<a href="http://en.wikipedia.org/wiki/Wavefront_.obj_file">OBJ specification</a><br>
+    (3)<a href="http://devongovett.github.com/bmp.js/">Devon Govett's bmp.js</a><br>
+    (4)<a href="http://www.thingiverse.com/thing:9656">sample models</a><br>
+    <br>
+    Controls:<br>
+    (1) Magnification (slider range: 0 - 200 in Chrome).<br>
+    (2) Click on an arrow to rotate 10 degrees increment.<br><br>
+    </p>
+    <p id="numTriangles"/>
+    
+    <select id="combo">
+      <option value="monkey_vtn.obj">monkey</option>
+      <option value="torus_vtn.obj">torus</option>
+      <option value="cylinder_vtn_200v.obj">cylinder</option>
+      <option value="cone_vtn_100v.obj">cone</option>
+	</select> 
+    <p id="xpos"> Rotate X: </p>
+    
+	Magnification: <input id="slider" type="range" value=100  min="1" max="200" step="10" /><br>
+    
+    <br>
+</div>
+
+</body>
+</html>
