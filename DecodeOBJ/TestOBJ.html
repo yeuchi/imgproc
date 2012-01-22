@@ -91,7 +91,7 @@
 				var numTriangles = 0;
 				var numTriangles = instance.categorize();
 				instance.drawWireFrame(context, canvas.width, canvas.height, mag,rX, rY, rZ);
-				$("#faceCount").html("Number of triangles: " + numTriangles);
+				$("#faceCount").html("Face count: " + numTriangles);
 			}
 		});
     </script>
@@ -130,7 +130,7 @@
     (1) Magnification (slider range: 0 - 200 in Chrome).<br>
     (2) Click on an arrow to rotate 10 degrees increment.<br><br>
     </p>
-
+	<p id="faceCount"> Face count: </p>
     <select id="combo">
 		<option value="shuttle.obj">shuttle</option>
       	<option value="lamp.obj">lamp</option>
