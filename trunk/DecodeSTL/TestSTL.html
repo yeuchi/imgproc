@@ -36,6 +36,7 @@
 			var rZ = 0;
 			var STEP = 10;
 			var instance;
+			var bAuto = true;
 			
 			loadSTL();
 			
@@ -46,6 +47,7 @@
 			
 			// rotation controls
 			$("#imgLeft").click(function() {
+				bAuto = false;
 				rX -= STEP;
 				if(rX<0)
 					rX = 360+rX;
@@ -58,6 +60,7 @@
 			});
 			
 			$("#imgRight").click(function() {
+				bAuto = false;
 				rX += STEP;
 				if(rX>360)
 					rX -= 360;
@@ -90,6 +93,20 @@
 				context.strokeStyle = 'black';
 				instance.drawWireFrame(context, canvas.width, canvas.height, mag,rX, rY, rZ);
 			}
+			
+			setInterval(function() {
+				if(bAuto) {
+					rX += 2;
+					if(rX>360)
+						rX -= 360;
+					
+					$("#xpos").html("Rotate X: "+rX);
+					if(null==instance)
+						loadOBJ();
+					else
+						update();
+				}
+			}, 100);
 		});
     </script>
 </head>
