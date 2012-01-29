@@ -9,6 +9,7 @@
   # 	BMP.js		http://devongovett.github.com/bmp.js/
   #		OBJ specs	http://www.martinreddy.net/gfx/3d/OBJ.spec
   #		article		http://paulbourke.net/dataformats/obj/
+  #		samples		http://people.sc.fsu.edu/~jburkardt/data/obj/obj.html
   #      
   # Author(s):		Devon Govett provide a bmp decoding example.
   # 				C.T. Yeung modify to decode OBJ.
