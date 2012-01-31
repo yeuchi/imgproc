@@ -9,11 +9,14 @@
 	Reference:
     	BMP.js		http://devongovett.github.com/bmp.js/
         PLY spec.	http://paulbourke.net/dataformats/ply/
-        
+        tool:		http://www.cc.gatech.edu/projects/large_models/ply.html
+        samples:	http://people.sc.fsu.edu/~jburkardt/data/ply/ply.html
+  
     Author(s):		Devon Govett provide a bmp decoding example.
     				C.T. Yeung modify to decode PLY.
     
-    History:		
+    History:	
+    30Jan12			ASCII format functional (just barely)		cty	
 -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -136,20 +139,22 @@
     (1)3D Computer Graphics - 3rd Edition by Alan Watt, pg. 5<br>
     (2)<a href="http://paulbourke.net/dataformats/ply/">PLY specification</a><br>
     (3)<a href="http://devongovett.github.com/bmp.js/">Devon Govett's bmp.js</a><br>
+    (4)<a href="http://www.cc.gatech.edu/projects/large_models/ply.html">Tool</a><br>
+    (5)<a href="http://people.sc.fsu.edu/~jburkardt/data/ply/ply.html">Samples</a><br>
 
     <br>
     Controls:<br>
-    (1) Magnification (slider range: 0 - 200 in Chrome).<br>
+    (1) Magnification (slider range: 1 - 10 in Chrome).<br>
     (2) Click on an arrow to rotate 10 degrees increment.<br><br>
     </p>
 	<p id="faceCount"> Face count: </p>
     <select id="combo">
-		<option value="duck.ply">duck</option>
-      	<option value="knot.ply">knot</option>
+		<option value="dolphins.ply">dolphins</option>
+      	<option value="cow.ply">cow</option>
     </select> 
     <p id="xpos"> Rotate X: </p>
     
-	Magnification: <input id="slider" type="range" value=15  min="1" max="200" step="10" /><br>
+	Magnification: <input id="slider" type="range" value=5  min="1" max="10" step="10" /><br>
     
     <br>
 </div>
