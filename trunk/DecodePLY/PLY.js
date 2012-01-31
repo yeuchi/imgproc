@@ -193,6 +193,7 @@
 				else
 					str += char;
 			}
+			return str;
 		};
 		
 		// file must begin with "ply"
@@ -217,14 +218,14 @@
 			var str = this.bin2String(sttPos, endPos);
 			var pos = str.indexOf(this.VERTEX_TEXT);
 			if(pos>0) {
-				str = str.substr(sttPos+6, str.length);
+				str = str.substr(pos+6, str.length);
 				this.numVertices = parseInt(str);
 				return true;
 			}
 			else {
 				pos = str.indexOf(this.FACE_TEXT);
 				if (pos>0) {
-					str = str.substr(sttPos+6, str.length);
+					str = str.substr(pos+6, str.length);
 					this.numFaces = parseInt(str);
 					return true;
 				}
