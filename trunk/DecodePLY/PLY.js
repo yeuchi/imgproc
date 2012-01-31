@@ -84,14 +84,14 @@
 				return null;							// invalid vertex
 				
 			var vertex = new Array();
-			for(var i=0; i<list.length; i++) 
+			for(var i=0; i<3; i++) 
 				vertex.push(Number(list[i]));
 				
 			return vertex;
 		};
 		
 		PLY.prototype.readFace = function(index) {
-			var sttPos = this.listFaces[index];
+			var sttPos = this.listFace[index];
 			var endPos = this.findEndPos(sttPos);
 			var vString = this.bin2String(sttPos, endPos);
 			var list = vString.split(" ");
@@ -100,8 +100,10 @@
 				return null;							// numVertex, vertex1, vertex2, ...
 				
 			var face = new Array();
-			for(var i=0; i<list.length; i++) 
-				face.push(parseInt(list[i]));
+			for(var i=0; i<list.length; i++) {
+				if(list[i])
+					face.push(parseInt(list[i]));
+			}
 				
 			return face;
 		};
@@ -112,7 +114,7 @@
 				var char = this.data[i].toString();
 				buf += String.fromCharCode(char);
 			}
-			return buf;
+			return buf.replace('\r', '');
 		};
 		
 		// return upon first non number, non dot, not space
@@ -163,7 +165,7 @@
 				vtx1[1] = Math.cos(radX)*vtx1[1]-Math.sin(radX)*vtx1[2];
 						  
 				// draw 2 lengths of a triangle
-				if(j==0) {
+				if(j==1) {
 					context.moveTo(vtx1[0]*mag+ offX, 
 								   vtx1[1]*mag+ offY);				// move to 1st triangle corner
 					vtx0[0] = vtx1[0];
@@ -188,7 +190,7 @@
 			var str = "";
 			for(var i=sttPos; i<endPos; i++) {
 				var char = String.fromCharCode(this.data[i]);	
-				if(char==' ')
+				if(char==' '||char=='\r')
 					return str;
 				else
 					str += char;
@@ -225,7 +227,7 @@
 			else {
 				pos = str.indexOf(this.FACE_TEXT);
 				if (pos>0) {
-					str = str.substr(pos+6, str.length);
+					str = str.substr(pos+4, str.length);
 					this.numFaces = parseInt(str);
 					return true;
 				}
@@ -301,6 +303,7 @@
 				this.listVertex.push(this.pos);
 				this.pos = ++endPos;
 			}
+			return true;
 		};
 		
 		PLY.prototype.parseFacesPos = function() {
@@ -310,6 +313,7 @@
 				this.listFace.push(this.pos);
 				this.pos = ++endPos;
 			}
+			return true;
 		};
 		
 		PLY.prototype.parseEdgePos = function() {
@@ -319,6 +323,7 @@
 				this.listEdge.push(this.pos);
 				this.pos = ++endPos;
 			}
+			return true;
 		};
 		
 		PLY.prototype.decode = function() {
