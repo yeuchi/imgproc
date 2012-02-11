@@ -36,7 +36,7 @@
   
   var PLY;
   var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
-  var PI = 3.14159265;
+  //var PI = 3.14159265;
 	
 	PLY = (function() {
 		PLY.load = function(url, callback) {
@@ -127,63 +127,6 @@
 				i++;
 			}			
 			return this.data.length-1;
-		};
-		
-		PLY.prototype.drawTriangles = function(face,
-											   context,		// [in] canvas context 
-											   w, 			// [in] canvas width
-											   h, 			// [in] canvas height
-											   mag,			// [in] magnification
-											   rX,			// [in] amount of rotation X
-											   rY,			// [in] amount of rotation Y
-											   rZ){			// [in] amount of rotation Z
-			var offX = w/2;
-			var offY = h/2
-			context.beginPath();
-			
-			// convert rotation from degrees to radian
-			var radX = PI / 180.0 * rX;
-			var radY = PI / 180.0 * rY;
-			var radZ = PI / 180.0 * rZ;	
-						
-			var vtx0 = [0,0,0];
-			var vtx1;
-			if(face.length<4)										// must be at least a triangle
-				return false;
-			
-			// draw 
-			for(j=1; j<face.length; j++) {  
-				// retrieve vertices
-				var vIndex = face[j];
-				if(vIndex>=this.listVertex.length||vIndex<0)
-					return false;
-				
-				// retrieve vertex
-				var vtx1 = this.readVertex(vIndex);
-			
-				// rotation Y
-				vtx1[1] = Math.cos(radX)*vtx1[1]-Math.sin(radX)*vtx1[2];
-						  
-				// draw 2 lengths of a triangle
-				if(j==1) {
-					context.moveTo(vtx1[0]*mag+ offX, 
-								   vtx1[1]*mag+ offY);				// move to 1st triangle corner
-					vtx0[0] = vtx1[0];
-					vtx0[1] = vtx1[1];
-					vtx0[2] = vtx1[2];
-				}
-				else 
-					context.lineTo(vtx1[0]*mag+ offX, 
-								   vtx1[1]*mag+ offY);				// render only (x,y)
-			} 
-			// complete triangle
-			context.lineTo(vtx0[0]*mag+ offX, 
-						   vtx0[1]*mag+ offY);						// complete triangle
-			
-			// render on canvase
-			context.stroke();
-			context.closePath();
-			return true;
 		};
 		
 		PLY.prototype.getLineType = function(sttPos, endPos) {
@@ -341,23 +284,6 @@
 					}
 			}
 			return 0;
-		};
-		
-		PLY.prototype.drawWireFrame = function(context,		// [in] canvas context 
-											   w, 			// [in] canvas width
-											   h, 			// [in] canvas height
-											   mag,			// [in] magnification
-											   rX,
-											   rY,
-											   rZ) {
-			this.pos = 0;
-			for(var i=0; i<this.listFace.length; i++) {
-				var face = this.readFace(i);
-				
-				if(!this.drawTriangles(face, context, w, h, mag, rX, rY, rZ))
-					return false;
-			}
-			return true;
 		};
 		
 		return PLY;
