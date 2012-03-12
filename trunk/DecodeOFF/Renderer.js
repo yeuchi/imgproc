@@ -44,11 +44,11 @@ Renderer.prototype.drawTriangles = function(face) {
 					
 		var vtx0 = [0,0,0];
 		var vtx1;
-		if(face.length<4)			// must be at least a triangle
+		if(face.length<4)			// n v1 v2 ... vn r g b a
 			return false;
 		
 		// draw 
-		for(j=1; j<face.length; j++) {  
+		for(j=1; j<face[0]+1; j++) {  
 			// retrieve vertices
 			var vIndex = face[j];
 			if(vIndex>=this.decoder.listVertex.length||vIndex<0)
