@@ -3,7 +3,7 @@
 
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>PLY decoder</title>
+<title>OFF decoder</title>
 
 	<LINK REL=StyleSheet HREF="default.css" TYPE="text/css"> 
     <script src="http://code.jquery.com/jquery-latest.js"></script>
@@ -63,7 +63,7 @@
 			
 			function loadOFF() {
 				var url = "asset/" + $("#combo").val();
-				PLY.load(url, render);
+				OFF.load(url, render);
 			}
 			
 			function render(obj) {
@@ -124,10 +124,9 @@
     <br>
     Reference: <br>
     (1)3D Computer Graphics - 3rd Edition by Alan Watt, pg. 5<br>
-    (2)<a href=""></a><br>
+    (2)<a href="http://people.sc.fsu.edu/~jburkardt/data/off/off.html">Tools and Sample</a><br>
     (3)<a href="http://devongovett.github.com/bmp.js/">Devon Govett's bmp.js</a><br>
-    (4)<a href="http://www.cc.gatech.edu/projects/large_models/ply.html">Tool</a><br>
-    (5)<a href="http://people.sc.fsu.edu/~jburkardt/data/ply/ply.html">Samples</a><br>
+    (4)<a href="http://people.sc.fsu.edu/~jburkardt/data/off/off.html">File Format Specification</a><br>
 
     <br>
     Controls:<br>
@@ -136,8 +135,8 @@
     </p>
 	<p id="faceCount"> Face count: </p>
     <select id="combo">
-		<option value="dolphins.ply">dolphins</option>
-      	<option value="cow.ply">cow</option>
+		<option value="Models/volks.off">volkswagen</option>
+      	<option value="Models/space_station.off">space station</option>
     </select> 
     <p id="xpos"> Rotate X: </p>
     
