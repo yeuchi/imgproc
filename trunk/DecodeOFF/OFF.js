@@ -104,16 +104,18 @@
     };
 
     OFF.prototype.parseEdgePos = function() {
-      this.skipComment(this.pos);
-         
-      this.listEdge = new Array();
-	for(var i=0; i<this.numEdges; i++) {
+      if(this.numEdge) {
+	this.skipComment(this.pos);
+	   
+	this.listEdge = new Array();
+	for(var i=0; i<this.numEdge; i++) {
 	  var endPos = this.findEndPos(this.pos);
 	  this.listEdge.push(this.pos);
 	  this.pos = ++endPos;
 	}
-	return true;
-      };
+      }
+      return true;
+    };
 	     
     OFF.prototype.parseFacesPos = function() {
       this.skipComment(this.pos);
@@ -169,7 +171,10 @@
     };
 	      
     OFF.prototype.decode = function() {
-
+      this.numVertex = 0;
+      this.numFace = 0;
+      this.numEdge = 0;
+      
       this.pos = 0;
       if(this.parseHeader()) {
 	if(this.parseCount()) {

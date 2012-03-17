@@ -25,8 +25,8 @@ Renderer.prototype.drawWireFrame = function(decoder,
 	this.rZ = rZ;
 	
 	this.pos = 0;
-	for(var i=0; i<decoder.listFace.length; i++) {
-		var face = decoder.readFace(i);
+	for(var i=0; i<decoder.listFace.length-1; i++) {
+		var face = decoder.readFace(i+1);
 		
 		if(!this.drawTriangles(face))
 			return false;
