@@ -1,4 +1,3 @@
-
 var Renderer = function(width, 
 						height, 
 						context) {
@@ -25,8 +24,9 @@ Renderer.prototype.drawWireFrame = function(decoder,
 	this.rZ = rZ;
 	
 	this.pos = 0;
-	for(var i=0; i<decoder.listFace.length-1; i++) {
-		var face = decoder.readFace(i+1);
+	var len = decoder.listFace.length;
+	for(var i=0; i<len; i++) {
+		var face = decoder.readFace(i);
 		
 		if(!this.drawTriangles(face))
 			return false;
@@ -47,21 +47,21 @@ Renderer.prototype.drawTriangles = function(face) {
 		if(face.length<4)			// n v1 v2 ... vn r g b a
 			return false;
 		
-		// draw 
-		for(j=1; j<face[0]+1; j++) {  
+		// draw
+		for(var j=0; j<face[0]-1; j++) {  
 			// retrieve vertices
-			var vIndex = face[j];
+			var vIndex = face[j+1];
 			if(vIndex>=this.decoder.listVertex.length||vIndex<0)
 				return false;
 			
 			// retrieve vertex
 			var vtx1 = this.decoder.readVertex(vIndex);
-		
+			
 			// rotation Y
 			vtx1[1] = Math.cos(radX)*vtx1[1]-Math.sin(radX)*vtx1[2];
 					  
 			// draw 2 lengths of a triangle
-			if(j==1) {
+			if(j==0) {
 				this.context.moveTo(vtx1[0]*this.mag+ this.centerX, 
 						 		    vtx1[1]*this.mag+ this.centerY);				// move to 1st triangle corner
 				vtx0[0] = vtx1[0];
@@ -70,11 +70,11 @@ Renderer.prototype.drawTriangles = function(face) {
 			}
 			else 
 				this.context.lineTo(vtx1[0]*this.mag+ this.centerX, 
-							   		vtx1[1]*this.mag+ this.centerY);				// render only (x,y)
-		} 
+						vtx1[1]*this.mag+ this.centerY);				// render only (x,y)
+		}
 		// complete triangle
 		this.context.lineTo(vtx0[0]*this.mag+ this.centerX, 
-							vtx0[1]*this.mag+ this.centerY);						// compete the loop
+				vtx0[1]*this.mag+ this.centerY);						// compete the loop
 		
 		// render on canvase
 		this.context.stroke();

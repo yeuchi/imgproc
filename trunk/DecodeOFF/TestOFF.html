@@ -1,6 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-
+<!--
+	Module:			DecodeOFF.html
+    
+    Description:	decode OFF 3D file
+    				extending work of Devon Govett from bmp.js
+    
+	Reference:
+    	BMP.js		http://devongovett.github.com/bmp.js/
+        Specification:	http://www.holmes3d.net/graphics/offfiles/
+        Samples:	http://people.sc.fsu.edu/~jburkardt/data/off/off.html
+  
+    Author(s):		Devon Govett provide a bmp decoding example.
+    				C.T. Yeung modify to decode PLY.
+    
+    History:	
+    17Mar12		functional	cty
+-->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>OFF decoder</title>
@@ -10,6 +26,7 @@
     <script src="Renderer.js"></script>
 	<script src="OFF.js"></script>
     <script>
+	    
 		$(document).ready(function() {
 			var canvas = document.getElementById("myCanvas");
 			var myContext = canvas.getContext("2d");
@@ -90,7 +107,7 @@
 					
 					$("#xpos").html("Rotate X: "+rX);
 					if(null==instance)
-						loadOFF();
+						loadPLY();
 					else
 						update();
 				}
@@ -126,7 +143,7 @@
     (1)3D Computer Graphics - 3rd Edition by Alan Watt, pg. 5<br>
     (2)<a href="http://people.sc.fsu.edu/~jburkardt/data/off/off.html">Tools and Sample</a><br>
     (3)<a href="http://devongovett.github.com/bmp.js/">Devon Govett's bmp.js</a><br>
-    (4)<a href="http://people.sc.fsu.edu/~jburkardt/data/off/off.html">File Format Specification</a><br>
+    (4)<a href="http://people.sc.fsu.edu/~jburkardt/data/off/off.html">OFF File Format Specification</a><br>
 
     <br>
     Controls:<br>
@@ -135,8 +152,13 @@
     </p>
 	<p id="faceCount"> Face count: </p>
     <select id="combo">
-		<option value="Models/volks.off">volkswagen</option>
-      	<option value="Models/space_station.off">space station</option>
+	    <option value="Models/pear.off">pear</option>
+	    <option value="Models/heart.off">heart</option>
+	    <option value="Models/goblet.off">goblet</option>
+	    <option value="Models/volks.off">volkswagen</option>
+	    <option value="Models/x29_plane.off">plane</option>
+	    <option value="Models/seashell.off">seashell</option>
+	    <option value="Models/space_station.off">space station</option>
     </select> 
     <p id="xpos"> Rotate X: </p>
     
