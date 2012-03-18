@@ -146,6 +146,7 @@
                         
       var endPos = this.findEndPos(this.pos);
       var str = this.bin2String(this.pos, endPos);
+      this.pos = ++endPos;
       var list = str.split(" ");
       
       if(list.length == 3) {
