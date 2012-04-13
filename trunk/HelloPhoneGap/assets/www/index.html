@@ -1,0 +1,110 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>PhoneGap</title>
+<script type="text/javascript" charset="utf-8" src="cordova-1.x.x.js"></script>
+<LINK REL=StyleSheet HREF="default.css" TYPE="text/css" MEDIA=screen> 
+  	<script src="http://code.jquery.com/jquery-latest.js"></script>
+  	<script src="CubicSpline.js"></script>
+  	<script>
+  	$(document).ready(function() {
+		if(navigator.userAgent.match(/Android/i)){
+			$(".header").text("Android");
+		}
+    	else if (navigator.userAgent.match(/BlackBerry/i)) {
+			$(".header").text("BlackBerry");
+    	} 
+		else if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
+			$(".header").text("iPhone, iPad, iPod");
+    	}
+		else if (navigator.userAgent.match(/IEMobile/i)) {
+			$(".header").text("IEMobile");
+		}
+		else 
+			$(".header").text("non-mobile");
+			
+		var pSrcX = new Array();
+		var pSrcY = new Array();
+		
+		var canvas = document.getElementById('my_canvas');
+		var context = canvas.getContext('2d');			
+		
+		$("#my_canvas").click(function (e) {						
+			addAnchor(e.pageX, e.pageY);
+			if(pSrcX.length > 1) {
+				context.clearRect(0,0,canvas.width, canvas.height);	
+				drawPieceWise();
+				drawCubicSpline();
+			}
+		});
+		
+		$("#btnClear").click(function () {
+			context.clearRect(0,0,canvas.width, canvas.height);
+			context = canvas.getContext('2d');
+			pSrcX = new Array();
+			pSrcY = new Array();
+		});
+		
+		// draw piece wise - lines between anchors
+		function drawPieceWise() {
+			context.beginPath();
+			context.strokeStyle = 'green';
+			context.moveTo(pSrcX[0], pSrcY[0]);
+				
+			for(var i=1; i<pSrcX.length; i++) {
+				context.lineTo(pSrcX[i], pSrcY[i]);
+				context.moveTo(pSrcX[i], pSrcY[i]);
+			}
+			context.stroke();
+		}
+		
+		function drawCubicSpline() {
+			context.beginPath();
+			context.strokeStyle = 'blue';
+			context.moveTo(pSrcX[0], pSrcY[0]);
+			init();
+			formulate(pSrcX, pSrcY);
+			
+			var stt = pSrcX[0]+1;
+			var end = pSrcX[pSrcX.length-1];
+			for(var x=stt; x<end; x++) {
+				var y = getY(x);
+				context.lineTo(x, y);
+				context.moveTo(x, y);
+			}
+			context.stroke();
+		}
+		
+		function addAnchor(x, y) {
+			for(var i=0; i<pSrcX.length; i++) {
+				if(x < pSrcX[i]) {				// insert value
+					pSrcX.splice(i, 0, x);
+					pSrcY.splice(i, 0, y);
+					return true;
+				}
+				else if(x == pSrcX[i]) {		// update y
+					pSrcY[i] = y;
+				}
+			}
+			pSrcX.push(x);
+			pSrcY.push(y);
+			return true;
+		}
+  	});
+	
+	
+	</script>
+  	
+</head>
+<body>
+<canvas id="my_canvas" width="500" height="200">
+    HTML5 canvas failed to load.
+</canvas>
+<p>HTML5 Cubic Spline demo - Numerical Recipes in C 2nd Edition, Press, Teukolsky, Vetterling, Flannery, pg.113</p>
+<p class="header"></p>
+<p>Mouse click with-in canvas.</p>
+<div id="divCtrl">
+	<input type="submit" id="btnClear" value="Clear"/>
+</div>
+</body>
+</html>
