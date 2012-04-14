@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" 
+			   minWidth="955" minHeight="600"
+			   creationComplete="onCreationComplete()">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		
+		<![CDATA[
+			import com.ctyeung.text.HistEqual;
+			[Embed(source="asset/oldText1.jpg")][Bindable]public var imgSrc:Class;
+			protected var bmdSrc:BitmapData;
+			protected var bmdDes:BitmapData;
+			protected var stt:Date;
+			
+			protected function onCreationComplete():void {
+				bmdSrc = new imgSrc().bitmapData;
+				bmdDes = new BitmapData(bmdSrc.width, bmdSrc.height);
+				
+				uicSrc.addChild(new Bitmap(bmdSrc));
+				uicDes.addChild(new Bitmap(bmdDes));
+				srcBox.width = bmdSrc.width + 4;
+				srcBox.height = bmdSrc.height + 4;
+				
+				desBox.width = bmdSrc.width + 4;
+				desBox.height = bmdSrc.height + 4;
+			}
+			
+			protected function onClickApply():void {
+				stt = new Date();
+				var histEqual:HistEqual = new HistEqual();
+				histEqual.apply(bmdSrc, bmdDes, numLen.value);
+				var end:Date = new Date();
+				txtTime.text = "Time: " + (end.time - stt.time).toString() + " ms";
+			}
+		]]>
+	</fx:Script>
+	
+	
+	<mx:VBox>
+		<mx:HBox width="100%" >
+			<s:Spacer width="30"/>		
+			<s:Label text="Adaptive Histogram Equalization" fontSize="30"/>
+		</mx:HBox>
+		<mx:HBox paddingTop="5">
+			
+			<mx:VBox id="srcBox" borderColor="0" borderStyle="solid" borderVisible="true" 
+					 paddingBottom="2" paddingLeft="2" paddingRight="2" paddingTop="2">
+				<mx:UIComponent id="uicSrc"/>
+			</mx:VBox>
+			
+			<mx:VBox id="desBox" borderColor="0" borderStyle="solid" borderVisible="true"
+					 paddingBottom="2" paddingLeft="2" paddingRight="2" paddingTop="2">
+				<mx:UIComponent id="uicDes"/>
+			</mx:VBox>
+			
+		</mx:HBox>
+		<mx:HBox horizontalAlign="center" width="100%">
+			<s:Label text="Kernel width:" paddingTop="8"/>
+			<s:NumericStepper id="numLen" minimum="1" maximum="11" value="1" stepSize="2"/>
+			<s:Button id="btnApply" label="Apply" click="onClickApply()"/>
+			<s:Spacer  width="20"/>
+			<s:Label id="txtTime" text="Time:"/>
+		</mx:HBox>
+	</mx:VBox>
+</s:Application>
