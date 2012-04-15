@@ -107,6 +107,9 @@ package com.ctyeung.text
 			var byteArray:ByteArray = bmdSrc.getPixels(rect);	
 			var size:int = rect.width*rect.height*4;
 			var hist:Array = new Array(255);
+			for(var j:int=0; j<hist.length; j++)
+				hist[j] = 0;
+			
 			for(var i:int=0; i<size; i+=4) {
 
 				/*var r:int = byteArray[i];
@@ -130,8 +133,8 @@ package com.ctyeung.text
 			var rect:Rectangle = new Rectangle(0,0,kernelWid, kernelWid);
 			for(var y:int=radius; y<length; y++) {
 				for(var x:int=radius; x<width; x++) {
-					rect.x = y-radius;
-					rect.y = x-radius;
+					rect.x = x-radius;
+					rect.y = y-radius;
 					var hist:Array = createHistogram(bmdSrc, rect);
 					var min:int = findHistogramMin(hist, numPixels);
 					var max:int = findHistogramMax(hist, numPixels);

@@ -61,7 +61,7 @@
 		</mx:HBox>
 		<mx:HBox horizontalAlign="center" width="100%">
 			<s:Label text="Kernel width:" paddingTop="8"/>
-			<s:NumericStepper id="numLen" minimum="1" maximum="11" value="1" stepSize="2"/>
+			<s:NumericStepper id="numLen" minimum="1" maximum="100" value="1" stepSize="2"/>
 			<s:Button id="btnApply" label="Apply" click="onClickApply()"/>
 			<s:Spacer  width="20"/>
 			<s:Label id="txtTime" text="Time:"/>
