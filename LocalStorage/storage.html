@@ -10,6 +10,7 @@
 	
 	History:	14Apr12	1st functional localStorage exercise		cty
 			14Apr12 adding match for mobile device type		cty
+			15Apr12 adding online/offline detection			cty
 	-->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -19,6 +20,7 @@
   	<script src="http://code.jquery.com/jquery-latest.js"></script>
   	<script>
 	$(document).ready(function() {
+		// detect mobile device
 		if(navigator.userAgent.match(/Android/i)){
 			$(".header").text("Device: Android");
 		}
@@ -34,6 +36,21 @@
 		else 
 			$(".header").text("Device: non-mobile");
 			
+		// are we online ?
+		setInterval(function() {
+			var isOnline = window.navigator.onLine;
+			if(isOnline) {
+				$(".online").text("we are online");
+				$(".online").css("color", "green");
+			}
+			else {
+				$(".online").text("we are offline");
+				$(".online").css("color", "red");
+			}
+				
+		}, 1000);
+		
+		// bezier drawing, localStorage
 		var pSrcX = new Array();
 		var pSrcY = new Array();
 		
@@ -134,6 +151,7 @@
 4) button recall to load and re-render <br>
 </p>
 <p class="header"></p>
+<p class="online"></p>
 <div class="divTitle">
 	Title: <input type="text" maxlength="30" id="title" value="squiggle" /><br/>
 </div>
