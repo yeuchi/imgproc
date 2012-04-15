@@ -1,0 +1,148 @@
+
+<!DOCTYPE html PUBLIC >
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<!--
+	Module:		localStorage / SessionStorage exercise
+	
+	Author:		C.T. Yeung
+	
+	Reference: 	http://sixrevisions.com/html/introduction-web-storage/
+	
+	History:	14Apr12	1st functional localStorage exercise		cty
+			14Apr12 adding match for mobile device type		cty
+	-->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Storage</title>
+
+	<LINK REL=StyleSheet HREF="default.css" TYPE="text/css" MEDIA=screen> 
+  	<script src="http://code.jquery.com/jquery-latest.js"></script>
+  	<script>
+	$(document).ready(function() {
+		if(navigator.userAgent.match(/Android/i)){
+			$(".header").text("Device: Android");
+		}
+		else if (navigator.userAgent.match(/BlackBerry/i)) {
+			$(".header").text("Device: BlackBerry");
+		} 
+		else if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
+			$(".header").text("Device: iPhone, iPad, iPod");
+		}
+		else if (navigator.userAgent.match(/IEMobile/i)) {
+			$(".header").text("Device: IEMobile");
+		}
+		else 
+			$(".header").text("Device: non-mobile");
+			
+		var pSrcX = new Array();
+		var pSrcY = new Array();
+		
+		var canvas = document.getElementById('my_canvas');
+		var context = canvas.getContext('2d');			
+		
+		function drawBezier() {
+			context.clearRect(0,0,canvas.width, canvas.height);
+			context.beginPath();
+			context.strokeStyle = 'green';
+				
+			if(pSrcX.length>2) {
+				var pieces = pSrcX.length/2;
+				for(var i=0; i<pieces; i++) {
+					context.moveTo(pSrcX[i*2], pSrcY[i*2]);
+					context.bezierCurveTo(pSrcX[i*2],
+							      pSrcY[i*2],
+							      pSrcX[i*2+1],
+							      pSrcY[i*2+1],
+							      pSrcX[i*2+2],
+							      pSrcY[i*2+2]);	
+				}
+				context.stroke();
+			}
+			
+			if ((pSrcX.length%2==0)&&(pSrcX.length>0)) {
+				var pos = pSrcX.length-2;
+				context.moveTo(pSrcX[pos], pSrcY[pos]);
+				context.lineTo(pSrcX[pos+1], pSrcY[pos+1]);
+				context.stroke();
+			}	
+		}
+		
+		$("#my_canvas").click(function (e) {
+			if(pSrcX==null)
+				pSrcX = new Array();
+			if(pSrcY==null)
+				pSrcY = new Array();
+				
+			pSrcX.push(e.pageX);
+			pSrcY.push(e.pageY);
+			
+			drawBezier();
+		});
+		
+		$("#btnClear").click(function () {
+			context.clearRect(0,0,canvas.width, canvas.height);
+			//context = canvas.getContext('2d');
+			
+			pSrcX = new Array();
+			pSrcY = new Array();
+		});
+		
+		$("#btnStore").click(function () {
+			var keyX = $("#title").text() + "X";
+			var keyY = $("#title").text() + "Y";
+			
+			localStorage.setItem(keyX, pSrcX);
+			localStorage.setItem(keyY, pSrcY);
+		});
+		
+		$("#btnRecall").click(function() {
+			var keyX = $("#title").text() + "X";
+			var keyY = $("#title").text() + "Y";
+			
+			pSrcX = localStorage.getItem(keyX);
+			pSrcY = localStorage.getItem(keyY);
+			
+			pSrcX = pSrcX.split(",");
+			pSrcY = pSrcY.split(",");
+			
+			drawBezier();
+		});
+		
+		$("#btnRemove").click(function(){
+			var keyX = $("#title").text() + "X";
+			var keyY = $("#title").text() + "Y";
+			localStorage.removeItem(keyX);
+			localStorage.removeItem(keyY);
+			
+			$("#btnClear").click();
+		});
+  	});
+	
+	</script>
+</head>
+
+<body style="position:relative">
+
+<canvas id="my_canvas" width="500" height="400">
+    HTML5 canvas failed to load.
+</canvas>
+<p>Session storage exercise. </p>
+<p>
+1) Clicks to draw. <br>
+2) button clear or reload page to clear drawing.<br>
+3) button store to save to local storage. <br>
+4) button recall to load and re-render <br>
+</p>
+<p class="header"></p>
+<div class="divTitle">
+	Title: <input type="text" maxlength="30" id="title" value="squiggle" /><br/>
+</div>
+<div id="divCtrl">
+	<input type="submit" id="btnStore" value="Store drawing"/>
+	<input type="submit" id="btnRecall" value="Recall storage"/>
+	<input type="submit" id="btnRemove" value="Remove storage"/>
+	<input type="submit" id="btnClear" value="Clear Canvas"/>
+</div>
+
+</body>
+</html>
