@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width; initial-scale=1; maximum-scale=1;"/>
+        <title>
+        </title>
+        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
+        
+	<link rel="stylesheet" href="themes/purple.min.css" />
+        
+	<link rel="stylesheet" href="themes/hours.css" />
+	<style>
+            /* App custom styles */
+        </style>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js">
+        </script>
+        <script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js">
+        </script>
+        <script>
+            $(document).ready(function() {
+		$(window).resize( function(){
+		    var height = $(window).height();
+		    var width = $(window).width();
+		    
+		    if( width > height ) {		// landscape
+			$(".divLocation").css("float", "right");
+		    }
+		    else {				// portrait
+			$(".divLocation").css("float", "left");
+		    }
+		});
+
+	        $(window).resize();
+            });
+        </script>
+    </head>
+    <body >
+        <div data-role="page" id="page2">
+            <div data-theme="a" data-role="header">
+                <h3 class="title">
+                    Red Pepper Restaurant
+                </h3>
+            </div>
+             <div class="container" data-role="content" align="left" style="position: relative;">
+                <div class="divHours">
+		    <ul>
+			<li><h3>Hours:</h3></li>
+			<li>Sunday - Thursday</li>
+			<li> 11:00am -9pm</li>
+			<li>Friday - Saturday</li>
+			<li>11:00am -10pm</li>
+		    </ul>
+		</div>
+		<div class="divLocation">
+		    <ul>
+			<li><h3>Location:</h3></li>
+			<li>Richfield</li>
+			<li>(612) 869 6817</li>
+			<li>Southdale Square</li>
+			<li>2910 West 66th Street</li>
+			<li>Richfield, MN 55423</li>
+		    </ul>
+		</div>    
+            </div>
+        </div>
+        
+    </body>
+</html>
