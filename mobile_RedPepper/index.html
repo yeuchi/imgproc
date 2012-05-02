@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width; initial-scale=1; maximum-scale=1;"/>
+        <title>
+        </title>
+        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
+        
+	<link rel="stylesheet" href="themes/redPepper.min.css" />
+        <style>
+            /* App custom styles */
+        </style>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js">
+        </script>
+        <script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js">
+        </script>
+        <script>
+            $(document).ready(function() {
+		
+		function detectMobile() {
+		    if(navigator.userAgent.match(/Android/i)){
+			    $(".title").text("Device: Android");
+		    }
+		    else if (navigator.userAgent.match(/BlackBerry/i)) {
+			    $(".title").text("Device: BlackBerry");
+		    } 
+		    else if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
+			    $(".title").text("Device: iPhone, iPad, iPod");
+		    }
+		    else if (navigator.userAgent.match(/IEMobile/i)) {
+			    $(".title").text("Device: IEMobile");
+		    }
+		    //else 
+			//window.location.replace("http://www.ctyeung.com/peanut/index.html");
+		}
+		//detectMobile();
+		
+		$(".logo").fadeOut(4000, function() {
+		    window.location.replace("mobile.html");
+		});
+		
+            });
+        </script>
+    </head>
+    <body >
+        <div data-role="page" id="page1">
+            <div data-theme="a" data-role="header">
+                <h3 class="title">
+                    Red Pepper Restaurant
+                </h3>
+            </div>
+             <div class="container" data-role="content" align="center" style="position: relative;">
+                <div class="imgBox" style="position: relative;">
+                    <img class="logo" src="images/logo.jpg" width="90%" alt="image"  />
+                </div>
+                <div class="spacer"></div>
+		
+            </div>
+        </div>
+        
+    </body>
+</html>
