@@ -8,11 +8,70 @@
 *
 */
 
+.fontTimes {
+  font-family:
+    "Times Roman",		/* Windows */
+    times,			/* Unix+X, MacOS */
+    serif;
+/* Luxi Serif? */
+}
+
+ul,
+.fontPalatino {
+  font-family:
+    "Palatino Linotype",	/* Windows */
+    "URW Palladio L",		/* Unix+FontConfig (ugly!) */
+    "palladio l",		/* Unix+X+FreeType */
+    palatino,			/* MacOS */
+    "book antiqua",		/* Win95 */
+/* Fallback options */
+    times,			/* Unix+X, MacOS */
+    serif;
+/* "Goudy Old Style" is vaguely like Palatino. */
+    color: #151;
+}
+
+p,
+h3,
+h2,
+div.avant-garde {
+  font-family:
+    "Century Gothic",		/* Windows (HP printer) */
+    "Avant Garde Gothic",	/* HP font name */
+    "Avant Garde",		/* MacOS */
+    "URW Gothic L",		/* Unix+X+FontConfig */
+/* Fallback options */
+    helvetica,			/* Unix+X, MacOS */
+    sans-serif;
+}
+
+.divAddress {
+    align: left;
+}
+
+p {
+ text-align: left;    
+}
+
+.divMap {
+    border: 1px solid #000;
+    width: 100%;
+    align: center;
+}
+
+.divEntrancePic {
+    width: 100%;
+    align: center;
+}
+
 .lunchChoice {
     margin-left: 20px; 
 }
 
-ul {
+.divLunchSpecial,
+.divAddress,
+.divLocation,
+.divHours{
 list-style-type: none;
 }
 
@@ -25,6 +84,7 @@ list-style-type: none;
 
 h3 {
     padding: 0px !important;
+    color: #a22;
 }
 
 img {
