@@ -6,9 +6,8 @@
         <title>
         </title>
         <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
-        
-	<link rel="stylesheet" href="themes/purple.min.css" />
-        <style>
+        <link rel="stylesheet" href="themes/location.css" />
+	<style>
             /* App custom styles */
         </style>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js">
@@ -17,184 +16,7 @@
         </script>
         <script>
             $(document).ready(function() {
-		var imgWidth = 0;
-		var imgHeight = 0;
 		
-		function detectMobile() {
-		    if(navigator.userAgent.match(/Android/i)){
-			    $(".title").text("Device: Android");
-		    }
-		    else if (navigator.userAgent.match(/BlackBerry/i)) {
-			    $(".title").text("Device: BlackBerry");
-		    } 
-		    else if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
-			    $(".title").text("Device: iPhone, iPad, iPod");
-		    }
-		    else if (navigator.userAgent.match(/IEMobile/i)) {
-			    $(".title").text("Device: IEMobile");
-		    }
-		    else 
-			window.location.replace("http://www.ctyeung.com/peanut/index.html");
-		}
-		detectMobile();
-		
-                //var urlPrefix = "http://www.ctyeung.com/peanut/daily/";
-                var urlSuffix = "/small/coverShot.jpg";
-                var month = 1;
-                var year = 12;
-                
-                getMonthYear();
-                render();
-               
-		$(window).resize( function(){
-		    var height = $(window).height();
-		    var width = $(window).width();
-		    
-		    if( width > height ) {		// landscape
-			//$(".buttons").addClass("landscape");
-			//$(".imgBox").addClass("landscape");
-			
-			$(".buttons").css("float", "right");
-			$(".buttons").css("display", "inline");
-			$(".imgBox").css("float", "left");
-			$(".imgBox").css("display", "inline");
-			$("img").attr("width", window.innerWidth*0.5);
-			$("img").attr("height", "");
-		    }
-		    else {				// portrait
-			//$(".buttons").removeClass("landscape");
-			//$(".imgBox").removeClass("landscape");
-			
-			$(".buttons").css("float", "none");
-			$(".buttons").css("display", "block");
-			$(".imgBox").css("float", "none");
-			$(".imgBox").css("display", "block");
-
-			$("img").attr("width", window.innerWidth*0.85);
-			$("img").attr("height", "");
-			
-		    }
-		});
-
-	        $(window).resize();
-		
-                $(".btnPrevious").click(function(){
-                    if(month==1) {
-                        month = 12;
-                        year--;
-                    }
-                    else
-                        month--;
-                        
-                    render();
-                });
-                
-                $(".btnNext").click(function(){
-                    if (month==12) {
-                        month = 1;
-                        year++;
-                    }
-                    else
-                        month++;
-                        
-                    render();
-                });
-                
-                function requestImage(dirPath) {
-                                       
-                    $.ajax({url: "getFirstLandscape.php?dir="+dirPath,
-                           type:'post',
-                           dataType:'json',
-                           
-                        success : function(data){
-			   loadImage(data.msg);
-			   imgWidth = data.width;
-			   imgHeight = data.height;
-                            //alert("success");
-                        },
-                        error : function(XMLHttpRequest, textStatus, errorThrown)  {
-                           alert("can't find image."); 
-                        }
-                    });
-                }
-		
-		function loadImage(imgPath) {
-		    $("img").attr("src", imgPath);
-		  
-		}
-                
-                function render() {
-                    var m = formatMonth(month);
-                    var y = year.toString();
-                    
-                    var shortMonth = m.substr(0,3).toLowerCase();
-                    var shortYear = y.substr(2,2);
-                    
-                    $('.title').text(m+" "+year)
-                    
-                    requestImage(shortMonth+shortYear);
-
-                    var hrefPath = "dailyIndex.php?title="+m+"&dir="+shortMonth+shortYear;
-                    $(".detail").attr("href",hrefPath);
-		    $(".btnDetail").attr("href",hrefPath);
-                }
-                
-                function getMonthYear() {
-                    var d = new Date();
-                    month = d.getMonth();
-                    year = d.getFullYear();
-                    var y = year+" ";
-                    var strY = y.substr(2,2);
-                    var m = formatMonth(month);
-                    m = m.substr(0,3);
-                    
-                    return m.toLowerCase()+strY;
-                }
-                
-                function formatMonth(num) {
-                   
-                   var m;
-                    switch(num) {
-                        case 1:
-                            m = "January";
-                            break;
-                        case 2:
-                            m = "February";
-                            break;
-                        case 3:
-                            m = "March";
-                            break;
-                        case 4:
-                            m = "April";
-                            break;
-                        case 5:
-                            m = "May";
-                            break;
-                        case 6:
-                            m = "June";
-                            break;
-                        case 7:
-                            m = "July";
-                            break;
-                        case 8:
-                            m = "August";
-                            break;
-                        case 9:
-                            m = "September";
-                            break;
-                        case 10:
-                            m = "October";
-                            break;
-                        case 11:
-                            m = "November";
-                            break;
-                        default:
-                        case 12:
-                            m = "December";
-                            break;
-                    }
-                    return m;
-                }
             });
         </script>
     </head>
@@ -202,26 +24,25 @@
         <div data-role="page" id="page1">
             <div data-theme="a" data-role="header">
                 <h3 class="title">
-                    Header
+                    Red Pepper Restaurant
                 </h3>
             </div>
-             <div class="container" data-role="content" align="center" style="position: relative;">
-                <div class="imgBox" style="height: 40%; position: relative;">
-                    <a class="detail" data-transition="slide" href=""><img src="" alt="image"  /></a>
-                </div>
+             <div class="container" data-theme="a" data-role="content" align="center" style="position: relative;">
                 
-                <div class="buttons" style="position: relative;">
-                    <a class="btnDetail" data-role="button" data-icon="arrow-r" data-iconpos="right" data-transition="slide" data-theme="a">
-                        Detail
-                    </a>
-		    <a class="btnPrevious" data-role="button" data-icon="arrow-u" data-iconpos="right" data-transition="fade" data-theme="a">
-                        Previous
-                    </a>
-                    <a class="btnNext" data-role="button" data-icon="arrow-d" data-iconpos="right" data-transition="fade" data-theme="a">
-                        Next
-                    </a>
-		    
-                </div>
+		<ul class="divAddress">
+		    <li>Southdale Square</li>
+		    <li>2910 West 66th Street</li>
+		    <li>Richfield, MN 55423</li>
+		    <li>(612) 869-6817</li>
+		</ul>
+		<p>Located North and East&nbsp; of Southdale Center in Edina on the NE corner of 66th Street and&nbsp; York Ave / Xerxes Ave.</p>
+		    <br />
+		<p>Direction:&nbsp; From Hwy 62 take&nbsp; Xerxes Ave south one half mile to Southdale Square, on your left, at 66th street. </p>
+		
+		<div class="divMap">    
+		    <iframe marginwidth="0" marginheight="0" src="http://maps.google.com/maps?hl=en&amp;q=2902+west+66+street+richfield&amp;ie=UTF8&amp;hq=&amp;hnear=2902+W+66th+St,+Richfield,+Hennepin,+Minnesota+55423&amp;gl=us&amp;sqi=2&amp;ll=44.883729,-93.316927&amp;spn=0.018244,0.025749&amp;z=14&amp;iwloc=A&amp;output=embed" frameborder="0" width="400" scrolling="no" height="300"></iframe><br />
+		    <small><a href="http://maps.google.com/maps?hl=en&amp;q=2902+west+66+street+richfield&amp;ie=UTF8&amp;hq=&amp;hnear=2902+W+66th+St,+Richfield,+Hennepin,+Minnesota+55423&amp;gl=us&amp;sqi=2&amp;ll=44.883729,-93.316927&amp;spn=0.018244,0.025749&amp;z=14&amp;iwloc=A&amp;source=embed" style="color: #0000ff; text-align: left;" shape="rect">View Larger Map</a></small>
+		</div>
             </div>
         </div>
         
