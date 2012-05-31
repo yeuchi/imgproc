@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width; initial-scale=1; maximum-scale=1;"/>
+        <title>
+        </title>
+        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
+        
+	<link rel="stylesheet" href="themes/carryOut.css" />
+	<link rel="stylesheet" type="text/css" href="themes/carouselSkin.css" />
+	<style>
+            /* App custom styles */
+        </style>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js">
+        </script>
+        <script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js">
+        </script>
+	
+        <script>
+            $(document).ready(function() {
+		$(".listNav").fadeOut(0);
+		
+		function detectMobile() {
+		    if(navigator.userAgent.match(/Android/i)){
+			    $(".title").text("Device: Android");
+		    }
+		    else if (navigator.userAgent.match(/BlackBerry/i)) {
+			    $(".title").text("Device: BlackBerry");
+		    } 
+		    else if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
+			    $(".title").text("Device: iPhone, iPad, iPod");
+		    }
+		    else if (navigator.userAgent.match(/IEMobile/i)) {
+			    $(".title").text("Device: IEMobile");
+		    }
+		    //else 
+			//window.location.replace("http://www.ctyeung.com/peanut/index.html");
+		}
+		//detectMobile();
+		
+		$(window).resize( function(){
+		    var height = $(window).height();
+		    var width = $(window).width();
+		    
+		    if( width > height ) {		// landscape
+			$(".logo").attr("width", "");
+			$(".logo").attr("height", "90%");
+		    }
+		    else {				// portrait
+			$(".logo").attr("height", "");
+			$(".logo").attr("width", "90%");
+			
+		    }
+		});
+
+	        $(window).resize();
+		
+		$(".listNav").fadeIn(7000);
+		
+            });
+        </script>
+    </head>
+    <body >
+        <div data-role="page" id="page1">
+            <div data-theme="a" data-role="header">
+                <h3 class="title">
+                    Red Pepper Restaurant
+                </h3>
+            </div>
+             <div class="container" data-role="content" align="center" style="position: relative;">
+                
+		<div class="imgBox" style="position: relative;">
+                    <img class="logo" src="images/logoPink.jpg" width="90%" alt="image"  />
+                </div>
+                <div class="spacer"></div>
+		<!--
+		<div data-role="content">
+		<div class="content-primary">
+	    -->
+			
+		<ul class="listNav" data-role="listview" data-split-icon="gear" data-split-theme="a">
+		    <li><a href="menu.html" data-transition="slide" data-icon="arrow-r" >
+			    <img src="icons/icon48/iconMenu.png" />
+			    <h3 class="mainSelect">Menu</h3>
+			</a>
+		    </li>
+		    <li><a href="visuals.html" data-transition="slide" data-icon="arrow-r" >
+			    <img src="icons/icon48/iconPlate.png" />
+			    <h3 class="mainSelect">Visuals</h3>
+			</a>
+		    </li>
+		    <li><a href="order.html" data-transition="slide" data-icon="arrow-r" >
+			    <img src="icons/icon48/iconCart.png" />
+			    <h3 class="mainSelect">Order Summary</h3>
+			</a>
+		    </li>
+		    <li><a href="location.html" data-transition="slide" data-icon="arrow-r" >
+			    <img src="icons/icon48/iconLocation.png" />
+			    <h3 class="mainSelect">Location / Direction</h3>
+			</a>
+		    </li>
+		    <li><a href="hours.html" data-transition="slide" data-icon="arrow-r" >
+			    <img src="icons/icon48/iconHours.png" />
+			    <h3 class="mainSelect">Hours / Contact Us</h3>
+			</a>
+		    </li>		
+		</ul>    
+            </div>
+        </div>
+        
+    </body>
+</html>
