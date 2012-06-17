@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width; initial-scale=1; maximum-scale=1;"/>
+        <title>
+        </title>
+        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
+	<link rel="stylesheet" href="themes/carryOut.css" />
+	<style>
+	    ul {list-style-type: none;}
+	    
+	    .titleSpicy,
+	    .soupTitleSpicy,
+	    .vegeTitleSpicy,
+	    .shrimpTitleSpicy,
+	    .porkTitleSpicy,
+	    .beefTitleSpicy,
+	    .duckTitleSpicy,
+	    .chickenTitleSpicy,
+	    .specialTitleSpicy {
+		color: #F00;
+		font-size: 18px;
+	    }
+	    
+	    .noodelTitleSpicy {
+		color: #F00;
+		font-size: 18px;
+		padding-bottom: 10px;
+	    }
+	    
+	    .title,
+	    .soupTitle,
+	    .drinkTitle,
+	    .vegeTitle,
+	    .noodleTitle,
+	    .shrimpTitle,
+	    .porkTitle,
+	    .beefTitle,
+	    .duckTitle,
+	    .chickenTitle,
+	    .specialTitle {
+		font-size: 18px;
+		color: #000;
+	    }
+	    
+	    .vegeDesc,
+	    .shrimpDesc,
+	    .porkDesc,
+	    .beefDesc,
+	    .duckDesc,
+	    .chickenDesc,
+	    .specialDesc {
+		font-size: 12px;
+		color: #000;
+		padding-bottom: 10px;
+		padding-left:10px;
+	    }
+	    
+	    .vegeDescSpicy,
+	    .shrimpDescSpicy,
+	    .porkDescSpicy,
+	    .beefDescSpicy,
+	    .duckDescSpicy,
+	    .chickenDescSpicy,
+	    .specialDescSpicy {
+		font-size: 12px;
+		color: #F00;
+		padding-bottom: 10px;
+		padding-left:10px;
+	    }
+	    
+	    .noodleDesc {
+		padding-left: 200px;
+		padding-bottom: 10px;
+		color: #000;
+		font-size: 18px;
+	    }
+	    
+	    .noodleDescMid {
+		padding-left: 200px;
+		color: #000;
+		font-size: 18px;
+	    }
+	</style>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js">
+        </script>
+        <script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js">
+        </script>
+        <script>
+            $(document).ready(function() {
+
+            });
+        </script>
+    </head>
+    <body >
+        <div data-role="page" id="page2">
+            <div data-theme="a" data-role="header">
+
+            </div>
+             <div class="container" data-role="content" align="left" style="position: relative;">
+                <div>
+		    <h3>Welcome</h3>
+		    <div>
+			<h3>Featured Specials</h3>
+			<ul>
+			    <li>Chicken Lettuce Wrap (2)</li>
+			    <li>Fried Shrimp Balls (4)</li>
+			    <li>Noodles Salad w/ Beef</li>
+			    <li>Sweet Potatoes Fried ( Mild or Spicy )</li>
+			    <li>Chicken Skewer (2)</li>
+			    <li>Kim-Chi<img src="icons/icon10/spicy.png"/> </li>
+			    <li>Chicken with Hot Spicy Pepper <img src="icons/icon10/spicy.png"/> </li>
+			    <li>Lemon Grass Chicken</li>
+			    <li>Ginger Chicken</li>
+			    <li>Lemon Grass Chicken</li>
+			    <li>Ginger Chicken</li>
+			    <li>Pecan Chicken (Coated Pecan & Walnuts w/ Spicy Sauce) <img src="icons/icon10/spicy.png"/> </li>
+			    <li>Eggplant w/ Chicken in Garlic Sauce <img src="icons/icon10/spicy.png"/> </li>
+			    <li>Fresh Green Beans with Pork</li>
+			    <li>Squid with Salt & Hot Pepper <img src="icons/icon10/spicy.png"/> </li>
+			    <li>Salted Baked 1/2 Chicken</li>
+			</ul>
+		    </div>
+		    
+		    <p>Try our New Homemade Desserts .75 cents each.<br/>Fresh Baked Buns or Tapioca</p>
+		    <p style="color:#F00;">BEER & WINE MENU is AVAILABLE</p>
+		    
+		    <div data-role="collapsible-set">
+		        <div data-role="collapsible">
+			    <h3>Soup</h3>
+			    <ul>
+				<li class="soupTitleSpicy">Hot and Sour Soup</li>
+				<li class="soupTitle">Wonton Soup</li>
+				<li class="soupTitle">Vegetable Soup</li>
+				<li class="soupTitle">Chicken Noodles Soup</li>
+				<li class="soupTitle">Egg Drop Soup</li>
+				<li class="soupTitle">House Special Soup</li>
+				<li class="soupTitle">Seafood To-Fu Soup</li>
+			    </ul>
+			</div>
+			
+			<div data-role="collapsible">
+			    <h3>Salad</h3>
+			    <ul>
+				<li class="title">Vegetables Noodles Salad</li>
+				<li class="title">Beef Noodle Salad</li>
+				<li class="title">Egg Roll Noodle Salad</li>
+				<li class="title">Shrimp Cake Noodle Salad</li>
+				<li class="title">Roast Pork Noodle Salad</li>
+				<li class="title">Roast Duck Noodle Salad</li>
+			    </ul>
+			</div>
+			
+			<div data-role="collapsible">
+			    <h3>Appetizers</h3>
+			    <ul>
+				<li class="title">Egg Rolls (2) </li>
+				<li class="title">Vegetarian Spring Rolls (2) <i>fried</i></li>
+				<li class="title">Sweet Potatoes Frieds</li>
+				<li class="title">Fried Chicken Wings (8)</li>
+				<li class="title">Fried Chicken Nuggets</li>
+				<li class="title">Fried Shrimp Balls Coated with Chips</li>
+				<li class="title">Cream Cheese Puffs (8)</li>
+				<li class="title">Wonton Chips</li>
+				<li class="title">BBQ Roast Pork</li>
+				<li class="title">BBQ Pork Ribs (4)</li>
+				<li class="title">Pan Fried Pork Dumplings (6)</li>
+				<li class="title">Steamed Pork Dumplings (6)</li>
+				<li class="title">Pu-Pu Platter: <i class="fontTimes">Egg Roll, Chicken Nuggets, Cream Cheese Puffs & Fried Shrimp Balls</i></li>
+				<li class="titleSpicy">Spicy Chicken Wonton (8)<img src="icons/icon10/spicy.png"/></li>
+				<li class="titleSpicy">Spicy Sweet Potatoes Fries<img src="icons/icon10/spicy.png"/></li>
+				<li class="titleSpicy">Spicy Chicken Wings (8)<img src="icons/icon10/spicy.png"/></li>
+				<li class="titleSpicy">Sesame Noodles <i class="fontTimes">(warm)</i><img src="icons/icon10/spicy.png"/></li>
+			    </ul>
+			</div>    
+			
+			<div data-role="collapsible">
+			    <h3>House Specialties</h3>
+			    <ul>
+				<li class="specialTitleSpicy">"Red Pepper" Beef</li>
+				<li class="specialDescSpicy">Beef tenderlion with celery and carrots, resulting in a crispy texture.</li>
+				<li class="specialTitleSpicy">Hot Spicy Chicken with Potatoes</li>
+				<li class="specialDescSpicy">Chicken with fried potatoes & broccoli in a spicy distinctive sauce.</li>
+				<li class="specialTitleSpicy">Curry Chicken</li>
+				<li class="specialDescSpicy">Chicken with brocoli, carrot, onion, mushrooms green onion.</li>
+				<li class="specialTitleSpicy">Szechuan Duck in Plum Sauce</li>
+				<li class="specialDescSpicy">Boneless duck with carrots and celery in a spicy plum sauce.  (can also be ordered without skin)</li>
+				<li class="specialTitle">Cantonese Style Boneless Duck</li>
+				<li class="specialDesc">Boneless crispy duck over vegetables and topped with a onion and ginger sauce.</li>
+				
+				<li class="specialTitle">Eight Treasures Delight</li>
+				<li class="specialDesc">Chicken and shrimp with celery, onion, carrots, corn, peapods, mushrooms & cashew nuts.</li>
+				<li class="specialTitleSpicy">Hunan Triple Crown</li>
+				<li class="specialDescSpicy">Chicken, beef and pork with seasonal vegetables in a spicy Hunan sauce.</li>
+				<li class="specialTitle">Snow White Prawns</li>
+				<li class="specialDesc">Prawns in a special light sauce with vegetables.</li>
+				<li class="specialTitleSpicy">Tangerine Prawns</li>
+				<li class="specialDescSpicy">Prawns sauteed with peppers, pineapple and onion in a tangerine flavor.</li>
+				<li class="specialTitle">Prawns and Shrimp Reunion</li>
+				<li class="specialDesc">Shrimp, peapod, bamboo shoots & water chestnuts joined with delicious prawns.</li>
+				<li class="specialTitleSpicy">Kung Pao Triple Delight</li>
+				<li class="specialDescSpicy">Shrimp, beef & chicken stir fried with peanuts and dried red peppers.</li>
+				<li class="specialTitleSpicy">Seafood Hot Pot</li>
+				<li class="specialDescSpicy">Shrimp and scallops blended with vegetables.</li>
+				<li class="specialTitleSpicy">Dragon Prawns</li>
+				<li class="specialDescSpicy">Plentiful prawns in a specially prepared spicy sauce.</li>
+				<li class="specialTitle">Moo Shu Pork</li>
+				<li class="specialDesc">Pork sauteed with bamboo shoots, cabbage and eggs, served with 4 pancakes, extra for 30 cents each.</li>
+				<li class="specialTitleSpicy">Tiger Pork</li>
+				<li class="specialDescSpicy">Crispy pork sauteed over brocoli, mushrooms, corn and peapods in a spicy Hunan sauce.</li>
+			    </ul>
+			</div>
+			
+			<div data-role="collapsible">
+			    <h3>Chicken </h3>
+			    <ul>
+				<li class="chickenTitle">Moo Shu Chicken</li>
+				<li class="chickenDesc">Chicken sauteed with bamboo shoots, cabbage and eggs, served with 4 pancakes.</li>
+				
+				<li class="chickenTitle">Sweet and Sour Chicken</li>
+				<li class="chickenDesc">Breaded chicken with green peppers, onion, carrots and pineapple.</li>
+				    
+				<li class="chickenTitle">Chicken with Peapods</li>
+				<li class="chickenDesc">Sliced chicken with bamboo shoots, peapods & water chestnuts.</li>
+				
+				<li class="chickenTitle">Chicken with Cashew Nuts</li>
+				<li class="chickenDesc">Diced chicken and cashew nuts toss-fried with a special sauce.</li>
+				
+				<li class="chickenTitle">Moo Goo Gai Pan</li>
+				<li class="chickenDesc">Sliced chicken sauteed with peapods, carrots, broccoli & vegetables in a lightly sauce.</li>
+				
+				<li class="chickenTitle">Chicken with Black Bean Sauce</li>
+				<li class="chickenDesc">Sliced chicken with onion and green peppers.</li>
+				
+				<li class="chickenTitle">Chicken with Mixed Vegetables</li>
+				<li class="chickenDesc">Sliced chicken with assorted fresh vegetables.</li>
+				
+				<li class="chickenTitle">Lemon Chicken</li>
+				<li class="chickenDesc">Breaded chicken topped with a special lemon sauce.</li>
+				
+				<li class="chickenTitleSpicy">Chicken in Garlic Sauce</li>
+				<li class="chickenDescSpicy">Sliced chicken with green peppers, and water chestnuts.</li>
+				
+				<li class="chickenTitleSpicy">Orange Chicken</li>
+				<li class="chickenDescSpicy">Breaded chicken sauteed with peapods, broccoli, mushrooms and corn.</li>
+				
+				<li class="chickenTitleSpicy">Kung Pao Chicken</li>
+				<li class="chickenDescSpicy">Diced chicken with peanuts and dried red peppers.</li>
+				
+				<li class="chickenTitleSpicy">General Tso's Chicken</li>
+				<li class="chickenDescSpicy">Breaded chicken sauteed with broccoli, mushrooms, corn & peapods in a Hunan sauce.</li>
+				
+				<li class="chickenTitleSpicy">Sesame chicken</li>
+				<li class="chickenDescSpicy">Breaded chicken with a special orange tangy sauce and topped with sesame seeds.</li>
+				
+				<li class="chickenTitleSpicy">Mandarin Chicken</li>
+				<li class="chickenDescSpicy">Sliced chicken with corn, mushrooms, peapods and carrots.</li>
+				
+				<li class="chickenTitleSpicy">Szechuan Chicken Hot Pot</li>
+				<li class="chickenDescSpicy">Tender chicken with selected vegetable in a delightful spicy sauce.</li>
+			    </ul>
+			</div>
+			<div data-role="collapsible">
+			    <h3>Duck </h3>
+			    <ul>
+				<li class="duckTitle">Boneless Duck with Vegetables</li>
+				
+				
+				<li class="duckTitleSpicy">Sizzling Duck</li>
+				<li class="duckDescSpicy">Boneless duck & selected vegetables in a spicy orange sauce.</li>
+				
+				<li class="duckTitleSpicy">Mandarin Duck Hot Pot</li>
+				<li class="duckDescSpicy">Boneless duck with vegetables in a spicy sauce.</li>
+				
+				<p>The above items can also be ordered without duck skin.</p>
+				
+				<li class="duckTitle">Peking Duck (Order in Advance)</li>
+			    </ul>
+			</div>
+			
+			<div data-role="collapsible">
+			    <h3>Beef </h3>
+			    <ul>
+				<li class="beefTitle">Beef with Peapods</li>
+				<li class="beefDesc">Beef with peapods, bamboo shoots and water chestnuts.</li>
+				
+				<li class="beefTitle">Beef with Green Pepper & Onion</li>
+				<li class="beefDesc">Beef with green pepper & onion.</li>
+				
+				
+				<li class="beefTitle">Mongolian Beef</li>
+				<li class="beefDesc">Beef toss-fried with onion.</li>
+				
+				<li class="beefTitle">Beef with Broccoli</li>
+				<li class="beefDesc">Beef with broccoli in a dark sauce.</li>
+				
+				<li class="beefTitle">Beef with Mixed Vegetables</li>
+				<li class="beefDesc">Beef with peapods, broccoli, mushrooms, and carrots.</li>
+				
+				
+				<li class="beefTitleSpicy">Szechuan Beef</li>
+				<li class="beefDescSpicy">Beef with carrots and celery.</li>
+				
+				<li class="beefTitleSpicy">Beef in Garlic Sauce</li>
+				<li class="beefDescSpicy">Beef with green peppers and water chestnuts in a spicy garlic sauce.</li>
+				
+				<li class="beefTitleSpicy">Tangerine Beef</li>
+				<li class="beefDescSpicy">Breaded beef cooked to a wonderful taste of spicy tangerine sauce.</li>
+				
+				<li class="beefTitleSpicy">Sesame Beef</li>
+				<li class="beefDescSpicy">Breaded beef with orange tangy spicy sauce and topped with seasame seeds.</li>
+				
+				<li class="beefTitleSpicy">Kung Pao Beef</li>
+				<li class="beefDescSpicy">Beef with peanuts and dried red peppers.</li>
+				
+				<li class="beefTitleSpicy">Mandarin Beef</li>
+				<li class="beefDescSpicy">Beef with corn, mushrooms, peapods & carrots in a hot pepper sauce.</li>
+			    </ul>
+			</div>
+			
+			<div data-role="collapsible">
+			    <h3>Pork </h3>
+			    <ul>				
+				<li class="porkTitle">Sliced Pork, Chicken & Shrimp</li>
+				<li class="porkDesc">with onion</li>
+				
+				<li class="porkTitle">Sweet and Sour Pork </li>
+				<li class="porkDesc">breaded pork with vegetables</li>
+				
+				<li class="porkTitle">Pork with Green Beans</li>
+				<li class="porkDesc">Toss-fried with special chef sauce</li>
+				
+				<li class="porkTitle">Barbecued Pork with Vegetables</li>
+				
+				<li class="porkTitleSpicy">Mandarin Pork</li>
+				<li class="porkDescSpicy">mushroom, corn, peapods and carrots in hot sauce</li>
+				
+				<li class="porkTitleSpicy">Pork in Garlic Sauce</li>
+				<li class="porkDescSpicy">with green peppers and water chestnuts</li>
+				
+				<li class="porkTitleSpicy">Double Sauteed Pork</li>
+				<li class="porkDescSpicy">with cabbage, mushrooms & green peppers</li>
+			    </ul>
+			</div>
+ 
+			<div data-role="collapsible">
+			    <h3>Shrimp or Scallops </h3>
+			    <ul>
+				<li class="shrimpTitle">Shrimp with Mixed Vegetables</li>
+				<li class="shrimpDesc">Shrimp sauteed with fresh vegetables</li>
+				
+				<li class="shrimpTitle">Sweet and Sour Shrimp</li>
+				<li class="shrimpDesc">Breaded shrimp with green peppers, onion, carrots and pineapple.</li>
+				
+				<li class="shrimpTitle">Shrimp with Lobster Sauce</li>
+				<li class="shrimpDesc">Shrimp toss-fried with mushrooms, green peas, corn folded in eggs sauce.</li>
+				
+				<li class="shrimpTitle">Prawns with Cashew Nuts</li>
+				<li class="shrimpDesc">Prawns with cashew nuts toss-fried with a special sauce.</li>
+				
+				<li class="shrimpTitle">Shrimp with Black Bean Sauce</li>
+				<li class="shrimpDesc">Shrimp with onion and green peppers.</li>
+			
+				<li class="shrimpTitle">House Delight</li>
+				<li class="shrimpDesc">Shrimp, scallops with broccoli and peapods in a delightful sauce.</li>
+				
+				<li class="shrimpTitleSpicy">Mandarin Shrimp</li>
+				<li class="shrimpDescSpicy">Shrimp with corn, mushrooms, peapods, and carrots.</li>
+				
+				<li class="shrimpTitleSpicy">Shrimp in Garlic Sauce</li>
+				<li class="shrimpDescSpicy">Shrip with green peppers and water chestnuts.</li>
+				
+				<li class="shrimpTitleSpicy">Shrimp with Broccoli</li>
+				<li class="shrimpDescSpicy">Shrimp with broccoli in a lightly hot sauce.</li>
+				
+				<li class="shrimpTitleSpicy">Spicy Shrimp Hot Pot</li>
+				<li class="shrimpDescSpicy">Shrimp with selected vegetables in a delightful spicy sauce.</li>
+				
+				<li class="shrimpTitleSpicy">Sesame Shrimp</li>
+				<li class="shrimpDescSpicy">Breaded shrimp with a special orange tangy sauce and topped with sesame seeds.</li>
+				
+				<li class="shrimpTitleSpicy">Crispy Shrimp</li>
+				<li class="shrimpDescSpicy">Breaded shrimp in a spicy tangy onion sauce garnished with broccoli.</li>
+				
+				<li class="shrimpTitleSpicy">Sizzling Prawns</li>
+				<li class="shrimpDescSpicy">Prawns and selected vegetables in a spicy orange sauce.</li>
+				
+				<li class="shrimpTitleSpicy">Scallops in Garlic Sauce</li>
+				<li class="shrimpDescSpicy">Scallops with green peppers and water chestnuts.</li>
+				
+				<li class="shrimpTitle">Scallops in Black Beans Sauce</li>
+				<li class="shrimpDesc">Scallops with onion and green pepper.</li>
+				
+				<li class="shrimpTitle">Scallops with Mixed Vegetables</li>
+				<li class="shrimpDesc">Scallops with assorted fresh vegetables.</li>
+			    </ul>
+			</div>
+
+			<div data-role="collapsible">
+			    <h3>Noodles or Fried Rice</h3>
+			    <ul>			
+				<li class="noodleTitle"><b>LO MEIN</b> Choice of: Chicken or Vegetables or BBQ Pork</li>	
+				<li class="noodleDesc" >Shrimp or House or Beef</li>
+				
+				<li class="noodleTitle"><b>PAN FRIED NOODLES</b> Choice of: Chicken or vegetables or BBQ pork</li>	
+				<li class="noodleDesc" >Shrimp or House or Beef</li>	
+				
+				<li class="noodleTitle"><b>FRIED RICE</b> Choice of: Chicken or Vegetables or BBQ pork</li>
+				<li class="noodleDesc" >Shrimp or House or Beef</li>
+				
+				<li class="noodleTitle"><b>CHOW FUN</b> Choice of: Beef or Shrimp (with onion toss-fried in a soy sauce)</li>
+				<li class="noodleDesc" >Chicken (with onion toss-fried in a soy sauce)</li>
+				
+				<li class="noodelTitleSpicy"><b>SINGAPORE MAI FUN: </b>(with BBQ Pork, Chicken, Shrimp & vegetables in a curry flavors)</li>
+				
+				<li class="noodleTitle" ><b>HOUSE MAI FUN: </b>(with chicken, BBQ pork, shrimp & vegetables in a light sauce)</li>
+				
+				<li class="noodleTitle"><b>CHOW MEIN:</b> Plain (with minced pork & celery)</li>
+				<li class="noodleDescMid" >Chicken or Mushroom (with minced pork & celery)</li>
+				<li class="noodleDesc" >Subgum Chicken (with minced pork, celery & cashew nuts)</li>
+				
+				<li class="noodleTitle"><b>Special Chow Mein:</b> Beef or Shrimp or House (with Napa & celery)</li>
+				<li class="noodleDesc" >BBQ Pork or Vegetable (with Napa & celery)</li>
+				
+				<li class="noodleTitle"><b>CHOP SUEY:</b> Chicken or BBQ pork</li>
+				<li class="noodleDescMid" >Beef or Shrimp or House</li>
+				<li class="noodleDesc" >(Napa, celery, water chestnuts, bamboo shoots & peapods)</li>
+			    </ul>
+			</div>
+			
+			<div data-role="collapsible">
+			    <h3>Vegetables or Tofu </h3>
+			    <ul>				
+				<li class="vegeTitle">Buddha's Delight (special Mixed Vegetables)</li>	
+				<li class="vegeTitle">Juicy Green Beans</li>	
+				<li class="vegeTitle">Moo Shu Vegetables</li>
+				<li class="vegeDesc">served with 4 pancakes, extra pancake for 30 cents each</li>
+				<li class="vegeTitle">TO-FU with Mixed Vegetables</li>	
+				<li class="vegeTitle">Mock Duck with Vegetables</li>
+				<li class="vegeTitleSpicy">Eggplant in Garlic Sauce</li>
+				<li class="vegeTitleSpicy">TO-FU Family Style</li>
+				<li class="vegeTitleSpicy">MA PO TO-FU (meatless)</li>
+				<li class="vegeTitleSpicy">Sesame TO-FU</li>
+				<li class="vegeTitleSpicy">Mixed Green in Garlic Sauce</li>
+				<li class="vegeTitle">Steamed Mixed Veggie</li>
+				<li class="vegeTitle">Steamed Broccoli</li>
+			    </ul>
+			</div>
+			
+			<div data-role="collapsible">
+			    <h3>Egg Foo Young </h3>
+			    <ul>
+				<li class="title">Chicken Egg Foo Young</li>
+				<li class="title">Barbecued Pork Egg Foo Young</li>
+				<li class="title">Shrimp Egg Foo Young</li>
+				<li class="title">House Special Egg Foo Young</li>
+				<li class="title">Mushroom Egg Foo Young</li>
+				<li class="title">Vegetable Egg Foo Young</li>
+			    </ul>
+			</div>
+			
+			<div data-role="collapsible" class="fontPalatino">
+			    <h3>Beverage</h3>    
+			    <ul>
+				<li class="drinkTitle">Soda</li>
+				<li class="drinkTitle">Chinese Iced Tea</li>
+				<li class="drinkTitle">Chinese Hot Tea</li>
+			    </ul>
+			</div>
+
+			<p>
+			    BEER & WINE MENU IS AVAILABLE
+			</p>
+		</div>    
+            </div>
+        </div>
+        
+    </body>
+</html>
