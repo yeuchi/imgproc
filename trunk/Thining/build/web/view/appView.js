@@ -26,12 +26,13 @@ var AppView = Backbone.View.extend({
     onDraw: function(event) {
       var pos = $(".divCanvas").position();
       var off = $("#myCanvas").position();
-      var pt = new Point(event.pageX-pos.left-off.left, event.pageY-pos.top-pos.top);
+      var pt = new Point(event.pageX-pos.left-off.left, event.pageY-pos.top-off.top);
       var last = model.listPts.length;
       
       if(last) {
          this.context.beginPath();
          this.context.strokeStyle = "#"+model.color;
+         this.context.lineWidth = model.strokeWidth;
       
          var ptLast = model.listPts[last-1];
          this.context.moveTo(ptLast.x, ptLast.y);

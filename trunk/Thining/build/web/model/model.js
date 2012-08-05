@@ -4,14 +4,14 @@ var Model = Backbone.Model.extend({
 
     defaults: function() {
       return {
-        thickness: 1,
+        strokeWidth: 10,
         color: "F00",
         listPts: []
       };
     },
 
     initialize: function() {
-       this.thickness = 1;
+       this.strokeWidth = 10;
        this.color = "F00";
        this.listPts = [];
     },
