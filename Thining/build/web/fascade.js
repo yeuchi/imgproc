@@ -5,8 +5,8 @@
 //$(document).ready(function() {
 $(function(){
   
- model = new Model();
- var appView = new AppView();
+ var model = new Model();
+ var appView = new AppView({model: model});
 
 });
 
