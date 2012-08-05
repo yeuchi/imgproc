@@ -1,7 +1,3 @@
-/* 
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 var AppView = Backbone.View.extend({
     
@@ -13,9 +9,6 @@ var AppView = Backbone.View.extend({
       "click #myCanvas" : "onDraw"
     },
 
-    // The TodoView listens for changes to its model, re-rendering. Since there's
-    // a one-to-one correspondence between a **Todo** and a **TodoView** in this
-    // app, we set a direct reference on the model for convenience.
     initialize: function() {
       
       model.on('change', this.render, this);
@@ -25,7 +18,6 @@ var AppView = Backbone.View.extend({
       this.context = this.canvas.getContext('2d');
     },
 
-    // Re-render the titles of the todo item.
     render: function() {
       
       return this;
