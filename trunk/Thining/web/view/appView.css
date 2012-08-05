@@ -28,7 +28,9 @@ cursor: pointer;
 }
 
 .divInfo {
+margin: 5px 5px 5px 5px;
 padding: 5px 5px 5px 5px;
+width: 280px;
 float: left;
 display: inline-block;
 position: relative;
@@ -60,7 +62,7 @@ position: relative;
 .btn{
 display: inline-block; 
 float: right; 
-width: 80px; 
+width: 60px; 
 position: relative; 
 border-radius: 10px; 
 border: 1px solid #000; 

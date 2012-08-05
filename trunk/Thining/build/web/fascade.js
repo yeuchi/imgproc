@@ -5,8 +5,11 @@
 //$(document).ready(function() {
 $(function(){
   
- var model = new Model();
- var appView = new AppView({model: model});
+   var model = new Model();
+   var appView = new AppView({model: model});
 
+   $.getJSON("assets/intro.json", function(data){
+      $(".divInfo").append(data.info);
+   });
 });
 

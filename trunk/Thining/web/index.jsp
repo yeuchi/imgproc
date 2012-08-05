@@ -28,8 +28,7 @@
       </div>
  
       <!-- tutorial, credit, reference (right) -->
-      <div class="divInfo">     
-      </div>
+      <div class="divInfo"></div>
    </div>
    
    <div style="clear:both;"></div>
@@ -40,7 +39,7 @@
       <div class="divSlider">
          <span>Thickness:</span>
          <!--<a class="sliderKnob"></a>-->
-         <input id="sliderThick" type="range" value=5  min="1" max="10" step="1" />
+         <input id="sliderThick" type="range" value=20  min="1" max="50" step="1" />
       </div>
  
       <div class="divColor">
