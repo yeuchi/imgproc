@@ -16,7 +16,7 @@
 <div id="divAppView">
    
    
-   <h1>Thinning</h1>
+   <h1>BackBone.js Exercise</h1>
    
    <!-- content area (top) -->
    <div class="divContent">
@@ -47,6 +47,7 @@
          <input id="sliderColor" type="text" value="0F0" />
       </div>
 
+      <a class="btn btnThin">Thin</a>
       <a class="btn btnClear">Clear</a>
       
    </div>
