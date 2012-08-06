@@ -13,7 +13,7 @@ var Model = Backbone.Model.extend({
     },
 
     clear: function() {
-      this.destroy();
+      this.set({listPts: new Array()});
     }
 });
 
