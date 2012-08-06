@@ -46,8 +46,7 @@
          <span>Color:</span>
          <input id="sliderColor" type="text" value="0F0" />
       </div>
-      
-      <a class="btn btnThin">Thin</a>
+
       <a class="btn btnClear">Clear</a>
       
    </div>
@@ -63,6 +62,8 @@
    <script src="lib/backbone-localstorage.js"></script>
    <script src="model/model.js"></script>
    <script src="model/point.js"></script>
+   <script src="view/gonzalezThin.js"></script>
+   <script src="event/eventDispatch.js"></script>
    <script src="view/appView.js"></script>
    <script src="fascade.js"></script>
 </html>
