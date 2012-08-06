@@ -1,18 +1,15 @@
 
 var Model = Backbone.Model.extend({
 
-    defaults: function() {
-      return {
-        strokeWidth: 20,
-        color: "F00",
-        listPts: []
-      };
+    defaults: {
+        "strokeWidth"   : 20,
+        "color"         : "F00"
     },
-
-    initialize: function() {
-       this.strokeWidth = 20;
-       this.color = "F00";
-       this.listPts = [];
+    
+    initialize: function(){
+      if( !this.get('listPts') ){ 
+        this.set({listPts: new Array()});
+      }
     },
 
     clear: function() {
