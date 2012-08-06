@@ -52,9 +52,9 @@ GonzalezThin.prototype.apply = function(dataDes, dataMask) {
 GonzalezThin.prototype.thinning = function(str) {
    var bDelete = false;
 			
-   for (var y=1; y<this.dataDes.height; y++) {
-      var i = y*(this.dataDes.width+4);
-      for(var x=1; x<this.dataDes.width; x++) {
+   for (var y=1; y<this.dataDes.height-1; y++) {
+      var i = y*(this.dataDes.width*4);
+      for(var x=1; x<this.dataDes.width-1; x++) {
          
          // red ? only concerned with colored pixels
          if(this.dataDes.data[i]!=0||
@@ -69,9 +69,6 @@ GonzalezThin.prototype.thinning = function(str) {
                      
                      // mark pixel to be deleted
                      this.dataMask.data[i] = 255;
-                     this.dataMask.data[i+1] = 255;
-                     this.dataMask.data[i+2] = 255;
-                     this.dataMask.data[i+3] = 255;
                      bDelete = true;
                   }
                }
@@ -96,19 +93,16 @@ GonzalezThin.prototype.step = function(str) {
 
 GonzalezThin.prototype.deleteBorder = function() {
    for (var y=1; y<this.dataDes.height; y++) {
-      var i = y*(this.dataDes.width+4);
+      var i = y*(this.dataDes.width*4);
       for(var x=1; x<this.dataDes.width; x++) {
          
-         if(this.dataMask.data[i]==255 &&
-            this.dataMask.data[i+1]==255 &&
-            this.dataMask.data[i+2]==255 &&
-            this.dataMask.data[i+3]==255){
+         if(this.dataMask.data[i]==255){
             
             // mark it green !
                this.dataDes.data[i] = 0;
-               this.dataDes.data[i+1] = 255;
+               this.dataDes.data[i+1] = 0;
                this.dataDes.data[i+2] = 0;
-               this.dataDes.data[i+3] = 255;
+               this.dataDes.data[i+3] = 0;
          }
          i+=4;
       }
@@ -129,7 +123,7 @@ GonzalezThin.prototype.getNeighbors = function(x, y) {
 }
 
 GonzalezThin.prototype.getIndex = function(x, y) {
-   return y*(this.dataDes.width+4) + (x*4);  
+   return y*(this.dataDes.width*4) + (x*4);  
 }
 
 // pg 492 criterior (a)
