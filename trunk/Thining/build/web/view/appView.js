@@ -18,18 +18,23 @@ var AppView = Backbone.View.extend({
       
       this.canvas = document.getElementById('myCanvas');
       this.context = this.canvas.getContext('2d');
+      
+      this.onStrokeWidth();
+      this.onColor();
     },
 
     render: function() {
       this.context.clearRect(0,0,this.canvas.width, this.canvas.height);
-      if(this.model.listPts.length>1) {
+      var listPts = this.model.get("listPts");
+      
+      if(listPts.length>1) {
          this.context.beginPath();
-         this.context.strokeStyle = "#"+this.model.color;
-         this.context.lineWidth = this.model.strokeWidth;
+         this.context.strokeStyle = "#"+this.model.get("color");
+         this.context.lineWidth = this.model.get("strokeWidth");
 
-         var ptLast = this.model.listPts[0];
-         for(var i=1; i<this.model.listPts.length; i++){
-            var pt = this.model.listPts[i];
+         var ptLast = listPts[0];
+         for(var i=1; i<listPts.length; i++){
+            var pt = listPts[i];
             this.context.moveTo(ptLast.x, ptLast.y);
             this.context.lineTo(pt.x, pt.y);
             ptLast = pt;
@@ -42,26 +47,30 @@ var AppView = Backbone.View.extend({
       var pos = $(".divCanvas").position();
       var off = $("#myCanvas").position();
       var pt = new Point(event.pageX-pos.left-off.left, event.pageY-pos.top-off.top);
-      this.model.listPts.push(pt);
+      var listPts = this.model.get("listPts");
+      listPts.push(pt);
+      this.model.set({listPts: listPts});
     },
     
     onDraw: function(event) {
       var pos = $(".divCanvas").position();
       var off = $("#myCanvas").position();
       var pt = new Point(event.pageX-pos.left-off.left, event.pageY-pos.top-off.top);
-      var last = this.model.listPts.length;
       
-      if(last) {
+      var listPts = this.model.get("listPts");
+    
+      if(listPts.length) {
          this.context.beginPath();
-         this.context.strokeStyle = "#"+this.model.color;
-         this.context.lineWidth = this.model.strokeWidth;
+         this.context.strokeStyle = "#"+this.model.get("color");
+         this.context.lineWidth = this.model.get("strokeWidth");;
       
-         var ptLast = this.model.listPts[last-1];
+         var ptLast = listPts[listPts.length-1];
          this.context.moveTo(ptLast.x, ptLast.y);
          this.context.lineTo(pt.x, pt.y);
          this.context.stroke();
       }
-      this.model.listPts.push(pt);
+      listPts.push(pt);
+      this.model.set({listPts:listPts});
     },
     
     onClear: function() {
@@ -75,13 +84,11 @@ var AppView = Backbone.View.extend({
     },
     
     onStrokeWidth: function() {
-       var strokeWidth = $("#sliderThick").val();
-       this.model.strokeWidth = strokeWidth;
+       this.model.set({strokeWidth: $("#sliderThick").val()});
     },
     
     onColor: function() {
-       var color = $("#sliderColor").val();
-       this.model.color = color;
+       this.model.set({color: $("#sliderColor").val()});
     }
 });
 
