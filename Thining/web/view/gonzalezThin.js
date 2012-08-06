@@ -110,20 +110,27 @@ GonzalezThin.prototype.deleteBorder = function() {
 }
 
 GonzalezThin.prototype.getNeighbors = function(x, y) {
-   var p2 = this.dataDes.data[this.getIndex(x,y-1)];
-   var p3 = this.dataDes.data[this.getIndex(x+1,y-1)];
-   var p4 = this.dataDes.data[this.getIndex(x+1,y)];
-   var p5 = this.dataDes.data[this.getIndex(x+1,y+1)];
-   var p6 = this.dataDes.data[this.getIndex(x,y+1)];
-   var p7 = this.dataDes.data[this.getIndex(x-1,y+1)];
-   var p8 = this.dataDes.data[this.getIndex(x-1,y)];
-   var p9 = this.dataDes.data[this.getIndex(x-1,y-1)];
+   var p2 = this.getValue(x,y-1);
+   var p3 = this.getValue(x+1,y-1);
+   var p4 = this.getValue(x+1,y);
+   var p5 = this.getValue(x+1,y+1);
+   var p6 = this.getValue(x,y+1);
+   var p7 = this.getValue(x-1,y+1);
+   var p8 = this.getValue(x-1,y);
+   var p9 = this.getValue(x-1,y-1);
    
    this.listNeighbors = [p2, p3, p4, p5, p6, p7, p8, p9];
 }
 
-GonzalezThin.prototype.getIndex = function(x, y) {
-   return y*(this.dataDes.width*4) + (x*4);  
+GonzalezThin.prototype.getValue = function(x, y) {
+   var i = y*(this.dataDes.width*4) + (x*4);
+   if(this.dataDes.data[i]!=0|| 
+      this.dataDes.data[i+1]!=0||  
+      this.dataDes.data[i+2]!=0||  
+      this.dataDes.data[i+3]!=0)
+      return 255;
+   
+   return 0;
 }
 
 // pg 492 criterior (a)
