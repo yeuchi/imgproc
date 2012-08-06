@@ -79,8 +79,16 @@ var AppView = Backbone.View.extend({
     },
     
     onThin: function() {
-       alert("start Thinning");
-       // dispatch event for thinning.
+       //this.dataSrc = this.context.getImageData(0,0,this.canvas.width, this.canvas.height);
+       this.context = this.canvas.getContext('2d');
+       this.dataDes = this.context.getImageData(0, 0,this.canvas.width, this.canvas.height);
+       this.dataMask = this.context.createImageData(this.canvas.width, this.canvas.height);
+      
+       this.gonzalezThin = new GonzalezThin();
+       this.gonzalezThin.apply(this.dataDes, this.dataMask);
+       this.context.clearRect(0,0,this.canvas.width, this.canvas.height);
+       this.context.putImageData(this.dataDes, 0, 0);
+       //dispatchEvent(EVENT_BUTTON_THIN);
     },
     
     onStrokeWidth: function() {
