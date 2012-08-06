@@ -8,6 +8,10 @@
 //                Whole thing can be done in pixelbender but let me
 //                try it out in actionscript first.
 //
+//                2nd implementation in javascript.  Not using while
+//                loop to skeletonize.... looks like there is still
+//                a defect at 1 pixel width.
+//                
 // Input:         Image with bounding pixels of a closed shape over
 //                white backgroun.
 //
@@ -33,20 +37,16 @@ GonzalezThin.prototype.apply = function(dataDes, dataMask) {
    this.dataDes = dataDes;
    this.dataMask = dataMask;
    
-   var bDeleted = true;
-			
+   var bDeleted = false;				
+   if(true==this.thinning(this.STEP1)) {
+      this.deleteBorder();
+      bDeleted = true;
+   }
 
-		bDeleted = false;				
-		if(true==this.thinning(this.STEP1)) {
-			this.deleteBorder();
-			bDeleted = true;
-		}
-      
-      if(true==this.thinning(this.STEP2)) {
-         this.deleteBorder();
-         bDeleted = true;
-      }
-  
+   if(true==this.thinning(this.STEP2)) {
+      this.deleteBorder();
+      bDeleted = true;
+   }
 }
 
 GonzalezThin.prototype.thinning = function(str) {
