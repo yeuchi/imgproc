@@ -16,7 +16,7 @@
 <div id="divAppView">
    
    
-   <h1>BackBone.js Exercise</h1>
+   <h1>BackBone.js + Thinning Exercise</h1>
    
    <!-- content area (top) -->
    <div class="divContent">
