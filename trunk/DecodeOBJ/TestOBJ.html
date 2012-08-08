@@ -25,7 +25,8 @@
 <title>OBJ decoder</title>
 
 	<LINK REL=StyleSheet HREF="default.css" TYPE="text/css"> 
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
+	    <script src="http://code.jquery.com/jquery-latest.js"></script>
+	<script src="Renderer.js"></script>
 	<script src="OBJ.js"></script>
     <script>
 		$(document).ready(function() {
@@ -36,7 +37,8 @@
 			var rZ = 0;
 			var STEP = 10;
 			var instance;
-			var bAuto = true;
+			var numTriangles;
+			var renderer = new Renderer(canvas.width, canvas.height, context);
 			
 			loadOBJ();
 			
@@ -47,12 +49,12 @@
 			
 			// rotation controls
 			$("#imgLeft").click(function() {
-				bAuto = false;
-				rX -= STEP;
-				if(rX<0)
-					rX = 360+rX;
+			
+				rY -= STEP;
+				if(rY<0)
+					rY = 360+rY;
 				
-				$("#xpos").html("Rotate X: "+rX);
+				$("#ypos").html("Rotate Y: "+rY);
 				if(null==instance)
 					loadOBJ();
 				else
@@ -60,12 +62,12 @@
 			});
 			
 			$("#imgRight").click(function() {
-				bAuto = false;
-				rX += STEP;
-				if(rX>360)
-					rX -= 360;
 				
-				$("#xpos").html("Rotate X: "+rX);
+				rY += STEP;
+				if(rY>360)
+					rY -= 360;
+				
+				$("#ypos").html("Rotate Y: "+rY);
 				if(null==instance)
 					loadOBJ();
 				else
@@ -92,23 +94,24 @@
 				context = canvas.getContext('2d');
 				context.strokeStyle = 'black';
 				var numTriangles = 0;
-				var numTriangles = instance.categorize();
-				instance.drawWireFrame(context, canvas.width, canvas.height, mag,rX, rY, rZ);
+				var numTriangles = instance.decode();
+				renderer.drawWireFrame(instance, mag, rX, rY, rZ);
+				//instance.drawWireFrame(context, canvas.width, canvas.height, mag,rX, rY, rZ);
 				$("#faceCount").html("Face count: " + numTriangles);
 			}
 			
 			setInterval(function() {
-				if(bAuto) {
-					rX += 2;
-					if(rX>360)
-						rX -= 360;
-					
-					$("#xpos").html("Rotate X: "+rX);
-					if(null==instance)
-						loadOBJ();
-					else
-						update();
-				}
+				
+				    rX += 2;
+				    if(rX>360)
+					    rX -= 360;
+				    
+				    $("#xpos").html("Rotate X: "+rX);
+				    if(null==instance)
+					    loadOBJ();
+				    else
+					    update();
+				
 			}, 100);
 
 		});
@@ -155,6 +158,7 @@
       	<option value="monkey_vtn.obj">monkey</option>	
     </select> 
     <p id="xpos"> Rotate X: </p>
+    <p id="ypos"> Rotate Y: </p>
     
 	Magnification: <input id="slider" type="range" value=15  min="1" max="200" step="10" /><br>
     
