@@ -1,0 +1,10 @@
+\\vmware-host\Shared Folders\Desktop\CsDockingDialog\bin\Debug\CsDockingDialog.dll
+\\vmware-host\Shared Folders\Desktop\CsDockingDialog\bin\Debug\RhinoCommon.pdb
+\\vmware-host\Shared Folders\Desktop\CsDockingDialog\bin\Debug\RhinoCommon.xml
+\\vmware-host\Shared Folders\Desktop\CsDockingDialog\obj\Debug\ResolveAssemblyReference.cache
+\\vmware-host\Shared Folders\Desktop\CsDockingDialog\obj\Debug\CsDockingDialog.CsDockingDialogUserControl.resources
+\\vmware-host\Shared Folders\Desktop\CsDockingDialog\obj\Debug\CsDockingDialog.Properties.Resources.resources
+\\vmware-host\Shared Folders\Desktop\CsDockingDialog\obj\Debug\CsDockingDialog.csproj.GenerateResource.Cache
+\\vmware-host\Shared Folders\Desktop\CsDockingDialog\obj\Debug\CsDockingDialog.dll
+\\vmware-host\Shared Folders\Desktop\CsDockingDialog\obj\Debug\CsDockingDialog.pdb
+\\vmware-host\Shared Folders\Desktop\CsDockingDialog\bin\Debug\CsDockingDialog.pdb

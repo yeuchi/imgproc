@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="CsDockingDialog">
+</Property><Property Name="Solution File" Value="\\vmware-host\Shared Folders\Desktop\CsDockingDialog\CsDockingDialog.sln">
+</Property><Property Name="Date" Value="Tuesday, August 14, 2012">
+</Property><Property Name="Time" Value="17:50:34 PM">
+</Property></Properties><Event ErrorLevel="0" Project="CsDockingDialog" Source="CsDockingDialog.csproj" Description="Project file successfully backed up as \\vmware-host\Shared Folders\Desktop\CsDockingDialog\Backup\CsDockingDialog.csproj">
+</Event><Event ErrorLevel="0" Project="CsDockingDialog" Source="CsDockingDialogDockBar.cs" Description="File successfully backed up as \\vmware-host\Shared Folders\Desktop\CsDockingDialog\Backup\CsDockingDialogDockBar.cs">
+</Event><Event ErrorLevel="0" Project="CsDockingDialog" Source="CsDockingDialogPlugIn.cs" Description="File successfully backed up as \\vmware-host\Shared Folders\Desktop\CsDockingDialog\Backup\CsDockingDialogPlugIn.cs">
+</Event><Event ErrorLevel="0" Project="CsDockingDialog" Source="CsDockingDialogPlugInAttributes.cs" Description="File successfully backed up as \\vmware-host\Shared Folders\Desktop\CsDockingDialog\Backup\CsDockingDialogPlugInAttributes.cs">
+</Event><Event ErrorLevel="0" Project="CsDockingDialog" Source="CsDockingDialogCommand.cs" Description="File successfully backed up as \\vmware-host\Shared Folders\Desktop\CsDockingDialog\Backup\CsDockingDialogCommand.cs">
+</Event><Event ErrorLevel="0" Project="CsDockingDialog" Source="CsDockingDialogUserControl.cs" Description="File successfully backed up as \\vmware-host\Shared Folders\Desktop\CsDockingDialog\Backup\CsDockingDialogUserControl.cs">
+</Event><Event ErrorLevel="0" Project="CsDockingDialog" Source="CsDockingDialogUserControl.Designer.cs" Description="File successfully backed up as \\vmware-host\Shared Folders\Desktop\CsDockingDialog\Backup\CsDockingDialogUserControl.Designer.cs">
+</Event><Event ErrorLevel="0" Project="CsDockingDialog" Source="Properties\AssemblyInfo.cs" Description="File successfully backed up as \\vmware-host\Shared Folders\Desktop\CsDockingDialog\Backup\Properties\AssemblyInfo.cs">
+</Event><Event ErrorLevel="0" Project="CsDockingDialog" Source="CsDockingDialogUserControl.resx" Description="File successfully backed up as \\vmware-host\Shared Folders\Desktop\CsDockingDialog\Backup\CsDockingDialogUserControl.resx">
+</Event><Event ErrorLevel="0" Project="CsDockingDialog" Source="CsDockingDialog.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="CsDockingDialog" Source="CsDockingDialog.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="CsDockingDialog" Source="CsDockingDialog.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event></UpgradeLog>
