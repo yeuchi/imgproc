@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		title="Sketch" 
+		xmlns:mx="library://ns.adobe.com/flex/mx" 
+		backgroundColor="0x0" 
+	  	creationComplete="onCreationComplete()">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import flash.sensors.Accelerometer;
+			
+			import mx.core.UIComponent;
+			import spark.components.TextArea;
+			
+			protected static const LABEL_PAUSE:String = "Pause";
+			protected static const LABEL_CONTINUE:String = "Continue";
+			protected static const STATE_PAUSE:String = "pause";
+			protected static const STATE_GAME:String = "game";
+			protected var state:String = STATE_GAME;
+			
+			protected var ac:Accelerometer;
+			protected var p:Point;
+			protected var uic:UIComponent;
+			
+			protected function onCreationComplete():void {
+				uic = new UIComponent();
+				uic.percentHeight = 100;
+				uic.percentWidth = 100;
+				this.addElement(uic);
+				onChange();
+				
+				Multitouch.inputMode = MultitouchInputMode.GESTURE;
+				this.addEventListener(MouseEvent.CLICK, onClick, false, 0, true);
+				this.addEventListener(TransformGestureEvent.GESTURE_ZOOM, onClear, false, 0, true);
+				if(Accelerometer.isSupported) {
+					ac = new Accelerometer();
+					ac.addEventListener(AccelerometerEvent.UPDATE, onUpdate, false, 0, true);
+				}
+			}
+			
+			protected function onChange():void {
+				uic.graphics.lineStyle(slider.value,0xFF00FF00);
+			}
+			
+			protected function onClick(event:MouseEvent):void {
+				
+				
+				if(state==STATE_GAME) {
+					if(event.localY>(btnPause.height + 10)) {
+						p = new Point(event.localX, event.localY);
+						uic.graphics.moveTo(p.x, p.y);
+					}
+				}
+			}
+			
+			protected function onClear(e:Event):void {
+				uic.graphics.clear();
+				onChange();
+				p = null;
+				xPos.text = "";
+				yPos.text = "";
+			}
+			
+			protected function onUpdate(e:AccelerometerEvent):void {
+				//				labelX.text = "X: "+(e.accelerationX).toString();
+				//				labelY.text = "Y: "+(e.accelerationY).toString();
+				//				labelZ.text = "Z: "+(e.accelerationZ).toString();
+				
+				if(state==STATE_PAUSE||!p)
+					return;
+				
+				var v:Point = new Point(e.accelerationX, e.accelerationY);
+				
+				if(Math.abs(v.x)>0)
+				{
+					//p.x += (v.x<0)?-1:1;
+					p.x -= v.x*10;
+					p.x = (p.x<0)?0:p.x;
+					p.x = (p.x>=width)?width:p.x;
+				}
+				if(Math.abs(e.accelerationY)>0)
+				{  
+					//p.y += (v.y<0)?1:-1;
+					p.y += v.y*10;
+					p.y = (p.y<0)?0:p.y;
+					p.y = (p.y>=height)?height:p.y;
+				}
+				uic.graphics.lineTo(p.x, p.y);
+				
+				xPos.text = "X:"+p.x.toString();
+				yPos.text = "Y:"+p.y.toString();
+			}
+			
+			protected function changeState():void {
+				if(state==STATE_GAME)
+					state = STATE_PAUSE;
+				else
+					state = STATE_GAME;
+			}
+			
+			protected function onClickBtn():void {
+				changeState();
+				
+				switch(state) {
+					case STATE_PAUSE:
+						btnPause.label = LABEL_CONTINUE;
+						cfg.includeInLayout = true;
+						cfg.visible = true;
+						break;
+					
+					case STATE_GAME:
+						btnPause.label = LABEL_PAUSE;
+						cfg.includeInLayout = false;
+						cfg.visible = false;
+						break;
+				}
+			}
+		]]>
+	</fx:Script>
+	
+	<s:HGroup height="100%" verticalAlign="bottom">
+		<s:VGroup>
+			<s:HGroup id="cfg" includeInLayout="false" visible="false">
+				<s:Label id="txtSlide" text="line width:" color="0xFFFFFF"/>			
+				<s:HSlider id="slider" minimum="1" value="2" changeEnd="onChange()"/>
+			</s:HGroup>		
+		</s:VGroup>
+		<s:Spacer width="20"/>
+		<s:Button id="btnPause" label="Pause" click="onClickBtn()"/>
+		<s:VGroup>
+			<s:Label id="xPos" color="0xFFFFFF"/>
+			<s:Label id="yPos" color="0xFFFFFF"/>
+		</s:VGroup>
+	</s:HGroup>
+	
+</s:View>
