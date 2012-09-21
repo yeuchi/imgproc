@@ -1,0 +1,5 @@
+\\vmware-host\Shared Folders\Desktop\FTPClient\FTPClient\bin\Debug\FTPClient.dll
+\\vmware-host\Shared Folders\Desktop\FTPClient\FTPClient\bin\Debug\FTPClient.pdb
+\\vmware-host\Shared Folders\Desktop\FTPClient\FTPClient\obj\Debug\ResolveAssemblyReference.cache
+\\vmware-host\Shared Folders\Desktop\FTPClient\FTPClient\obj\Debug\FTPClient.dll
+\\vmware-host\Shared Folders\Desktop\FTPClient\FTPClient\obj\Debug\FTPClient.pdb
