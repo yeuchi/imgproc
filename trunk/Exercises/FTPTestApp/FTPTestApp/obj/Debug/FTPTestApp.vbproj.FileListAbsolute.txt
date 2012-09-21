@@ -1,0 +1,34 @@
+\\vmware-host\Shared Folders\Desktop\FTPTestApp\FTPTestApp\bin\Debug\FTPTestApp.exe
+\\vmware-host\Shared Folders\Desktop\FTPTestApp\FTPTestApp\bin\Debug\FTPTestApp.pdb
+\\vmware-host\Shared Folders\Desktop\FTPTestApp\FTPTestApp\bin\Debug\FTPTestApp.xml
+\\vmware-host\Shared Folders\Desktop\FTPTestApp\FTPTestApp\obj\Debug\ResolveAssemblyReference.cache
+\\vmware-host\Shared Folders\Desktop\FTPTestApp\FTPTestApp\obj\Debug\FTPTestApp.Form1.resources
+\\vmware-host\Shared Folders\Desktop\FTPTestApp\FTPTestApp\obj\Debug\FTPTestApp.Resources.resources
+\\vmware-host\Shared Folders\Desktop\FTPTestApp\FTPTestApp\obj\Debug\FTPTestApp.vbproj.GenerateResource.Cache
+\\vmware-host\Shared Folders\Desktop\FTPTestApp\FTPTestApp\obj\Debug\FTPTestApp.exe
+\\vmware-host\Shared Folders\Desktop\FTPTestApp\FTPTestApp\obj\Debug\FTPTestApp.xml
+\\vmware-host\Shared Folders\Desktop\FTPTestApp\FTPTestApp\obj\Debug\FTPTestApp.pdb
+\\vmware-host\Shared Folders\Desktop\UHC\FTPTestApp\FTPTestApp\obj\Debug\FTPTestApp.exe
+\\vmware-host\Shared Folders\Desktop\UHC\FTPTestApp\FTPTestApp\obj\Debug\FTPTestApp.xml
+\\vmware-host\Shared Folders\Desktop\UHC\FTPTestApp\FTPTestApp\obj\Debug\FTPTestApp.pdb
+\\vmware-host\Shared Folders\Desktop\UHC\FTPTestApp\FTPTestApp\bin\Debug\FTPTestApp.exe
+\\vmware-host\Shared Folders\Desktop\UHC\FTPTestApp\FTPTestApp\bin\Debug\FTPTestApp.pdb
+\\vmware-host\Shared Folders\Desktop\UHC\FTPTestApp\FTPTestApp\bin\Debug\FTPTestApp.xml
+\\vmware-host\Shared Folders\Desktop\UHC\FTPTestApp\FTPTestApp\bin\Debug\FTPClient.dll
+\\vmware-host\Shared Folders\Desktop\UHC\FTPTestApp\FTPTestApp\bin\Debug\FTPClient.pdb
+\\vmware-host\Shared Folders\Desktop\UHC\FTPTestApp\FTPTestApp\obj\Debug\ResolveAssemblyReference.cache
+\\vmware-host\Shared Folders\Desktop\UHC\FTPTestApp\FTPTestApp\obj\Debug\FTPTestApp.Form1.resources
+\\vmware-host\Shared Folders\Desktop\UHC\FTPTestApp\FTPTestApp\obj\Debug\FTPTestApp.Resources.resources
+\\vmware-host\Shared Folders\Desktop\UHC\FTPTestApp\FTPTestApp\obj\Debug\FTPTestApp.vbproj.GenerateResource.Cache
+Z:\ctyeung On My Mac\Desktop\UHC\FTPTestApp\FTPTestApp\obj\Debug\FTPTestApp.exe
+Z:\ctyeung On My Mac\Desktop\UHC\FTPTestApp\FTPTestApp\obj\Debug\FTPTestApp.xml
+Z:\ctyeung On My Mac\Desktop\UHC\FTPTestApp\FTPTestApp\obj\Debug\FTPTestApp.pdb
+Z:\ctyeung On My Mac\Desktop\UHC\FTPTestApp\FTPTestApp\bin\Debug\FTPTestApp.exe
+Z:\ctyeung On My Mac\Desktop\UHC\FTPTestApp\FTPTestApp\bin\Debug\FTPTestApp.pdb
+Z:\ctyeung On My Mac\Desktop\UHC\FTPTestApp\FTPTestApp\bin\Debug\FTPTestApp.xml
+Z:\ctyeung On My Mac\Desktop\UHC\FTPTestApp\FTPTestApp\bin\Debug\FTPClient.dll
+Z:\ctyeung On My Mac\Desktop\UHC\FTPTestApp\FTPTestApp\bin\Debug\FTPClient.pdb
+Z:\ctyeung On My Mac\Desktop\UHC\FTPTestApp\FTPTestApp\obj\Debug\ResolveAssemblyReference.cache
+Z:\ctyeung On My Mac\Desktop\UHC\FTPTestApp\FTPTestApp\obj\Debug\FTPTestApp.Form1.resources
+Z:\ctyeung On My Mac\Desktop\UHC\FTPTestApp\FTPTestApp\obj\Debug\FTPTestApp.Resources.resources
+Z:\ctyeung On My Mac\Desktop\UHC\FTPTestApp\FTPTestApp\obj\Debug\FTPTestApp.vbproj.GenerateResource.Cache
