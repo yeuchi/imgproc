@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Media.Media3D;
+using System.Collections;
 
 namespace DecoderExercise
 {
@@ -20,7 +21,7 @@ namespace DecoderExercise
     /// </summary>
     public partial class Window1 : Window
     {
-        protected STLDecoder decoder;
+        protected STLDecoder stl;
         public Window1()
         {
             InitializeComponent();
@@ -46,16 +47,21 @@ namespace DecoderExercise
             }
         }
 
+        protected const int INDEX_MESH = 0;
+        protected const int INDEX_NORMAL = 1;
+
         private void onLoadFrame(object sender, EventArgs args)
         {
             Frame f = (Frame)sender;
             Wireframe wireFrame = (Wireframe)f.Content;
-            decoder = new STLDecoder();
+            stl = new STLDecoder();
 
-            if (decoder.read(textSrc.Text))
+            if (stl.read(textSrc.Text))
             {
-                Point3DCollection p3DCollect = decoder.getAllVerticies();
-                wireFrame.updateMesh(p3DCollect);
+                ArrayList array = stl.decode();
+                
+                wireFrame.updateMesh((Point3DCollection)array[INDEX_MESH], 
+                                     (Vector3DCollection)array[INDEX_NORMAL]);
             }
             else
                 MessageBox.Show("Read error");

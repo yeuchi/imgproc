@@ -32,7 +32,7 @@
                 <ModelVisual3D.Transform>
                     <RotateTransform3D>
                         <RotateTransform3D.Rotation>
-                            <AxisAngleRotation3D x:Name="AboutY" Axis="0,1,0" />
+                            <AxisAngleRotation3D x:Name="AboutY" Axis="1,0,0" />
                         </RotateTransform3D.Rotation>
                     </RotateTransform3D>
                 </ModelVisual3D.Transform>
@@ -44,7 +44,7 @@
                 </ModelVisual3D.Content>
             </ModelVisual3D>
             <Viewport3D.Camera>
-                <PerspectiveCamera Position="2 0 10"
+                <PerspectiveCamera Position="0 0 10"
 LookDirection="0 0 -1"
 UpDirection="0 1 0"
 FieldOfView="45" NearPlaneDistance="1.25" />
