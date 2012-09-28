@@ -4,36 +4,45 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Windows.Media.Media3D;
+using System.Collections;
 
 namespace DecoderExercise
 {
     public class STLDecoder
     {
-        byte[] data;
+        protected const int INDEX_VERTEX0 = 0;
+        protected const int INDEX_VERTEX1 = 1;
+        protected const int INDEX_VERTEX2 = 2;
+        protected const int INDEX_NORMAL = 3;
+        
         public string fileType = "";
-        STLParser parser;
+
+        protected byte[] _data;
+        protected STLParser _parser;
+        protected Point3DCollection _mesh;
+        protected Vector3DCollection _normals;
 
         public STLDecoder() { }
 
         public bool read(string sFile)
         {
-            parser = null;
+            _parser = null;
 
-            data = File.ReadAllBytes(sFile);
-            if(null==data||data.Length==0)
+            _data = File.ReadAllBytes(sFile);
+            if(null==_data||_data.Length==0)
                 return false;
 
             // validate ascii file header
-            parser = new STL_ASCIIParser(data);
-            if (parser.isValid())
+            _parser = new STL_ASCIIParser(_data);
+            if (_parser.isValid())
             {
                 fileType = STL_ASCIIParser.ASCII_FILE;
                 return true;
             }
 
             // validate binary file header
-            parser = new STL_BinaryParser(data);
-            if (parser.isValid())
+            _parser = new STL_BinaryParser(_data);
+            if (_parser.isValid())
             {
                 fileType = STL_BinaryParser.BINARY_FILE;
                 return true;
@@ -45,26 +54,32 @@ namespace DecoderExercise
         {
             get
             {
-                return (null==parser)?-1:parser.numTriangles;
+                return (null==_parser)?-1:_parser.numTriangles;
             }
         }
 
-        public Point3DCollection index(int value)
+        public ArrayList index(int value)
         {
-            return (null == parser) ? null : parser.index(value);
+            return (null == _parser) ? null : _parser.index(value);
         }
 
-        public Point3DCollection getAllVerticies()
+        public ArrayList decode()
         {
-            Point3DCollection mesh = new Point3DCollection();
-            for (int i = 0; i < parser.numTriangles; i++)
+            ArrayList array = new ArrayList();
+            _mesh = new Point3DCollection();
+            _normals = new Vector3DCollection();
+            array.Add(_mesh);
+            array.Add(_normals);
+
+            for (int i = 0; i < _parser.numTriangles; i++)
             {
-                Point3DCollection p3DCollection = parser.index(i);
-                mesh.Add(p3DCollection[0]);
-                mesh.Add(p3DCollection[1]);
-                mesh.Add(p3DCollection[2]);
+                ArrayList collection = _parser.index(i);
+                _mesh.Add((Point3D)collection[INDEX_VERTEX0]);
+                _mesh.Add((Point3D)collection[INDEX_VERTEX1]);
+                _mesh.Add((Point3D)collection[INDEX_VERTEX2]);
+                _normals.Add((Vector3D)collection[INDEX_NORMAL]);
             }
-            return mesh;
+            return array;
         }
     }
 }

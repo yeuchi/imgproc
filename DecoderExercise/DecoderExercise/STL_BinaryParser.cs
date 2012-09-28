@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Media.Media3D;
+using System.Collections;
 
 namespace DecoderExercise
 {
@@ -68,7 +69,7 @@ namespace DecoderExercise
             }
         }
 
-        override public Point3DCollection index(int value)
+        override public ArrayList index(int value)
         {
             if(value>numTriangles)
                 return null;
@@ -79,29 +80,33 @@ namespace DecoderExercise
                                 + BIN_HEADER_LEN;
             Buffer.BlockCopy(_data, offset, bytes, 0, TRIANGLE_BYTE_COUNT);
 
-            Point3D n = parseNormal(bytes);
+            Vector3D n = parseNormal(bytes);
             Point3D v0 = parseVertex(bytes, 0);
             Point3D v1 = parseVertex(bytes, 1);
             Point3D v2 = parseVertex(bytes, 2);
             byte[] attr = parseAttribute(bytes);
-            Point3DCollection p3DCollect = new Point3DCollection();
+            ArrayList collection = new ArrayList();
 
             // only make sense that vertex data comes first
-            p3DCollect.Add(v0);
-            p3DCollect.Add(v1);
-            p3DCollect.Add(v2);
+            collection.Add(v0);
+            collection.Add(v1);
+            collection.Add(v2);
 
             // then normal
-            p3DCollect.Add(n);
+            collection.Add(n);
 
             // what about attribute ?
 
-            return p3DCollect;
+            return collection;
         }
 
-        protected Point3D parseNormal(byte[] dataChunk)
+        protected Vector3D parseNormal(byte[] dataChunk)
         {   // normal is packed the identical as vertex
-            Point3D normal = parseVertex(dataChunk, 0);
+            Point3D p = parseVertex(dataChunk, 0);
+            Vector3D normal = new Vector3D();
+            normal.X = p.X;
+            normal.Y = p.Y;
+            normal.Z = p.Z;
             return normal;
         }
 

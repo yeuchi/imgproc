@@ -26,7 +26,8 @@ namespace DecoderExercise
             InitializeComponent();
         }
 
-        public void updateMesh(Point3DCollection verticies)
+        public void updateMesh( Point3DCollection verticies,
+                                Vector3DCollection normals)
         {
             Int32Collection triangleIndices = new Int32Collection();
             for (int i = 0; i < verticies.Count/3; i++)
@@ -38,6 +39,7 @@ namespace DecoderExercise
             
             this.mesh.TriangleIndices = triangleIndices; 
             this.mesh.Positions = verticies;
+            this.mesh.Normals = normals;
             this.InvalidateVisual();
         }
     }
