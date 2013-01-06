@@ -111,3 +111,85 @@ CanvasView.prototype.copyInternal = function(srcId, x, y) {
     this.context.putImageData(dataDes, 0, 0);
 };
 
+// 2nd experiement here ========================================================
+
+// create a dotted screen
+CanvasView.prototype.screen = function(dataSrc, dataScreen, x, y) {
+    for (var j=0; j<dataScreen.height; j++){
+
+        var k = (j+y)*this.dataSrc.width*4+x*4;     // this image index
+        var z = j*dataScreen.width*4;               // screen image index
+
+        for(var i=0; i<dataScreen.width; i++){
+
+            if(dataSrc.data[z]<128){
+                for(var c=0; c<3; c++)
+                    dataScreen.data[z+c] = this.dataSrc.data[k+c];  // modify index if images are different in size
+            }
+
+            k+= 4;
+            z+= 4;
+        }
+    }
+};
+
+// randomDot entire image if no coordinates provided
+CanvasView.prototype.randomDotScreen = function(threshold, dataSrc, x, y) {
+
+    // clone the pixels
+    this.dataSrc = this.context.getImageData(0,0,this.canvas.width, this.canvas.height);
+    var dataDes = this.context.createImageData(this.canvas.width, this.canvas.height);
+    for (var s=0; s<this.canvas.width*this.canvas.height*4; s++)
+        dataDes.data[s] = this.dataSrc.data[s];
+
+    for(var j=0; j<dataSrc.height; j++) {
+
+        var k = (j+y)*this.dataSrc.width*4+x*4; // this image's index
+        var z = j*dataSrc.width*4;          // dataScreen index
+
+        for(var i=0; i<dataSrc.width; i++){
+
+            // screen by external image red channel, dither if black pixel
+            if(dataSrc.data[z]<128){
+                var value = Math.random();
+                for(var c=0; c<3; c++) {
+                    dataDes.data[k+c] = (value>threshold)?255:0;
+                }
+            }
+            k+= 4;
+            z+= 4;
+        }
+    }
+    this.context.putImageData(dataDes, 0, 0);
+};
+
+// copy pixels from one cropped area to another
+CanvasView.prototype.copyScreen = function(dataSrc,        // [in] external image
+                                           dataScreen,     // [in] screened image data
+                                           x, y) {         // [in] coord on this image
+
+    // clone the pixels
+    this.dataSrc = this.context.getImageData(0,0,this.canvas.width, this.canvas.height);
+    var dataDes = this.context.createImageData(this.canvas.width, this.canvas.height);
+    for (var s=0; s<this.canvas.width*this.canvas.height*4; s++)
+        dataDes.data[s] = this.dataSrc.data[s];
+
+    for(var j=0; j<dataScreen.height; j++) {
+
+        var k = (j+y)*this.dataSrc.width*4+x*4;             // this image's index
+        var z = j*dataScreen.width*4;                  // dataScreen index
+
+        for(var i=0; i<dataScreen.width; i++){
+
+            // only mess with (knock-out) pixels
+            if(dataSrc.data[z]< 128){
+                for(var c=0; c<3; c++)
+                    dataDes.data[k+c] = dataScreen.data[z+c];
+            }
+            k+= 4;
+            z+= 4;
+        }
+    }
+    this.context.putImageData(dataDes, 0, 0);
+};
+
