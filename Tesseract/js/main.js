@@ -32,7 +32,8 @@ $(document).ready(function() {
     ctx.fillStyle = 'green';
     ctx.save();
 
-    var rotation = {x:2, y:5, z:0};
+    var scaleFactor = 2.0;
+    var rotation = {x:1, y:3, z:0};
 
     function toRadian(rotation) {
         var radian = {x:0, y:0, z:0};
@@ -46,7 +47,7 @@ $(document).ready(function() {
     function affine(radian,
                     vertex) {
         //vtx1[0] = vtx1[0];
-        var scale = 2.0;
+
         var y = vertex.y;
         var z = vertex.z;
         vertex.y = Math.cos(radian.x)*y-Math.sin(radian.x)*z;
@@ -73,13 +74,11 @@ $(document).ready(function() {
     }
 
     function scale (list,
-                    amountX,
-                    amountY,
-                    amountZ) {
+                    amount) {
         for (var i=0; i<list.length; i++) {
-            list[i].x *= amountX;
-            list[i].y *= amountY;
-            list[i].z *= amountZ;
+            list[i].x *= amount;
+            list[i].y *= amount;
+            list[i].z *= amount;
         }
         return list;
     }
@@ -91,14 +90,22 @@ $(document).ready(function() {
     corner2 = translate(corner2, -25, -25, -25);
     corner3 = translate(corner3, -25, -25, -25);
 
+    scale(corner0, scaleFactor);
+    scale(corner1, scaleFactor);
+    scale(corner2, scaleFactor);
+    scale(corner3, scaleFactor);
+
+
+    var radius = 2;
+    var offX = $("#pixelBox").width()/2;
+    var offY = $("#pixelBox").height()/2;
+
     function render(list) {
         // draw the dot
-        var radius = 2;
-        var offset = 100;
         for (var j=0; j<list.length; j++) {
             // draw vertex point
             ctx.beginPath();
-            ctx.arc(list[j].x + offset, list[j].y+offset, radius, 0, 2 * Math.PI, false);
+            ctx.arc(list[j].x + offX, list[j].y+offY, radius, 0, 2 * Math.PI, false);
             ctx.closePath();
             ctx.fill();
         }
@@ -108,8 +115,8 @@ $(document).ready(function() {
             // draw lines between them
             ctx.beginPath();
             var k = (m==0)? list.length-1:m-1;
-            ctx.moveTo(list[k].x+offset, list[k].y + offset);
-            ctx.lineTo(list[m].x + offset, list[m].y + offset);
+            ctx.moveTo(list[k].x+offX, list[k].y + offY);
+            ctx.lineTo(list[m].x + offX, list[m].y + offY);
             ctx.stroke();
         }
     }
