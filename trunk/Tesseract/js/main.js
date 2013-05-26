@@ -1,3 +1,11 @@
+// ============================================================
+// Module :     main.js
+//
+// Description: Tesseract exercise
+//
+// Author:      C.T. Yeung
+//
+// ============================================================
 $(document).ready(function() {
 
     // square is defined by 8 points, we have 2 squares
@@ -32,8 +40,8 @@ $(document).ready(function() {
     ctx.fillStyle = 'green';
     ctx.save();
 
-    var scaleFactor = 2.0;
-    var rotation = {x:1, y:3, z:0};
+    var scaleFactor = 3.0;
+    var rotation = {x:0.15, y:1, z:0};
 
     function toRadian(rotation) {
         var radian = {x:0, y:0, z:0};
@@ -42,23 +50,6 @@ $(document).ready(function() {
         radian.y = Math.PI / 180.0 * rotation.y;
         radian.z = Math.PI / 180.0 * rotation.z;
         return radian;
-    }
-
-    function affine(radian,
-                    vertex) {
-        //vtx1[0] = vtx1[0];
-
-        var y = vertex.y;
-        var z = vertex.z;
-        vertex.y = Math.cos(radian.x)*y-Math.sin(radian.x)*z;
-        vertex.z = Math.sin(radian.x)*y+Math.cos(radian.x)*z;
-
-        var x = vertex.x;
-        z = vertex.z;
-        vertex.x = Math.cos(radian.y)*x+Math.sin(radian.y)*z;
-        //vtx1[1] = vtx1[1];
-        vertex.z = -Math.sin(radian.y)*x+Math.cos(radian.y)*z;
-        return vertex;
     }
 
     function translate (list,
@@ -95,8 +86,24 @@ $(document).ready(function() {
     scale(corner2, scaleFactor);
     scale(corner3, scaleFactor);
 
+    function affine(radian,
+                    list) {
+        //vtx1[0] = vtx1[0];
+        for(var i=0; i<list.length; i++){
+            var y = list[i].y;
+            var z = list[i].z;
+            list[i].y = Math.cos(radian.x)*y-Math.sin(radian.x)*z;
+            list[i].z = Math.sin(radian.x)*y+Math.cos(radian.x)*z;
 
-    var radius = 2;
+            var x = list[i].x;
+            z = list[i].z;
+            list[i].x = Math.cos(radian.y)*x+Math.sin(radian.y)*z;
+            //vtx1[1] = vtx1[1];
+            list[i].z = -Math.sin(radian.y)*x+Math.cos(radian.y)*z;
+        }
+    }
+
+    var radius = 4;
     var offX = $("#pixelBox").width()/2;
     var offY = $("#pixelBox").height()/2;
 
@@ -121,30 +128,63 @@ $(document).ready(function() {
         }
     }
 
+    var numSteps = 10;      // number of steps between two points (for interpolation)
+    var step = 0;           // current step we are on.
+
+    function interpolate(listSrc) {
+       var listDes = [];
+       var p0 = listSrc[listSrc.length-1];
+       for (var i=0; i<listSrc.length; i++){
+           p1 = listSrc[i];
+
+           var xNum = (p1.x - p0.x) * step / numSteps + p0.x;
+           var yNum = (p1.y - p0.y) * step / numSteps + p0.y;
+           var pN = {x:xNum, y:yNum};
+           listDes.push(pN);
+
+           p0 = p1;
+       }
+        return listDes;
+
+    }
 
     //requestAnimationFrame()
     //http://paulirish.com/2011/requestanimationframe-for-smart-animating/
     setInterval(function() {
 
         ctx.clearRect(0,0,canvas.width, canvas.height);
-        ctx.restore();
-        var list = [];
+        //ctx.restore();
 
         // apply rotation
+        affine(radian, corner0);
+        affine(radian, corner1);
+        affine(radian, corner2);
+        affine(radian, corner3);
+
+        // apply interplation
+        var list0 = interpolate(corner0);
+        var list1 = interpolate(corner1);
+        var list2 = interpolate(corner2);
+        var list3 = interpolate(corner3);
+        step = (step < numSteps)? ++step:0;
+
+        // draw dots and lines
+        var lateral = [];
         for (var i=0; i<4; i++) {
-            list[0] = affine(radian, corner0[i]);
-            list[1] = affine(radian, corner1[i]);
-            list[2] = affine(radian, corner2[i]);
-            list[3] = affine(radian, corner3[i]);
-
-            render(list);
+            lateral[0] = list0[i];
+            lateral[1] = list1[i];
+            lateral[2] = list2[i];
+            lateral[3] = list3[i];
+            render(lateral);
         }
-        render(corner0);
-        render(corner1);
-        render(corner2);
-        render(corner3);
 
-    }, 300);
+        // draw dots and lines
+        render(list0);
+        render(list1);
+        render(list2);
+        render(list3);
+
+    }, 200);
 
 });
 
