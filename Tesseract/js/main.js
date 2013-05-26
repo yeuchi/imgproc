@@ -3,35 +3,36 @@ $(document).ready(function() {
     // square is defined by 8 points, we have 2 squares
     var p0 = {x:0, y:0, z:0};
     var p1 = {x:10, y:10, z:10};
-    var p2 =  {x:10, y:10, z:20};
-    var p3 =  {x:0, y:0, z:30};
+    var p2 =  {x:10, y:10, z:40};
+    var p3 =  {x:0, y:0, z:50};
     var corner0 = [p0, p1, p2, p3 ];
 
     p0 = {x:50, y:0, z:0};
     p1 = {x:40, y:10, z:10};
-    p2 = {x:40, y:10, z:20};
-    p3 = {x:50, y:0, z:30};
+    p2 = {x:40, y:10, z:40};
+    p3 = {x:50, y:0, z:50};
     var corner1 = [p0, p1, p2, p3 ];
 
     p0 = {x:0, y:50, z:0};
     p1 = {x:10, y:40, z:10};
-    p2 = {x:10, y:40, z:20};
-    p3 = {x:0, y:50, z:30};
-    var corner2 = [p0, p1, p2, p3 ];
+    p2 = {x:10, y:40, z:40};
+    p3 = {x:0, y:50, z:50};
+    var corner3 = [p0, p1, p2, p3 ];
 
     p0 = {x:50, y:50, z:0};
     p1 = {x:40, y:40, z:10};
-    p2 = {x:40, y:40, z:20};
-    p3 = {x:50, y:50, z:30};
-    var corner3 = [p0, p1, p2, p3 ];
+    p2 = {x:40, y:40, z:40};
+    p3 = {x:50, y:50, z:50};
+    var corner2 = [p0, p1, p2, p3 ];
 
     var canvas = document.getElementById("pixelBox");
     var ctx = canvas.getContext("2d");
     ctx.strokeStyle = 'black';
     ctx.lineWidth = 1;
     ctx.fillStyle = 'green';
+    ctx.save();
 
-    var rotation = {x:45, y:0, z:0};
+    var rotation = {x:2, y:5, z:0};
 
     function toRadian(rotation) {
         var radian = {x:0, y:0, z:0};
@@ -90,42 +91,53 @@ $(document).ready(function() {
     corner2 = translate(corner2, -25, -25, -25);
     corner3 = translate(corner3, -25, -25, -25);
 
+    function render(list) {
+        // draw the dot
+        var radius = 2;
+        var offset = 100;
+        for (var j=0; j<list.length; j++) {
+            // draw vertex point
+            ctx.beginPath();
+            ctx.arc(list[j].x + offset, list[j].y+offset, radius, 0, 2 * Math.PI, false);
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        // stroke line x-y axis
+        for (var m=0; m<list.length; m++) {
+            // draw lines between them
+            ctx.beginPath();
+            var k = (m==0)? list.length-1:m-1;
+            ctx.moveTo(list[k].x+offset, list[k].y + offset);
+            ctx.lineTo(list[m].x + offset, list[m].y + offset);
+            ctx.stroke();
+        }
+    }
+
+
     //requestAnimationFrame()
     //http://paulirish.com/2011/requestanimationframe-for-smart-animating/
     setInterval(function() {
 
         ctx.clearRect(0,0,canvas.width, canvas.height);
-        var vtx = [];
+        ctx.restore();
+        var list = [];
+
         // apply rotation
         for (var i=0; i<4; i++) {
-            vtx[0] = affine(radian, corner0[i]);
-            vtx[1] = affine(radian, corner1[i]);
-            vtx[2] = affine(radian, corner2[i]);
-            vtx[3] = affine(radian, corner3[i]);
+            list[0] = affine(radian, corner0[i]);
+            list[1] = affine(radian, corner1[i]);
+            list[2] = affine(radian, corner2[i]);
+            list[3] = affine(radian, corner3[i]);
 
-
-
-
-            var radius = 2;
-            var offset = 100;
-            for (var j=0; j<vtx.length; j++) {
-                // draw vertex point
-                ctx.beginPath();
-                ctx.arc(vtx[j].x + offset, vtx[j].y+offset, radius, 0, 2 * Math.PI, false);
-                ctx.fill();
-            }
-
-            for (var m=0; m<vtx.length; m++) {
-                 // draw lines between them
-                 ctx.beginPath();
-                 var k = (m==0)? 3:m-1;
-                 ctx.moveTo(vtx[k].x+offset, vtx[k].y + offset);
-                 ctx.lineTo(vtx[m].x + offset, vtx[m].y + offset);
-                 ctx.stroke();
-            }
+            render(list);
         }
+        render(corner0);
+        render(corner1);
+        render(corner2);
+        render(corner3);
 
-    }, 1000);
+    }, 300);
 
 });
 
