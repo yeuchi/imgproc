@@ -33,6 +33,60 @@ $(document).ready(function() {
     p3 = {x:50, y:50, z:50};
     var corner2 = [p0, p1, p2, p3 ];
 
+    POS_CENTER = "posCenter";
+    POS_LEFT = "posLeft";
+    POS_LEFT_TOP = "posLeftTop";
+    POS_TOP = "posTop";
+    POS_TOP_RIGHT = "posTopRight";
+    POS_RIGHT = "posRight";
+    POS_BTM_RIGHT = "posBottomRight";
+    POS_BOTTOM = "posBottom";
+    POS_BTM_LEFT = "posBottomLeft";
+    var direction = POS_CENTER;
+    var size = {x:$(".divBox").width(),
+                y:$(".divBox").height()};
+    var center = {x:size.x/2,
+                  y:size.y/2};
+
+    $("#pixelBox").on("mousemove", function(e) {
+       var pos = $(".divBox").position();
+       var p = {x:(e.clientX-pos.left),
+                y:(e.clientY-pos.top)};
+       $(".pos").text("x:"+ p.x + " y:"+ p.y);
+        setDirection(p);
+    });
+
+    $("#pixelBox").on("mouseout", function(e) {
+        direction = POS_CENTER;
+    });
+
+    function setDirection(p) {
+        direction = POS_CENTER;
+        if(p.x<center.x/2){
+            direction = POS_LEFT;
+        }
+        else if (p.x>center.x/2+center.x){
+            direction = POS_RIGHT;
+        }
+
+        if(p.y<center.y/2){
+            if(direction==POS_LEFT)
+                direction = POS_LEFT_TOP;
+            else if (direction==POS_RIGHT)
+                direction = POS_TOP_RIGHT;
+            else
+                direction = POS_TOP;
+        }
+        else if (p.y>center.y/2+center.y){
+            if(direction == POS_RIGHT)
+                direction = POS_BTM_RIGHT;
+            else if(direction==POS_LEFT)
+                direction = POS_BTM_LEFT;
+            else
+                direction = POS_BOTTOM;
+        }
+    }
+
     var canvas = document.getElementById("pixelBox");
     var ctx = canvas.getContext("2d");
     ctx.strokeStyle = 'black';
@@ -41,6 +95,7 @@ $(document).ready(function() {
     ctx.save();
 
     var scaleFactor = 3.0;
+    var radian = {x:0, y:0, z:0};
     var rotation = {x:0.15, y:1, z:0};
 
     function toRadian(rotation) {
@@ -74,8 +129,6 @@ $(document).ready(function() {
         return list;
     }
 
-    // get our perspective in radian
-    var radian = toRadian(rotation);
     corner0 = translate(corner0, -25, -25, -25);
     corner1 = translate(corner1, -25, -25, -25);
     corner2 = translate(corner2, -25, -25, -25);
@@ -148,10 +201,58 @@ $(document).ready(function() {
 
     }
 
+    function setRotation(){
+
+        switch(direction){
+            case POS_CENTER:
+                rotation = {x:0, y:0, z:0};
+                break;
+
+            case POS_LEFT:
+                rotation.x -= 1;
+                break;
+
+            case POS_LEFT_TOP:
+                rotation.x -= 1;
+                rotation.y -= 1;
+                break;
+
+            case POS_TOP:
+                rotation.y -=1;
+                break;
+
+            case POS_TOP_RIGHT:
+                rotation.x += 1;
+                rotation.y -= 1;
+                break;
+
+            case POS_RIGHT:
+                rotation.y += 1;
+                break;
+
+            case POS_BTM_RIGHT:
+                rotation.x += 1;
+                rotation.y += 1;
+                break;
+
+            case POS_BOTTOM:
+                rotation.y += 1;
+                break;
+
+            case POS_BTM_LEFT:
+                rotation.x -= 1;
+                rotation.y += 1;
+                break;
+        }
+        var radian = toRadian(rotation);
+        return radian;
+    }
+
     //requestAnimationFrame()
     //http://paulirish.com/2011/requestanimationframe-for-smart-animating/
     setInterval(function() {
 
+        var radian = setRotation(direction);
         ctx.clearRect(0,0,canvas.width, canvas.height);
         //ctx.restore();
 
