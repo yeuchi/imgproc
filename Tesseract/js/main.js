@@ -181,7 +181,7 @@ $(document).ready(function() {
         }
     }
 
-    var numSteps = 10;      // number of steps between two points (for interpolation)
+    var numSteps = 20;      // number of steps between two points (for interpolation)
     var step = 0;           // current step we are on.
 
     function interpolate(listSrc) {
@@ -209,41 +209,42 @@ $(document).ready(function() {
                 break;
 
             case POS_LEFT:
-                rotation.x -= 1;
+                rotation.y -= 0.5;
                 break;
 
             case POS_LEFT_TOP:
-                rotation.x -= 1;
-                rotation.y -= 1;
+                rotation.x -= .5;
+                rotation.y -= .5;
                 break;
 
             case POS_TOP:
-                rotation.y -=1;
+                rotation.x -=.5;
                 break;
 
             case POS_TOP_RIGHT:
-                rotation.x += 1;
-                rotation.y -= 1;
+                rotation.y += .5;
+                rotation.x -= .5;
                 break;
 
             case POS_RIGHT:
-                rotation.y += 1;
+                rotation.x += .5;
                 break;
 
             case POS_BTM_RIGHT:
-                rotation.x += 1;
-                rotation.y += 1;
+                rotation.y += .5;
+                rotation.x += .5;
                 break;
 
             case POS_BOTTOM:
-                rotation.y += 1;
+                rotation.x += .5;
                 break;
 
             case POS_BTM_LEFT:
-                rotation.x -= 1;
-                rotation.y += 1;
+                rotation.y -= .5;
+                rotation.x += .5;
                 break;
         }
+        $(".pos").text("x:"+rotation.y+" y:"+rotation.x+" z:"+rotation.z);
         var radian = toRadian(rotation);
         return radian;
     }
