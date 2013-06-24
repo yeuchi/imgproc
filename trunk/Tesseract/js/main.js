@@ -181,6 +181,18 @@ $(document).ready(function() {
         }
     }
 
+    function polygonFill(pts, color) {
+
+        ctx.fillStyle = color;
+        ctx.beginPath();
+        ctx.moveTo(pts[0].x+offX, pts[0].y+offY);
+        for (var i= 1; i<pts.length; i++)
+            ctx.lineTo(pts[i].x+offX, pts[i].y+offY);
+
+        ctx.closePath();
+        ctx.fill();
+    }
+
     var numSteps = 20;      // number of steps between two points (for interpolation)
     var step = 0;           // current step we are on.
 
@@ -286,6 +298,22 @@ $(document).ready(function() {
         render(list2);
         render(list3);
 
+        // basic shading
+        var alpha = (step)*.5/numSteps;
+        if(alpha==0)
+            alpha = .5;
+        polygonFill([ list0[1], list0[2], list1[2], list1[1] ], "rgba(0, 0, 255, "+alpha+")");
+        polygonFill([ list1[1], list1[2], list2[2], list2[1] ], "rgba(0, 0, 255, "+alpha+")");
+        polygonFill([ list2[1], list2[2], list3[2], list3[1] ], "rgba(0, 0, 255, "+alpha+")");
+        polygonFill([ list3[1], list3[2], list0[2], list0[1] ], "rgba(0, 0, 255, "+alpha+")");
+
+        var alphaNot = (numSteps-step)*.5/numSteps;
+        if(alphaNot==0.5)
+            alphaNot = 0;
+        polygonFill([ list0[3], list0[2], list1[2], list1[3] ], "rgba(0, 0, 255, "+alphaNot+")");
+        polygonFill([ list1[3], list1[2], list2[2], list2[3] ], "rgba(0, 0, 255, "+alphaNot+")");
+        polygonFill([ list2[3], list2[2], list3[2], list3[3] ], "rgba(0, 0, 255, "+alphaNot+")");
+        polygonFill([ list3[3], list3[2], list0[2], list0[3] ], "rgba(0, 0, 255, "+alphaNot+")");
     }, 200);
 
 });
