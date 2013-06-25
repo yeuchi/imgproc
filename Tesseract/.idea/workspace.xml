@@ -19,22 +19,13 @@
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.6130398">
+    <splitter split-orientation="horizontal" split-proportion="0.6553768">
       <split-first>
         <leaf>
           <file leaf-file-name="main.js" pinned="false" current="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/js/main.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="300" column="24" selection-start="8392" selection-end="8392" vertical-scroll-proportion="0.62882096">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="main.css" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/css/main.css">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="115" column="17" selection-start="1980" selection-end="1980" vertical-scroll-proportion="0.0">
+                <state line="263" column="30" selection-start="7338" selection-end="7338" vertical-scroll-proportion="0.22571428">
                   <folding />
                 </state>
               </provider>
@@ -47,7 +38,7 @@
           <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/index.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="13" column="0" selection-start="615" selection-end="615" vertical-scroll-proportion="0.088455774">
+                <state line="11" column="0" selection-start="532" selection-end="532" vertical-scroll-proportion="0.04347826">
                   <folding />
                 </state>
               </provider>
@@ -395,14 +386,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="0" selection-start="615" selection-end="615" vertical-scroll-proportion="0.088455774">
+        <state line="11" column="0" selection-start="532" selection-end="532" vertical-scroll-proportion="0.04347826">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="300" column="24" selection-start="8392" selection-end="8392" vertical-scroll-proportion="0.62882096">
+        <state line="263" column="30" selection-start="7338" selection-end="7338" vertical-scroll-proportion="0.22571428">
           <folding />
         </state>
       </provider>

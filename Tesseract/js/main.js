@@ -89,7 +89,7 @@ $(document).ready(function() {
 
     var canvas = document.getElementById("pixelBox");
     var ctx = canvas.getContext("2d");
-    ctx.strokeStyle = 'black';
+    ctx.strokeStyle = '#AAA';
     ctx.lineWidth = 1;
     ctx.fillStyle = 'green';
     ctx.save();
@@ -261,6 +261,12 @@ $(document).ready(function() {
         return radian;
     }
 
+    var radian = {x:-.2, y:-.6, z:0};
+    affine(radian, corner0);
+    affine(radian, corner1);
+    affine(radian, corner2);
+    affine(radian, corner3);
+
     //requestAnimationFrame()
     //http://paulirish.com/2011/requestanimationframe-for-smart-animating/
     setInterval(function() {
@@ -298,7 +304,7 @@ $(document).ready(function() {
         render(list2);
         render(list3);
 
-        // basic shading
+        // basic shading - morph into cube
         var alpha = (step)*.5/numSteps;
         if(alpha==0)
             alpha = .5;
@@ -306,7 +312,9 @@ $(document).ready(function() {
         polygonFill([ list1[1], list1[2], list2[2], list2[1] ], "rgba(0, 0, 255, "+alpha+")");
         polygonFill([ list2[1], list2[2], list3[2], list3[1] ], "rgba(0, 0, 255, "+alpha+")");
         polygonFill([ list3[1], list3[2], list0[2], list0[1] ], "rgba(0, 0, 255, "+alpha+")");
+        polygonFill([ list0[1], list1[1], list2[1], list3[1] ], "rgba(0, 0, 255, "+alpha+")");
 
+        // morph away from cube
         var alphaNot = (numSteps-step)*.5/numSteps;
         if(alphaNot==0.5)
             alphaNot = 0;
@@ -314,6 +322,7 @@ $(document).ready(function() {
         polygonFill([ list1[3], list1[2], list2[2], list2[3] ], "rgba(0, 0, 255, "+alphaNot+")");
         polygonFill([ list2[3], list2[2], list3[2], list3[3] ], "rgba(0, 0, 255, "+alphaNot+")");
         polygonFill([ list3[3], list3[2], list0[2], list0[3] ], "rgba(0, 0, 255, "+alphaNot+")");
+        polygonFill([ list0[2], list1[2], list2[2], list3[2] ], "rgba(0, 0, 255, "+alphaNot+")");
     }, 200);
 
 });
