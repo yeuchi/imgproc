@@ -34,14 +34,23 @@ var AppView = Backbone.View.extend({
          this.context.strokeStyle = "#"+this.model.get("color");
          this.context.lineWidth = this.model.get("strokeWidth");
 
-         var ptLast = listPts[0];
-         for(var i=1; i<listPts.length; i++){
-            var pt = listPts[i];
+         
+        if(listPts.length>2){
+            for(var i=0; i<listPts.length-2; i++){
+                var ptPrev = listPts[i];
+                var ptLast = listPts[i+1];
+                var ptNew = listPts[i+2];
+                this.context.moveTo(ptPrev.x, ptPrev.y);
+                this.context.quadraticCurveTo(ptLast.x, ptLast.y, ptNew.x, ptNew.y);
+            }
+        }
+        else {
+            var ptLast = listPts[0];
+            var pt = listPts[1];
             this.context.moveTo(ptLast.x, ptLast.y);
             this.context.lineTo(pt.x, pt.y);
-            this.context.stroke();
-            ptLast = (i>2)?listPts[i-2]:pt;
-         } 
+        }
+        this.context.stroke();
       }
     },
     
@@ -72,9 +81,19 @@ var AppView = Backbone.View.extend({
             this.context.strokeStyle = "#"+this.model.get("color");
             this.context.lineWidth = this.model.get("strokeWidth");;
 
-            var ptLast = (listPts.length>2)?listPts[listPts.length-2]:listPts[listPts.length-1];
-            this.context.moveTo(ptLast.x, ptLast.y);
-            this.context.lineTo(pt.x, pt.y);
+            if(listPts.length>2){
+                var ptPrev = listPts[listPts.length-3];
+                var ptLast = listPts[listPts.length-2];
+                var ptNew = listPts[listPts.length-1];
+                this.context.moveTo(ptPrev.x, ptPrev.y);
+                this.context.quadraticCurveTo(ptLast.x, ptLast.y, ptNew.x, ptNew.y);
+            }
+            else if(listPts.length>1) {
+                var ptLast = listPts[0];
+                var pt = listPts[1];
+                this.context.moveTo(ptLast.x, ptLast.y);
+                this.context.lineTo(pt.x, pt.y);
+            }
             this.context.stroke();
          }
          listPts.push(pt);
